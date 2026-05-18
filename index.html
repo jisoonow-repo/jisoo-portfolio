@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jisoo Ahn — Product Designer</title>
+<link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap');
+
+  /* ── THEME TOKENS ── */
+  :root { --font: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+  [data-theme="dark"] {
+    --bg:      #06060A; --bg2: rgba(255,255,255,0.05); --bg3: rgba(255,255,255,0.09);
+    --fg:      #F5F4F0; --fg2: #D4D4CE; --fg3: #A8A8A2;
+    --border:  rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.18);
+    --glass:        rgba(255,255,255,0.055);
+    --glass-border: rgba(255,255,255,0.13);
+    --glass-shadow: 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.09);
+    --blur: blur(40px) saturate(180%);
+    --nav-bg:  rgba(6,6,10,0.55);
+    --accent:  #C8FF00; --accent-fg: #0A0A0A;
+    --tag-bg:  rgba(200,255,0,0.09); --tag-fg: #C8FF00;
+    --thumb:   rgba(255,255,255,0.04);
+    --tog-bg:  rgba(255,255,255,0.12); --tog-knob: #F5F4F0;
+    --err:     #FF4D1C;
+    --aurora:
+      radial-gradient(ellipse 65% 45% at 15% 25%, rgba(120,80,255,0.2) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 40% at 82% 72%, rgba(0,160,255,0.14) 0%, transparent 65%),
+      radial-gradient(ellipse 45% 30% at 58% 5%, rgba(200,255,0,0.07) 0%, transparent 60%);
+  }
+  [data-theme="light"] {
+    --bg:      #F2F0FF; --bg2: rgba(255,255,255,0.7); --bg3: rgba(255,255,255,0.5);
+    --fg:      #0A0A0A; --fg2: #4A4A45; --fg3: #8A8A85;
+    --border:  rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.18);
+    --glass:        rgba(255,255,255,0.72);
+    --glass-border: rgba(255,255,255,0.85);
+    --glass-shadow: 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.95);
+    --blur: blur(40px) saturate(180%);
+    --nav-bg:  rgba(255,255,255,0.65);
+    --accent:  #4F7000; --accent-fg: #fff;
+    --tag-bg:  rgba(79,112,0,0.08); --tag-fg: #4F7000;
+    --thumb:   rgba(0,0,0,0.04);
+    --tog-bg:  rgba(0,0,0,0.1); --tog-knob: #0A0A0A;
+    --err:     #CC3000;
+    --aurora:
+      radial-gradient(ellipse 65% 45% at 15% 25%, rgba(140,80,255,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 40% at 82% 72%, rgba(0,140,255,0.08) 0%, transparent 65%),
+      radial-gradient(ellipse 45% 30% at 58% 5%, rgba(80,160,0,0.06) 0%, transparent 60%);
+  }
+
+  /* ── RESET ── */
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; background:var(--bg); transition:background .25s; }
+  body {
+    background: transparent; color: var(--fg);
+    font-family: var(--font); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: color .25s;
+  }
+  a { color:inherit; text-decoration:none; }
+  button { font-family:var(--font); cursor:pointer; border:none; background:none; color:inherit; }
+
+  /* ── AURORA BACKGROUND ── */
+  .aurora {
+    position:fixed; inset:0; pointer-events:none; z-index:-1;
+    background: var(--aurora);
+    transition: background 1.2s ease;
+  }
+
+  /* ── PAGE SYSTEM ── */
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* ── NAV — floating liquid glass pill ── */
+  nav {
+    position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    z-index:200; display:flex; align-items:center; gap:8px;
+    padding:8px 12px 8px 14px; border-radius:100px;
+    background: var(--nav-bg);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: background .25s, border-color .25s;
+    white-space: nowrap;
+  }
+  .nav-logo { display:flex; align-items:center; padding:0; background:none; border:none; cursor:pointer; }
+  .nav-logo-img { height:32px; width:auto; display:block; }
+  .nav-center { display:flex; gap:4px; }
+  .nav-right  { display:flex; align-items:center; }
+
+  .nav-btn {
+    font-size:13px; font-weight:500; color:var(--fg3);
+    padding:6px 14px; border-radius:100px;
+    transition: color .15s, background .15s; letter-spacing:-.01em;
+  }
+  .nav-btn:hover  { color:var(--fg); background:rgba(255,255,255,0.08); }
+  .nav-btn.active { color:var(--fg); background:rgba(255,255,255,0.12); }
+  [data-theme="light"] .nav-btn:hover  { background:rgba(0,0,0,0.06); }
+  [data-theme="light"] .nav-btn.active { background:rgba(0,0,0,0.09); }
+
+  /* dark/light pill toggle */
+  .toggle {
+    width:56px; height:30px; border-radius:100px;
+    background:var(--tog-bg); border:1px solid var(--border2);
+    position:relative; cursor:pointer;
+    transition: background .25s, border-color .25s;
+    display:flex; align-items:center; padding:0 7px;
+    justify-content:space-between;
+    outline-offset: 3px;
+  }
+  .toggle-knob {
+    position:absolute; top:5px; left:5px;
+    width:20px; height:20px; border-radius:50%;
+    background:var(--tog-knob);
+    z-index:2;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s;
+    pointer-events:none;
+  }
+  [data-theme="light"] .toggle-knob { transform:translateX(26px); }
+  .toggle-icon {
+    font-size:13px; line-height:1; pointer-events:none; z-index:1;
+    user-select:none;
+    display:flex; align-items:center;
+  }
+  /* icons: active icon sits under knob — must contrast the knob color */
+  /* dark mode: knob is white → active moon icon is dark; inactive sun floats on dark bg → clearly visible */
+  .toggle-icon:first-child { color: #1a1a1a; }
+  .toggle-icon:last-child  { color: rgba(255,255,255,0.82); }
+  /* light mode: knob is near-black → active sun icon is white; inactive moon floats on light bg → dark grey */
+  [data-theme="light"] .toggle-icon:first-child { color: #404040; }
+  [data-theme="light"] .toggle-icon:last-child  { color: #ffffff; }
+
+  /* ── UTILS ── */
+  .divider { height:1px; background:var(--border); margin:0 48px; transition:background .25s; }
+
+  .eyebrow {
+    font-size:16px; font-weight:600; color:var(--tag-fg);
+    letter-spacing:.10em; text-transform:uppercase;
+    display:flex; align-items:center; gap:14px; margin-bottom:40px;
+  }
+  .eyebrow::after { content:''; flex:1; height:1px; background:var(--border); max-width:64px; }
+
+  .btn-solid {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--accent); color:var(--accent-fg);
+    font-weight:400; font-size:14px; padding:12px 28px;
+    border-radius:100px; letter-spacing:-.01em; transition:opacity .15s;
+  }
+  .btn-solid:hover { opacity:.82; }
+
+  .btn-outline {
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--glass); color:var(--fg2);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    font-weight:500; font-size:14px; padding:12px 28px;
+    border-radius:100px;
+    border:1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: border-color .15s, color .15s;
+  }
+  .btn-outline:hover { border-color:var(--border2); color:var(--fg); }
+
+  .back-btn {
+    font-size:13px; font-weight:500; color:var(--fg3);
+    display:inline-flex; align-items:center; gap:6px;
+    margin-bottom:48px; transition:color .15s; letter-spacing:-.01em;
+  }
+  .back-btn:hover { color:var(--fg); }
+
+  .note {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    box-shadow: var(--glass-shadow);
+    border-radius:16px; padding:18px 22px;
+  }
+  .note p { font-size:13px; color:var(--fg3); margin:0; }
+  .note strong { color:var(--tag-fg); }
+
+  /* ═══════════════════════
+     HOME
+  ═══════════════════════ */
+  .home-bg {
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.1;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 60% 55% at 12% 50%, black 20%, transparent 75%);
+    transition:opacity .25s;
+  }
+
+  .home-hero {
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    padding:120px 48px 80px; position:relative; z-index:1;
+    max-width:1200px; margin:0 auto;
+  }
+  .home-kicker {
+    font-size:12px; font-weight:500; color:var(--tag-fg);
+    letter-spacing:.14em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:32px;
+  }
+  .home-kicker::before { content:''; width:20px; height:1px; background:currentColor; }
+
+  .home-hero h1 {
+    font-size:clamp(52px,7.5vw,104px); font-weight:800;
+    line-height:.93; letter-spacing:-.04em; max-width:938px; margin-bottom:40px;
+  }
+  .hi  { color:var(--accent); }
+  .dim { color:#D6D6D6; font-weight:300; font-size:clamp(28px,4vw,56px); line-height:0.95; }
+  [data-theme="light"] .dim { color:var(--fg3); }
+
+  .home-desc {
+    font-size:18px; color:var(--fg2); line-height:1.7;
+    max-width:660px; font-weight:400; letter-spacing:-.01em; margin-bottom:48px;
+  }
+  .cta-row { display:flex; gap:12px; }
+
+  .wrap { max-width:1200px; margin:0 auto; padding:0 48px; }
+  .home-sec { padding:96px 48px; max-width:1200px; margin:0 auto; }
+  .home-sec + .home-sec { padding-top:0; }
+
+  /* About grid */
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+  .about-body p { font-size:16px; color:var(--fg2); line-height:1.8; margin-bottom:20px; letter-spacing:-.005em; }
+  .about-body p strong { color:var(--fg); font-weight:600; }
+  .about-body p:last-child { margin-bottom:0; }
+
+  .meta-block {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:16px; padding:22px 28px; margin-bottom:10px;
+    transition: background .25s, border-color .25s;
+  }
+  .meta-label { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.13em; text-transform:uppercase; margin-bottom:8px; display:block; }
+  .meta-val   { font-size:14px; color:var(--fg); font-weight:500; letter-spacing:-.01em; }
+  .meta-val a { color:var(--fg2); transition:color .15s; }
+  .meta-val a:hover { color:var(--accent); }
+
+  /* Outside */
+  .out-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  .out-card {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:32px;
+    transition: background .25s, border-color .25s;
+  }
+  .out-icon  { font-size:22px; color:var(--fg2); margin-bottom:14px; display:flex; align-items:center; }
+  .out-title { font-size:15px; font-weight:700; color:var(--fg); margin-bottom:8px; letter-spacing:-.01em; }
+  .out-desc  { font-size:13px; color:var(--fg3); line-height:1.65; }
+  .out-desc a { color:var(--fg2); }
+  .out-desc a:hover { color:var(--fg); }
+
+  /* ═══════════════════════
+     WORK LIST
+  ═══════════════════════ */
+  .work-hero { padding:148px 48px 64px; max-width:1200px; margin:0 auto; }
+  .work-hero h1 {
+    font-size:clamp(40px,6vw,80px); font-weight:800;
+    line-height:.95; letter-spacing:-.04em; margin-bottom:16px;
+  }
+  .work-hero p { font-size:15px; color:var(--fg3); max-width:420px; letter-spacing:-.01em; }
+
+  .work-grid { padding:0 48px 120px; max-width:1200px; margin:0 auto; display:flex; flex-direction:column; gap:20px; }
+
+  .pcard {
+    display:grid; grid-template-columns:1fr 1fr;
+    border:1px solid var(--glass-border); overflow:hidden;
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    box-shadow: var(--glass-shadow);
+    border-radius:24px;
+    cursor:pointer; min-height:400px;
+    transition: border-color .2s, background .2s;
+  }
+  .pcard:hover { border-color:var(--border2); }
+  .pcard:hover .pcard-img { transform:scale(1.03); }
+
+  .pcard.flip .pcard-thumb { order:2; }
+  .pcard.flip .pcard-body  { order:1; }
+
+  .pcard-thumb {
+    overflow:hidden; background:var(--thumb);
+    display:flex; align-items:center; justify-content:center;
+    min-height:400px; position:relative;
+    transition:background .25s;
+  }
+  .pcard-img {
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s cubic-bezier(.4,0,.2,1);
+  }
+  .pcard-placeholder {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:12px; width:100%; height:100%; min-height:400px;
+    background:var(--thumb); transition:background .25s;
+  }
+  .pcard-placeholder-icon { font-size:32px; opacity:.3; display:flex; align-items:center; color:var(--fg); }
+  .pcard-placeholder span {
+    font-size:11px; font-weight:600; color:var(--fg3);
+    letter-spacing:.1em; text-transform:uppercase;
+  }
+
+  .pcard-body {
+    padding:56px 52px; display:flex; flex-direction:column;
+    justify-content:space-between; gap:32px;
+  }
+  .pcard-idx { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.14em; text-transform:uppercase; margin-bottom:18px; display:block; }
+  .pcard-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
+  .ptag { font-size:10px; font-weight:600; padding:4px 12px; background:var(--tag-bg); color:var(--tag-fg); letter-spacing:.06em; text-transform:uppercase; border-radius:100px; }
+  .ptag.muted { background:var(--bg3); color:var(--fg3); }
+  .pcard-title { font-size:clamp(22px,2.8vw,34px); font-weight:800; line-height:1.1; letter-spacing:-.03em; color:var(--fg); margin-bottom:14px; }
+  .pcard-desc  { font-size:14px; color:var(--fg3); line-height:1.7; letter-spacing:-.005em; }
+  .pcard-foot  { }
+  .pcard-arrow { font-size:26px; color:var(--fg3); display:inline-block; transition:transform .2s, color .2s; }
+  .pcard:hover .pcard-arrow { transform:translateX(6px); color:var(--fg); }
+  .coming-badge { font-size:10px; font-weight:600; padding:5px 14px; border:1px solid var(--border); color:var(--fg3); letter-spacing:.08em; text-transform:uppercase; display:inline-block; border-radius:100px; }
+
+  /* ═══════════════════════
+     CASE STUDY
+  ═══════════════════════ */
+  .cs-wrap { max-width:1200px; margin:0 auto; }
+  .cs-sec  { padding:96px 48px; }
+
+  .cs-label {
+    font-size:11px; font-weight:600; color:var(--tag-fg);
+    letter-spacing:.16em; text-transform:uppercase;
+    display:flex; align-items:center; gap:14px; margin-bottom:40px;
+  }
+  .cs-label::after { content:''; flex:1; height:1px; background:var(--border); max-width:72px; }
+
+  .cs-hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    justify-content:flex-end; padding:120px 48px 80px;
+    position:relative; overflow:hidden; border-bottom:1px solid var(--border);
+  }
+  .cs-hero-grid {
+    position:absolute; inset:0; pointer-events:none; opacity:.2;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse 88% 68% at 65% 28%, black, transparent);
+    transition:opacity .25s;
+  }
+  .cs-eye {
+    font-size:11px; font-weight:600; color:var(--tag-fg);
+    letter-spacing:.16em; text-transform:uppercase;
+    display:flex; align-items:center; gap:12px; margin-bottom:28px; position:relative; z-index:1;
+  }
+  .cs-eye::before { content:''; width:20px; height:1px; background:currentColor; }
+
+  .cs-hero h1 {
+    font-size:clamp(48px,7vw,96px); font-weight:800;
+    line-height:.93; letter-spacing:-.04em; max-width:820px; margin-bottom:40px;
+    position:relative; z-index:1;
+  }
+  .cs-hero h1 em { font-style:italic; color:var(--accent); font-weight:300; }
+
+  .cs-meta {
+    display:flex; gap:48px; flex-wrap:wrap;
+    padding-top:36px; border-top:1px solid var(--border);
+    position:relative; z-index:1;
+  }
+  .cs-meta-item label { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.12em; text-transform:uppercase; display:block; margin-bottom:5px; }
+  .cs-meta-item span  { font-size:14px; color:var(--fg); font-weight:500; letter-spacing:-.01em; }
+
+  .cs-sec h2 { font-size:clamp(28px,3.5vw,48px); font-weight:800; line-height:1.05; letter-spacing:-.03em; margin-bottom:20px; }
+  .cs-sec h3 { font-size:18px; font-weight:700; letter-spacing:-.02em; margin-bottom:14px; }
+  .cs-sec p  { font-size:15px; color:var(--fg2); line-height:1.8; margin-bottom:16px; letter-spacing:-.005em; }
+  .cs-sec p strong { color:var(--fg); font-weight:600; }
+  .cs-sec p:last-child { margin-bottom:0; }
+
+  .col2    { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+  .col2-60 { display:grid; grid-template-columns:3fr 2fr; gap:64px; align-items:start; }
+
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px; }
+  .stat  {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:36px 32px;
+    transition:background .25s, border-color .25s;
+  }
+  .stat-n { font-size:52px; font-weight:800; line-height:1; letter-spacing:-.05em; color:var(--accent); display:block; margin-bottom:8px; }
+  .stat-l { font-size:13px; color:var(--fg3); line-height:1.5; }
+
+  .prob-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:40px; }
+  .prob-card {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:36px;
+    transition:background .25s, border-color .25s;
+  }
+  .prob-card.crit { border-left:3px solid var(--err); border-radius:4px 20px 20px 4px; }
+  .prob-n { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.14em; text-transform:uppercase; margin-bottom:16px; display:block; }
+  .prob-tag { display:inline-block; font-size:10px; font-weight:600; padding:3px 10px; background:rgba(255,77,28,.1); color:#FF7A56; letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; border-radius:100px; }
+
+  .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:40px; }
+  .step  {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:16px; padding:28px;
+    transition:background .25s, border-color .25s;
+  }
+  .step-n { font-size:10px; font-weight:600; color:var(--tag-fg); letter-spacing:.14em; text-transform:uppercase; margin-bottom:14px; display:block; }
+  .step-t { font-size:14px; font-weight:700; color:var(--fg); margin-bottom:8px; letter-spacing:-.01em; }
+  .step-d { font-size:12px; color:var(--fg3); line-height:1.65; }
+
+  .insights { display:flex; flex-direction:column; gap:16px; margin-top:40px; }
+  .insight  {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:16px; padding:32px 36px;
+    display:grid; grid-template-columns:260px 1fr; gap:48px; align-items:start;
+    transition:background .25s, border-color .25s;
+  }
+  .insight-q { font-size:14px; font-weight:600; color:var(--fg); line-height:1.5; padding-left:16px; border-left:2px solid var(--accent); letter-spacing:-.01em; }
+  .insight-b { font-size:13px; color:var(--fg3); line-height:1.75; }
+  .insight-b strong { color:var(--fg); }
+
+  .pq {
+    margin:64px 0; padding:48px; border-left:3px solid var(--accent);
+    border-radius:4px 20px 20px 4px;
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    box-shadow: var(--glass-shadow);
+    transition:background .25s;
+  }
+  .pq blockquote { font-size:clamp(18px,2.5vw,26px); font-weight:700; line-height:1.35; letter-spacing:-.02em; margin-bottom:16px; }
+  .pq cite { font-size:12px; color:var(--fg3); letter-spacing:.04em; font-style:normal; font-weight:500; }
+
+  .ux-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  .ux-card {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:32px;
+    transition:background .25s, border-color .25s;
+  }
+  .ux-icon {
+    width:40px; height:40px; background:var(--tag-bg);
+    border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; color:var(--tag-fg); margin-bottom:18px;
+  }
+  .ux-card h3 { font-size:15px; margin-bottom:10px; }
+  .ux-card p  { font-size:13px; color:var(--fg3); margin:0; }
+
+  .decision {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:48px; margin-top:40px;
+    display:grid; grid-template-columns:1fr 1fr; gap:56px;
+    transition:background .25s, border-color .25s;
+  }
+  .dec-col h3 { font-size:16px; margin-bottom:16px; }
+  .dec-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .dec-col li { font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65; }
+  .dec-col li::before { content:'—'; color:var(--tag-fg); flex-shrink:0; }
+  .dec-col li strong { color:var(--fg); }
+
+  .state-table-wrap {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; overflow:hidden; margin-top:36px;
+  }
+  .state-table { width:100%; border-collapse:collapse; }
+  .state-table th { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.12em; text-transform:uppercase; text-align:left; padding:16px 20px; border-bottom:1px solid var(--border); }
+  .state-table td { padding:18px 20px; font-size:13px; color:var(--fg3); border-bottom:1px solid var(--border); vertical-align:top; line-height:1.65; transition:background .15s; }
+  .state-table tr:last-child td { border-bottom:none; }
+  .state-table tr:hover td { background:var(--bg3); }
+  .sn { font-size:12px; font-weight:600; color:var(--fg); white-space:nowrap; }
+
+  .pill     { display:inline-block; font-size:10px; font-weight:600; padding:3px 10px; background:var(--tag-bg); color:var(--tag-fg); margin:0 4px 4px 0; border-radius:100px; }
+  .pill.red { background:rgba(255,77,28,.1); color:#FF7A56; }
+  .pill.gry { background:var(--bg3); color:var(--fg3); }
+
+  .impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:40px; }
+  .impact-card {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:44px;
+    transition:background .25s, border-color .25s;
+  }
+  .impact-card.hi {
+    background:var(--accent); border-color:var(--accent);
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+    box-shadow: 0 12px 40px color-mix(in srgb,var(--accent) 30%,transparent);
+  }
+  .impact-card.hi h3, .impact-card.hi p { color:var(--accent-fg); }
+  .impact-card.hi p { opacity:.7; }
+  .imp-n { font-size:60px; font-weight:800; line-height:1; letter-spacing:-.05em; color:var(--accent); display:block; margin-bottom:4px; }
+  .impact-card.hi .imp-n { color:var(--accent-fg); }
+  .imp-l { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; display:block; }
+  .impact-card.hi .imp-l { color:color-mix(in srgb,var(--accent-fg) 55%,transparent); }
+
+  .ref-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  /* Bare impact block below ux-grid */
+  .sol-impact-block { margin-top:32px; padding-left:18px; border-left:2px solid var(--accent); }
+  .sol-impact-title { font-size:16px; font-weight:500; color:var(--tag-fg); letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; }
+  .sol-impact { font-size:24px; font-weight:400; color:var(--fg); line-height:1.5; margin:0; letter-spacing:-.02em; }
+  [data-theme="dark"] .sol-impact { color:#D6D6D6; }
+
+  /* After grid — 4 parties / 7 categories inside ux-card */
+  .after-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px; }
+  .after-stat { display:flex; align-items:baseline; gap:8px; margin-bottom:14px; }
+  .after-n { font-size:32px; font-weight:800; color:var(--accent); line-height:1; letter-spacing:-.03em; }
+  .after-label { font-size:13px; color:var(--fg2); font-weight:500; }
+  [data-theme="dark"] .after-label { color:#D6D6D6; }
+  .after-list { list-style:none; display:flex; flex-direction:column; gap:8px; margin:0; padding:0; }
+  .after-list li { font-size:12px; color:var(--fg2); line-height:1.55; padding-left:12px; position:relative; }
+  [data-theme="dark"] .after-list li { color:#D6D6D6; }
+  .after-list li::before { content:'·'; position:absolute; left:0; color:var(--accent); font-weight:700; }
+  .after-list li strong { color:var(--fg); font-weight:600; }
+  @media(max-width:860px) { .after-grid { grid-template-columns:1fr; } }
+
+  /* Previous flow — vertical step sequence inside ux-card */
+  .prev-flow { display:flex; flex-direction:column; align-items:flex-start; gap:0; margin-top:20px; }
+  .pf-step {
+    font-size:12px; line-height:1.5; color:var(--fg2); padding:10px 14px;
+    background:var(--bg2); border:1px solid var(--glass-border);
+    border-radius:10px; width:100%;
+  }
+  [data-theme="light"] .pf-step { background:var(--bg3); }
+  .pf-arrow { font-size:14px; color:var(--fg3); transform:rotate(90deg); padding:2px 0; align-self:flex-start; margin-left:16px; }
+
+  /* Key Research Findings — editorial layout */
+  .krf-list { display:flex; flex-direction:column; margin-top:32px; }
+  .krf-item {
+    display:grid; grid-template-columns:48px 1fr; gap:32px;
+    padding:40px 0; border-top:1px solid var(--border);
+  }
+  .krf-item:last-child { border-bottom:1px solid var(--border); }
+  .krf-n {
+    font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--tag-fg); padding-top:6px;
+  }
+  .krf-title {
+    font-size:clamp(18px,2vw,24px); font-weight:700; color:var(--fg);
+    line-height:1.25; letter-spacing:-.02em; margin-bottom:14px;
+  }
+  .krf-desc {
+    font-size:15px; color:var(--fg2); line-height:1.75; margin:0;
+  }
+  [data-theme="dark"] .krf-desc { color:#D6D6D6; }
+  .krf-desc strong { color:var(--fg); }
+  @media(max-width:860px) {
+    .krf-item { grid-template-columns:1fr; gap:12px; }
+  }
+
+  /* Manual flow diagram */
+  .manual-flow { margin:32px 0; }
+  .mf-steps { display:flex; align-items:stretch; gap:0; }
+  .mf-step {
+    flex:1; background:rgba(255,80,50,0.08); border:1px solid rgba(255,80,50,0.18);
+    border-radius:16px; padding:20px 18px; display:flex; flex-direction:column; gap:10px;
+  }
+  [data-theme="light"] .mf-step { background:rgba(255,80,50,0.07); border-color:rgba(255,80,50,0.2); }
+  .mf-step.mf-loop { background:rgba(255,80,50,0.13); border-color:rgba(255,80,50,0.28); }
+  [data-theme="light"] .mf-step.mf-loop { background:rgba(255,80,50,0.12); }
+  .mf-n { font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--err); }
+  .mf-step p { font-size:13px; color:var(--fg2); line-height:1.55; margin:0; }
+  .mf-step strong { color:var(--fg); }
+  .mf-arrow { display:flex; align-items:center; padding:0 8px; color:var(--fg3); font-size:18px; flex-shrink:0; }
+  .mf-feedback {
+    margin-top:14px; font-size:13px; color:var(--fg3); line-height:1.6;
+    padding:12px 16px; border-left:2px solid var(--err); background:rgba(255,80,50,0.05);
+    border-radius:0 8px 8px 0;
+  }
+  @media(max-width:860px) {
+    .mf-steps { flex-direction:column; }
+    .mf-arrow { transform:rotate(90deg); align-self:flex-start; padding:4px 16px; }
+  }
+
+  .ref-card {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border:1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius:20px; padding:36px;
+    transition:background .25s, border-color .25s;
+  }
+  .ref-tag  { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.12em; text-transform:uppercase; margin-bottom:14px; display:block; }
+
+  .rtags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:28px; }
+  .rtag    { font-size:11px; font-weight:500; padding:5px 14px; border:1px solid var(--border); color:var(--fg3); border-radius:100px; }
+  .rtag.on { border-color:color-mix(in srgb,var(--accent) 35%,transparent); color:var(--tag-fg); background:var(--tag-bg); }
+
+  .cs-foot { padding:56px 48px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; max-width:1200px; margin:0 auto; }
+
+  .blank { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:120px 48px; text-align:center; }
+  .blank h2 { font-size:32px; font-weight:800; letter-spacing:-.03em; }
+  .blank p  { font-size:15px; color:var(--fg3); }
+
+  /* ── HERO VIDEO ── */
+  .hero-section { position:relative; overflow:hidden; }
+  .hero-video-wrap { position:absolute; inset:0; pointer-events:none; display:none; }
+  [data-theme="dark"] .hero-video-wrap { display:block; }
+  .hero-video { width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-video-overlay {
+    position:absolute; inset:0;
+    background:rgba(6,6,10,0.58);
+    backdrop-filter:blur(6px) saturate(140%); -webkit-backdrop-filter:blur(6px) saturate(140%);
+  }
+
+  /* ── CONTACT ── */
+  .contact-desc { font-size:15px; color:var(--fg2); line-height:1.8; max-width:540px; letter-spacing:-.005em; }
+  .contact-items { display:flex; flex-direction:column; gap:12px; margin-top:28px; }
+  .contact-item { display:flex; align-items:center; gap:12px; font-size:14px; color:var(--fg2); letter-spacing:-.005em; }
+  .contact-item i { font-size:16px; color:var(--fg3); flex-shrink:0; }
+  .contact-item a { color:var(--fg2); transition:color .15s; }
+  .contact-item a:hover { color:var(--accent); }
+
+  /* ── FOOTER ── */
+  .site-footer { padding:28px 48px; border-top:1px solid var(--border); text-align:center; }
+  .site-footer p { font-size:13px; color:var(--fg3); letter-spacing:-.005em; }
+
+  /* ── SIDEBAR ROW LAYOUT ── */
+  .sidebar-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    align-items: start;
+    padding: 80px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .sidebar-label-col .eyebrow { margin-bottom: 0; }
+  .sidebar-label-col .eyebrow::after { display: none; }
+
+  /* ── WHAT I DO ── */
+  .whatido-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .whatido-card {
+    background: var(--glass);
+    backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+    border-radius: 16px; padding: 28px 32px;
+  }
+  .whatido-card h3 { font-size:16px; font-weight:600; color:var(--fg); margin-bottom:10px; letter-spacing:-.01em; }
+  .whatido-card p  { font-size:14px; color:var(--fg3); line-height:1.65; margin:0; }
+  [data-theme="dark"] .whatido-card p { color:#D6D6D6; }
+
+  /* ── DARK MODE CARD BODY CONTRAST ── */
+  [data-theme="dark"] .out-desc,
+  [data-theme="dark"] .stat-l,
+  [data-theme="dark"] .step-d,
+  [data-theme="dark"] .insight-b,
+  [data-theme="dark"] .pcard-desc,
+  [data-theme="dark"] .ux-card p,
+  [data-theme="dark"] .prob-card p,
+  [data-theme="dark"] .ref-card p,
+  [data-theme="dark"] .dec-col li,
+  [data-theme="dark"] .impact-card p { color:#D6D6D6; }
+
+  /* ── OUT-GRID SIDE (vertical in about column) ── */
+  .out-grid-side { grid-template-columns:1fr; gap:12px; margin-top:0; }
+  .out-grid-side .out-card { padding:20px 24px; }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:860px){
+    nav { top:12px; left:50%; transform:translateX(-50%); width:max-content; max-width:calc(100% - 24px); }
+    .nav-btn { min-height:40px; padding:10px 16px; }
+    .home-hero,.home-sec,.work-hero,.work-grid,.cs-sec { padding-left:20px; padding-right:20px; }
+    .cs-hero { padding:100px 20px 60px; }
+    .divider { margin:0 20px; }
+    .sidebar-row { grid-template-columns:1fr; gap:24px; padding:60px 20px; }
+    .whatido-grid,.about-grid,.col2,.col2-60,.prob-grid,.ux-grid,.impact-grid,.ref-grid,.out-grid,.out-grid-side,.decision { grid-template-columns:1fr; gap:16px; }
+    .steps { grid-template-columns:1fr 1fr; }
+    .insight { grid-template-columns:1fr; gap:16px; }
+    .stats { grid-template-columns:1fr; }
+    .pcard { grid-template-columns:1fr; min-height:auto; }
+    .pcard-thumb { min-height:260px; order:1 !important; }
+    .pcard-body  { order:2 !important; padding:36px 28px; }
+    .cs-meta { gap:24px; }
+    .cs-foot { flex-direction:column; gap:24px; align-items:flex-start; }
+    .site-footer { padding:24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Aurora mesh background -->
+<div class="aurora" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-btn active" id="nav-home" onclick="go('home')">About</button>
+  <button class="nav-btn"        id="nav-work" onclick="go('work')">Work</button>
+  <button class="toggle" onclick="toggleTheme()" aria-label="Toggle color scheme">
+    <span class="toggle-icon"><i class="hgi-stroke hgi-moon-02"></i></span>
+    <span class="toggle-icon"><i class="hgi-stroke hgi-sun-03"></i></span>
+    <span class="toggle-knob"></span>
+  </button>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <div class="home-bg"></div>
+
+  <!-- Hero with video background (video dark mode only) -->
+  <div class="hero-section">
+    <div class="hero-video-wrap">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="ce_mp_.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay"></div>
+    </div>
+    <div class="home-hero">
+      <div class="home-kicker" data-c="heroKicker"></div>
+      <h1>Hello,<br>I'm <span class="hi" data-c="heroName"></span>.<br><span class="dim" data-c="heroDim1"></span><br><span class="dim" data-c="heroDim2"></span></h1>
+      <p class="home-desc" data-c="heroDesc"></p>
+      <div class="cta-row">
+        <button class="btn-solid" onclick="go('work')">View work →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- About -->
+  <div class="sidebar-row">
+    <div class="sidebar-label-col">
+      <div class="eyebrow">About</div>
+    </div>
+    <div class="about-body"><!-- populated by hydrate() --></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What I Do -->
+  <div class="sidebar-row">
+    <div class="sidebar-label-col">
+      <div class="eyebrow">What I Do</div>
+    </div>
+    <div class="whatido-grid"><!-- populated by hydrate() --></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Outside of Work -->
+  <div class="sidebar-row">
+    <div class="sidebar-label-col">
+      <div class="eyebrow">Outside of Work</div>
+    </div>
+    <div class="out-grid out-grid-side"><!-- populated by hydrate() --></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Contact -->
+  <div class="sidebar-row">
+    <div class="sidebar-label-col">
+      <div class="eyebrow">Contact</div>
+    </div>
+    <div>
+      <p class="contact-desc" data-c="contactDesc"></p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <i class="hgi-stroke hgi-mail-02"></i>
+          <a data-email data-email-label href=""></a>
+        </div>
+        <div class="contact-item">
+          <i class="hgi-stroke hgi-linkedin-01"></i>
+          <a data-c="contactLinkedIn" target="_blank" href=""></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p data-c="footerText"></p>
+  </footer>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     WORK LIST
+══════════════════════════════════════ -->
+<div id="page-work" class="page">
+
+  <div class="work-hero">
+    <div class="eyebrow">Work</div>
+    <h1 data-c="workTitle"></h1>
+    <p data-c="workDesc"></p>
+  </div>
+
+  <div class="work-grid"><!-- populated by hydrate() --></div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     CASE STUDY — AI AGENT
+     Edit content directly in this section.
+══════════════════════════════════════ -->
+<div id="page-cs-ai" class="page">
+
+  <div class="cs-hero">
+    <div class="cs-hero-grid"></div>
+    <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
+      <button class="back-btn" onclick="go('work')">← Back to Work</button>
+      <div class="cs-eye">Case Study — Shipped Product</div>
+      <h1>Card Spend<br>Management<br><em>AI Agent</em></h1>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Company</label><span>Reap — B2B Fintech</span></div>
+        <div class="cs-meta-item"><label>My Role</label><span>Lead Product Designer</span></div>
+        <div class="cs-meta-item"><label>Domain</label><span>Agentic AI · Corporate Cards</span></div>
+        <div class="cs-meta-item"><label>Stage</label><span>Internal Alpha → v2 Build</span></div>
+        <div class="cs-meta-item"><label>Year</label><span>2025 – 2026</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 Context -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">01 — Context</div>
+      <div class="col2-60">
+        <div>
+          <h2>A B2B fintech bet on AI — before we knew what that meant</h2>
+          <p><strong>Reap is a corporate card and expense management platform</strong> serving finance managers and business owners across Asia. Our users don't manage one card — they manage dozens, across teams, with different limits, roles, and policies.</p>
+          <p>In 2025, the company made an early bet: build an AI agent that replaces the dashboard UI for card operations. The thesis was right. The execution was not — and my job was to help fix that.</p>
+        </div>
+        <div>
+          <div class="rtags">
+            <span class="rtag on">Strategy</span><span class="rtag on">Research</span>
+            <span class="rtag on">Interaction Design</span><span class="rtag on">Systems Thinking</span>
+            <span class="rtag">Eng Collaboration</span>
+          </div>
+          <div class="note"><p><strong>Note:</strong> This is a shipped internal product at Reap, currently in v2 build. All metrics and quotes are from internal documentation.</p></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span class="stat-n">47s</span><span class="stat-l">Average response time in Alpha — unusable by any standard</span></div>
+        <div class="stat"><span class="stat-n">400k</span><span class="stat-l">Tokens sent per interaction — a symptom of over-engineering</span></div>
+        <div class="stat"><span class="stat-n">0</span><span class="stat-l">Internal testers who could complete a basic card creation flow</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 02 Problem -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">02 — Problem Definition</div>
+      <h2>Two failures, one product</h2>
+      <p>The alpha shipped with real engineering ambition but no design foundation. I identified two distinct failure modes — one technical, one experiential — that together made the agent feel broken even when it wasn't.</p>
+      <div class="prob-grid">
+        <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>The Trust Problem</h3><p>The agent showed <strong>"Completed ✅"</strong> then immediately displayed an error. Progress indicators were decoupled from reality. No correction mid-flow. Responses appeared all at once after a 47-second wait.</p><p>This is not a latency problem. It's a <strong>honesty problem</strong>. An AI that lies about its own state cannot be trusted with financial actions.</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>The Architecture Problem</h3><p>A supervisor agent routing to 5 sub-agents, with NeMo Guardrails running 3 sequential LLM calls before any request was processed — adding 2.5 seconds of overhead before the agent started thinking.</p><p>The same agent that froze on card creation also responded to mental health queries with helpline numbers. <strong>No scope, no guardrails that worked.</strong></p></div>
+        <div class="prob-card"><span class="prob-n">03</span><h3>The Interaction Model Problem</h3><p>The agent lived in a generic chat drawer. No quick actions. No structured confirmation. No visual card preview. The UX was a <strong>blank text box bolted onto a broken backend</strong>.</p></div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>The Scope Problem</h3><p>No one had clearly defined what the agent should and shouldn't do. <strong>Before design could begin, product clarity had to come first.</strong></p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 03 Research -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">03 — Research & Discovery</div>
+      <h2>What I needed to learn before designing</h2>
+      <p>I ran a structured discovery sprint across three tracks simultaneously — user pain points, technical constraints, and establishing a principled AI design framework for the team.</p>
+      <div class="steps">
+        <div class="step"><span class="step-n">Track 01</span><div class="step-t">User Pain Mapping</div><div class="step-d">Observed ops team screen shares. Identified the highest-friction card management tasks and where errors compound.</div></div>
+        <div class="step"><span class="step-n">Track 02</span><div class="step-t">Technical Constraints</div><div class="step-d">Worked directly with engineering on the Nemo Guardrails architecture. Understood why latency was structural, not incidental.</div></div>
+        <div class="step"><span class="step-n">Track 03</span><div class="step-t">AI Capability Framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation — and which interaction model fits each.</div></div>
+        <div class="step"><span class="step-n">Track 04</span><div class="step-t">Competitive Reference</div><div class="step-d">Audited Notion AI, Devin, Intercom, Google Gemini, and Apple Intelligence for agentic UI patterns.</div></div>
+      </div>
+      <div class="pq">
+        <blockquote>"The ops team couldn't finish basic card creation. Testing was abandoned. The previous agent's 47-second response time is not a baseline — it's a failure mode."</blockquote>
+        <cite>— AI Agent v2 PRD, internal document</cite>
+      </div>
+      <div class="cs-label">Key Research Findings</div>
+      <div class="insights">
+        <div class="insight"><div class="insight-q">"I'm lazy to follow all the steps and fill up the form to create a card."</div><div class="insight-b"><strong>Card creation is the highest-friction task.</strong> Finance managers must navigate multi-step forms, fill in the same fields repeatedly, and cross-reference team info. Bulk creation compounds this — a single misstep affects multiple employees. This became the primary use case for agentic intervention.</div></div>
+        <div class="insight"><div class="insight-q">"I spend a lot of time checking spends for overspending, duplicated charges, missing receipts."</div><div class="insight-b"><strong>Spend monitoring is cognitively expensive but high-value.</strong> Admins run manual audits across dozens of cards. AI augmentation — flagging anomalies, surfacing patterns — removes cognitive load without removing human judgment.</div></div>
+        <div class="insight"><div class="insight-q">"I need to find the card I want to freeze — I need to manually filter them out."</div><div class="insight-b"><strong>Contextual retrieval is broken.</strong> Finding a specific card requires multiple filter interactions. An agent understanding natural language ("freeze all unused marketing cards") collapses a multi-step workflow into a single confirmation.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 04 Framework -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">04 — AI Design Framework</div>
+      <div class="col2-60">
+        <div>
+          <h2>Deciding what AI should — and shouldn't — do</h2>
+          <p>Before designing any interface, I established a capability framework with the product team. The question was never "what can AI do?" It was "what <em>should</em> AI do, and how does it know the difference?"</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> AI chat is not always the answer. The right interface depends on whether the user knows what they want, needs to be told something, or needs guided action. This became the decision filter for every UX choice in v2.</p></div>
+      </div>
+      <div class="ux-grid">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-flash"></i></div>
+          <h3>Automation</h3>
+          <p>Do a task end-to-end for the user.<br><br><em>"Create monthly allowance cards for all new joiners in December, both physical and virtual."</em><br><br>Agent handles the full flow. User reviews and confirms.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-rocket"></i></div>
+          <h3>Acceleration</h3>
+          <p>Help users complete tasks faster by filling gaps intelligently.<br><br><em>"Auto-fill card creation forms based on previous data, category, and company policy."</em><br><br>Agent reduces keystrokes and decision fatigue.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-search-01"></i></div>
+          <h3>Augmentation</h3>
+          <p>Help users do their job better by surfacing what they'd miss.<br><br><em>"Flag overspending, suspicious transactions, duplicated charges, dormant cards."</em><br><br>Agent acts as a second pair of eyes.</p>
+        </div>
+      </div>
+      <div style="margin-top:48px;">
+        <div class="cs-label">Interaction Model Selection</div>
+        <div class="decision">
+          <div class="dec-col">
+            <h3>Rule of thumb I defined for the team</h3>
+            <ul>
+              <li><strong>If the user knows what they want</strong> → inline / structured UI</li>
+              <li><strong>If they don't know what they want</strong> → conversational</li>
+              <li><strong>If they need to be told something</strong> → insight surface</li>
+              <li><strong>If they need guided action</strong> → copilot / workflow assistant</li>
+            </ul>
+            <p style="margin-top:20px; font-size:13px; color:var(--fg3);">For card operations, users <em>know</em> what they want. We chose a <strong style="color:var(--fg)">conversational copilot with structured confirmation moments</strong> — not a pure chat interface.</p>
+          </div>
+          <div class="dec-col">
+            <h3>Why we ruled out alternatives</h3>
+            <ul>
+              <li><strong>Pure form UI:</strong> Doesn't handle ambiguity (two people named Raman, no card specified)</li>
+              <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
+              <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions — surprise is a bug</li>
+              <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 05 Design -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">05 — Design Decisions</div>
+      <h2>Every UX choice had a reason</h2>
+      <p>The v2 design was built on one principle: <strong>the agent earns trust through honesty, speed, and knowing its limits.</strong></p>
+      <div class="pq"><blockquote>"Never show success before confirming success."</blockquote><cite>— UX Requirement, AI Agent v2 PRD</cite></div>
+      <div class="insights">
+        <div class="insight"><div class="insight-q">Conversational, not form-based</div><div class="insight-b"><strong>The agent collects information through natural conversation, not sequential forms.</strong> If a user says "create a card for John with a $5,000 limit," the agent recognizes it already has enough and skips unnecessary questions.<br><br><span class="pill">Progressive disclosure</span><span class="pill red">Anti-pattern: form-dumping</span></div></div>
+        <div class="insight"><div class="insight-q">Honest progress — step by step</div><div class="insight-b"><strong>Streaming responses and honest step-by-step progress were non-negotiable.</strong> The alpha showed "Completed ✅" before an error — we made this structurally impossible. "Looking up team members..." → "Found 2 matches" → "Card created ✅"<br><br><span class="pill">Honest feedback loops</span><span class="pill red">Anti-pattern: false success states</span></div></div>
+        <div class="insight"><div class="insight-q">Category inference with graceful fallback</div><div class="insight-b"><strong>With 20–30+ expense categories, a raw dropdown is a UI failure.</strong> The agent infers category from natural language, confirms, and if wrong shows 5–6 alternatives as pill buttons — never a dropdown.<br><br><span class="pill">Smart defaults with escape hatches</span><span class="pill gry">Never a raw dropdown</span></div></div>
+        <div class="insight"><div class="insight-q">Destructive actions have a physical gate</div><div class="insight-b"><strong>Terminating a card requires password re-entry — not just a confirmation click.</strong> You can't guardrail a system where the same component both decides and executes financial actions. The password gate physically separates AI intent from human execution.<br><br><span class="pill">Human-in-the-loop for irreversible actions</span><span class="pill gry">Sole exception to no-modals rule</span></div></div>
+        <div class="insight"><div class="insight-q">Role-aware scope — never silent failure</div><div class="insight-b"><strong>When a user acts outside their permissions, the agent explains why — and shows what it can do.</strong> "I can show you your own cards. You don't have access to company-wide information." Trust maintained even at the boundary of capability.<br><br><span class="pill">Transparent capability boundaries</span><span class="pill red">Anti-pattern: silent error</span></div></div>
+        <div class="insight"><div class="insight-q">Mid-flow correction without restarting</div><div class="insight-b"><strong>When a user says "actually, make the limit $3,000 instead," the agent re-renders the confirmation card with the change highlighted</strong> — old value in strikethrough, new value prominent. Natural corrections are first-class interactions.<br><br><span class="pill">Forgiving by default</span><span class="pill red">Anti-pattern: full restart on correction</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 06 States -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">06 — States Designed</div>
+      <h2>Designing for every moment in the conversation</h2>
+      <p>The alpha had no concept of agent state. I defined 8 distinct states covering the full lifecycle of a card operation conversation.</p>
+      <div class="state-table-wrap">
+      <table class="state-table">
+        <thead><tr><th>State</th><th>When it occurs</th><th>UX Behavior</th><th>Design Intent</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sn">Idle / Empty</span></td><td>Agent ready, no conversation</td><td>Quick action chips: Create card, Freeze card, View cards, Summarise spending — role-scoped.</td><td>Lower activation energy. No blank cursor.</td></tr>
+          <tr><td><span class="sn">Waiting for Input</span></td><td>Agent asked a question</td><td>Input field active. Previous question stays visible. No timeout pressure.</td><td>Conversation feels like dialogue, not interrogation.</td></tr>
+          <tr><td><span class="sn">Processing</span></td><td>Agent executing an action</td><td>Step-by-step progress. Streaming text. Each step is honest about system state.</td><td>Transparency over speed illusion.</td></tr>
+          <tr><td><span class="sn">Disambiguation</span></td><td>Multiple matches found</td><td>Agent presents options with distinguishing details: name, email, role, card last 4 digits.</td><td>Avoids wrong-person errors in financial contexts.</td></tr>
+          <tr><td><span class="sn">Confirmation Required</span></td><td>High-impact or destructive action</td><td>Full card preview. Explicit confirm required. Card termination: additional password re-entry.</td><td>Human authority over AI execution.</td></tr>
+          <tr><td><span class="sn">Action Complete</span></td><td>Action succeeded</td><td>Clear success message with result details. Never followed by an error.</td><td>Closure without ambiguity.</td></tr>
+          <tr><td><span class="sn">Error</span></td><td>Action failed</td><td>Plain-language explanation. Actionable next step. Never success then error.</td><td>Honesty over appearance of competence.</td></tr>
+          <tr><td><span class="sn">Out of Scope</span></td><td>User asked something the agent can't do</td><td>Agent names its scope, says what it can't do, offers within-scope alternatives.</td><td>Bounded capability is a feature, not a bug.</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 07 Eng -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">07 — Working With Engineering</div>
+      <h2>Design decisions informed by architecture</h2>
+      <p>I worked closely with Aero, the AI tech lead rebuilding the agent from scratch. Understanding the technical constraints wasn't optional — it was the only way to design responsibly.</p>
+      <div class="col2" style="margin-top:40px;">
+        <div>
+          <h3>What I learned from the engineering docs</h3>
+          <p>The alpha's NeMo Guardrails added <strong>1.5–3.5 seconds of overhead before the agent even started</strong> — three sequential LLM calls. The GPT-4.1 self-check alone took 2 seconds and was redundant with the NVIDIA heuristic layer.</p>
+          <p>Understanding this taught me that UX requirements like streaming and instant acknowledgment were architectural asks, not just design preferences. I had to advocate for them with engineering context, not just user empathy.</p>
+        </div>
+        <div>
+          <h3>Where I pushed back on product</h3>
+          <p>The initial PRD said "conversation context should not be preserved" on error. I challenged this — if a user is mid-flow and hits an API failure, losing context forces a full restart. We revised to: preserve context, surface the specific failure, let the user retry.</p>
+          <p>I also raised the audit trail question for destructive actions, making the case that the UX needed to surface this — not just log it in the backend.</p>
+        </div>
+      </div>
+      <div class="note" style="margin-top:32px;"><p><strong>Design principle:</strong> In agentic systems, UX requirements and architecture are inseparable. You cannot design honest progress indicators if the backend doesn't stream. You cannot design safe confirmation flows if the agent has direct write access. I treated the engineering architecture as a design constraint — and as a lever.</p></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 08 Impact -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">08 — Impact & Outcomes</div>
+      <h2>From abandoned alpha to production-ready v2</h2>
+      <p>The v2 design became the foundation for a rebuild that moved the agent from an internal embarrassment to a product the team is confident shipping.</p>
+      <div class="impact-grid">
+        <div class="impact-card hi"><span class="imp-n">7</span><span class="imp-l">Agent operations fully designed & specced</span><h3>Complete operation coverage</h3><p>Create virtual card, freeze, unfreeze, terminate, update spend limit, view cards, summarise spending — each with full state coverage and edge cases.</p></div>
+        <div class="impact-card"><span class="imp-n">8</span><span class="imp-l">Distinct UI states designed</span><h3>No state left undefined</h3><p>Idle, processing, disambiguation, confirmation, success, error, out-of-scope, session timeout. Every moment is designed — not defaulted.</p></div>
+        <div class="impact-card"><span class="imp-n">11</span><span class="imp-l">User stories written with edge cases</span><h3>Design as product spec</h3><p>Including: multiple cardholders with same name, wrong category inference, mid-flow cardholder switch, permission boundary handling — all scenarios that break generic AI chat.</p></div>
+        <div class="impact-card"><span class="imp-n">0→1</span><span class="imp-l">Alpha to designed v2</span><h3>Framework for AI design at Reap</h3><p>The AI capability framework and interaction model principles I established became the team's reference for evaluating all future AI features — not just this agent.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 09 Reflection -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">09 — Reflection</div>
+      <h2>What I'd tell a designer starting an agentic product</h2>
+      <div class="ref-grid">
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Start with trust, not features</h3><p>An AI agent that lies about its own state is more damaging than one that's simply slow. Never show success before it's real — everything else follows from that.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Scope is a design deliverable</h3><p>In agentic products, what the system <em>won't</em> do is as important as what it will. Designing the out-of-scope state required drawing the line — and getting cross-functional alignment on it.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Architecture and UX are the same problem</h3><p>I couldn't have designed honest progress indicators without understanding why the alpha's streaming was blocked. The most impactful decisions also changed engineering priorities.</p></div>
+      </div>
+      <div style="margin-top:48px;">
+        <div class="cs-label">What I Would Do Differently</div>
+        <div class="decision" style="margin-top:0;">
+          <div class="dec-col"><h3>More user testing earlier</h3><ul><li>We inferred pain points from observation and ops team feedback. I would have run structured task tests with finance managers on the alpha — even broken sessions — to capture the exact moments of trust collapse.</li></ul></div>
+          <div class="dec-col"><h3>Define success metrics earlier</h3><ul><li>Several targets were left as TODOs because we lacked baseline data. I should have pushed harder to define proxy metrics we could track even before the rebuild.</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cs-foot">
+    <button class="back-btn" onclick="go('work')" style="margin-bottom:0;">← Back to Work</button>
+    <a data-email href="" class="btn-solid">Get in touch →</a>
+  </div>
+
+</div><!-- /page-cs-ai -->
+
+
+<!-- Project 2: Loan Financing Workflow Redesign -->
+<div id="page-cs-sfw" class="page">
+
+  <div class="cs-hero">
+    <div class="cs-hero-grid"></div>
+    <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
+      <button class="back-btn" onclick="go('work')">← Back to Work</button>
+      <div class="cs-eye">Case Study — Shipped Product</div>
+      <h1>Loan Financing<br>Workflow<br><em>Redesign</em></h1>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Industry</label><span>Institutional Banking</span></div>
+        <div class="cs-meta-item"><label>My Role</label><span>Lead Product Designer</span></div>
+        <div class="cs-meta-item"><label>Domain</label><span>Enterprise Fintech · SME Lending</span></div>
+        <div class="cs-meta-item"><label>Scope</label><span>Discovery → Delivery</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 Context -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">01 — Context</div>
+      <div class="col2-60">
+        <div>
+          <h2>SME lending at a bank — slow by design, broken by default</h2>
+          <p><strong>As the institutional banking group accelerated its focus on SME financing</strong>, operational inefficiencies became increasingly visible. The existing workflow relied heavily on manual coordination and fragmented systems, slowing down both customer assessment and loan processing.</p>
+          <p>Relationship managers had to navigate 16+ disconnected systems, manually validate financial exposure across entities, and spend hours preparing applications — often with uncertain outcomes. Processing a single loan application took up to <strong>3 months</strong>.</p>
+        </div>
+        <div>
+          <div class="rtags">
+            <span class="rtag on">Discovery &amp; Research</span><span class="rtag on">Systems Design</span>
+            <span class="rtag on">Interaction Design</span><span class="rtag on">Stakeholder Alignment</span>
+            <span class="rtag">Design Systems</span>
+          </div>
+          <div class="note"><p><strong>My role:</strong> I led the end-to-end redesign of the pre-approval workflow — from discovery to delivery. I defined product direction, aligned stakeholders across business, product, and engineering, and translated complex credit and compliance requirements into structured UX flows.</p></div>
+        </div>
+      </div>
+      <div class="stats" style="margin-top:40px;">
+        <div class="stat"><span class="stat-n">500+</span><span class="stat-l">Employees at the bank's Singapore office</span></div>
+        <div class="stat"><span class="stat-n">1,200+</span><span class="stat-l">SME loan leads processed per month</span></div>
+        <div class="stat"><span class="stat-n">4–12 wk</span><span class="stat-l">Time to process a single case — the problem this project set out to fix</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 02 Problem -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">02 — Problem Definition</div>
+      <h2>It wasn't a usability issue — it was a system failure in decision-making infrastructure</h2>
+      <p>I conducted interviews with users and stakeholders to map the as-is SME financing flow. Four distinct friction categories emerged, each compounding the others.</p>
+      <div class="prob-grid">
+        <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>Fragmented data → slow decisions</h3><p>Critical information was scattered across systems, forcing users to manually aggregate and validate data before they could even begin an assessment. There was no single source of truth.</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>No early signal → wasted effort</h3><p>RMs spent <strong>1–3 hours</strong> preparing applications — visiting 16 different systems and documents — without knowing if a case would convert to an offer. Effort was front-loaded with no viability signal.</p></div>
+      </div>
+      <div class="prob-grid" style="grid-template-columns:1fr; margin-top:16px;">
+        <div class="prob-card"><span class="prob-n">03</span><h3>Manual calculations → high error rate</h3><p>Loan eligibility and exposure calculations happened outside the system. Determining group limit required checking each borrower's facility structure manually, validating against predefined criteria, and calculating thresholds in spreadsheets. This drove the <strong>40% rejection rate</strong> and an <strong>80% rework rate</strong>.</p>
+          <div class="manual-flow" style="margin-top:24px; margin-bottom:0;">
+            <div class="mf-steps">
+              <div class="mf-step">
+                <span class="mf-n">01</span>
+                <p>Compile a list of all <strong>borrowers</strong> within the group</p>
+              </div>
+              <div class="mf-arrow">→</div>
+              <div class="mf-step">
+                <span class="mf-n">02</span>
+                <p>Download <strong>facility</strong> and <strong>limit</strong> reports for <strong>each borrower</strong></p>
+              </div>
+              <div class="mf-arrow">→</div>
+              <div class="mf-step mf-loop">
+                <span class="mf-n">03</span>
+                <p>Manually calculate all existing facility <strong>limits</strong> of the <strong>group</strong></p>
+              </div>
+              <div class="mf-arrow">→</div>
+              <div class="mf-step mf-loop">
+                <span class="mf-n">04</span>
+                <p>Put together new facilities for the borrower company</p>
+              </div>
+              <div class="mf-arrow">→</div>
+              <div class="mf-step">
+                <span class="mf-n">05</span>
+                <p>Fill in the existing template to check if <strong>proposed limits</strong> exceed group or borrower <strong>thresholds</strong>. (Pass or Fail)</p>
+              </div>
+            </div>
+            <div class="mf-feedback">↩ If it fails, adjust the amount in Step 3 and recalculate in Step 4 until it passes.</div>
+          </div>
+        </div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>Workflow outside the system</h3><p>Key collaboration between RMs, credit managers, and approvers happened over email and chat — reducing visibility, accountability, and auditability across the pipeline.</p>
+          <img src="sfw-blueprint.png" alt="Case preparation and submission — user workflow across 11 systems" style="width:100%; border-radius:10px; margin-top:24px; display:block;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 03 Research -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">03 — Research & Discovery</div>
+      <h2>Understanding the as-is before designing the to-be</h2>
+      <p>I ran a discovery process with users and stakeholders to surface friction points and pain points in the existing SME financing flow — spanning relationship managers, credit reviewers, and compliance leads.</p>
+      <div class="steps">
+        <div class="step"><span class="step-n">Method 01</span><div class="step-t">Stakeholder Interviews</div><div class="step-d">Conducted structured interviews across business, product, compliance, and engineering to map decision-making logic and identify where breakdowns occurred.</div></div>
+        <div class="step"><span class="step-n">Method 02</span><div class="step-t">Workflow Observation</div><div class="step-d">Shadowed RMs preparing real applications. Documented the 16-system journey first-hand — including which systems they opened, in what order, and where they got stuck.</div></div>
+        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Pain Point Synthesis</div><div class="step-d">Synthesized raw findings into a service blueprint that mapped user actions, system touchpoints, and failure modes — giving the team a shared view of the problem space.</div></div>
+        <div class="step"><span class="step-n">Method 04</span><div class="step-t">Credit Logic Mapping</div><div class="step-d">Worked with credit and compliance to understand DOA group limits, eligibility criteria, and exposure calculation rules — translating complex financial logic into designable flows.</div></div>
+      </div>
+      <img src="sfw-research.png" alt="RM UI and CRM UI pain points — raw research footage" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
+      <div class="cs-label" style="margin-top:48px;">Key Research Findings</div>
+      <div class="krf-list">
+        <div class="krf-item">
+          <span class="krf-n">01</span>
+          <div class="krf-body">
+            <h3 class="krf-title">The biggest cost wasn't time — it was uncertainty</h3>
+            <p class="krf-desc">RMs couldn't tell early enough whether a case was worth pursuing. All the preparation effort happened before any eligibility signal. This meant high-effort cases that ended in rejection at the credit stage — burning hours that could have been avoided.</p>
+          </div>
+        </div>
+        <div class="krf-item">
+          <span class="krf-n">02</span>
+          <div class="krf-body">
+            <h3 class="krf-title">Calculations were the highest-risk step</h3>
+            <p class="krf-desc">Group-level exposure calculations required checking each related entity's existing facilities across multiple reports. Done manually and outside the system, errors were common — and caught late. A <strong>40% rejection rate</strong> was the downstream symptom of this upstream failure.</p>
+          </div>
+        </div>
+        <div class="krf-item">
+          <span class="krf-n">03</span>
+          <div class="krf-body">
+            <h3 class="krf-title">The system couldn't answer the most important question</h3>
+            <p class="krf-desc">"Is this customer eligible?" required 16 system checks and 1–3 hours of manual work. There was no mechanism to get an early, reliable answer. The system was designed to <strong>process</strong>, not to <strong>decide</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 04 Solution 1 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">04 — Solution 1</div>
+      <div class="col2-60">
+        <div>
+          <h2>From fragmented exploration to structured decision flow</h2>
+          <p>I redesigned the 16-step eligibility assessment into a <strong>4-step decision framework</strong>, reducing cognitive load and eliminating unnecessary system-hopping.</p>
+          <p>Instead of navigating multiple systems, users now input only key decision variables, receive automatically aggregated financial data, and view eligibility signals in a single structured flow.</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> The goal wasn't to digitise the existing process — it was to redesign the process itself. Every step was only included if it was essential to making a financing decision.</p></div>
+      </div>
+      <div class="ux-grid" style="margin-top:40px; grid-template-columns:1fr 1fr;">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-task-01"></i></div>
+          <h3>Before: 16 steps, 16 hassles</h3>
+          <p>RMs opened 16 different systems and documents in sequence. Each system required separate context-switching, and manual note-taking to carry information forward.</p>
+          <div class="prev-flow">
+            <div class="pf-step">Prepare a list of all the related parties of my customer (borrower)</div>
+            <div class="pf-arrow">→</div>
+            <div class="pf-step">Download facility and limits related reports of all the related parties</div>
+            <div class="pf-arrow">→</div>
+            <div class="pf-step">Tabulate all existing facilities of all the borrowers in the group</div>
+            <div class="pf-arrow">→</div>
+            <div class="pf-step">Check the bank's manual to compare the limit thresholds for each borrower and for the group</div>
+            <div class="pf-arrow">→</div>
+            <div class="pf-step">Fill up a template with the limit threshold information to see if it exceeds or not for their group and borrowers</div>
+          </div>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-circle-02"></i></div>
+          <h3>After: 4-step decision framework</h3>
+          <p>One structured flow. Key decision variables entered once. System aggregates financial data automatically and surfaces eligibility signals in context — no switching required.</p>
+          <div class="after-grid">
+            <div class="after-col">
+              <div class="after-stat"><span class="after-n">4</span><span class="after-label">parties subject to review</span></div>
+              <ul class="after-list">
+                <li>Borrowers in the group</li>
+                <li>Key promoters of the borrowers</li>
+                <li>Related companies in the group</li>
+                <li>Related individuals in the group</li>
+              </ul>
+            </div>
+            <div class="after-col">
+              <div class="after-stat"><span class="after-n">7</span><span class="after-label">review categories</span></div>
+              <ul class="after-list">
+                <li><strong>Account conduct:</strong> Key parties' account behavior, repayment history, missed payments, or irregularities.</li>
+                <li><strong>Adverse status &amp; litigation:</strong> Negative records or legal proceedings from public databases or legal systems.</li>
+                <li><strong>Internal adverse status:</strong> Negative history or risk flags recorded within the bank, including defaults or compliance issues.</li>
+                <li><strong>Bank statement analyzer:</strong> Cash flow patterns, income stability, and financial health.</li>
+                <li><strong>Blacklist:</strong> Verifying neither borrower nor related parties are on the internal credit blacklist.</li>
+                <li><strong>Credit bureau screening:</strong> Borrower credit history and score through the national credit bureau.</li>
+                <li><strong>Eligibility:</strong> Ensuring the borrower meets minimum policy criteria.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sol-impact-block">
+        <h3 class="sol-impact-title">Impact</h3>
+        <p class="sol-impact">Reduced dependency on 16+ systems. Enabled faster qualification of high-potential leads. Shifted the workflow from <em>data gathering</em> → <em>decision making</em>.</p>
+        <img src="sfw-soltuion-1-impact.png" alt="New flow: Search borrower, identify guarantors, identify main operating bank, view pre-validation results" style="width:100%; border-radius:12px; margin-top:32px; display:block;">
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 05 Solution 2 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">05 — Solution 2</div>
+      <h2>Automating financial intelligence</h2>
+      <p>One of the biggest bottlenecks was calculating <strong>group-level exposure across related entities (DOA group)</strong>. This required checking each borrower's existing facility structure, aggregating exposure data across guarantors and related parties, and manually computing against policy thresholds.</p>
+      <div class="insights" style="margin-top:40px;">
+        <div class="insight"><div class="insight-q">Automatic aggregation of borrower facilities and collateral</div><div class="insight-b"><strong>Users now only identify key parties</strong> — borrowers, guarantors, related parties, and key promoters. The system automatically pulls their existing facilities, collaterals, and all required information for eligibility and risk assessment. What took hours now happens instantly.</div></div>
+        <div class="insight"><div class="insight-q">System-generated DOA grouping logic</div><div class="insight-b"><strong>The system automatically constructs the DOA group</strong> — pulling related entities, facilities, collaterals, and all applicable credit-related identifiers. Users no longer need to traverse 16 reports to build this picture manually.</div></div>
+        <div class="insight"><div class="insight-q">Real-time validation of exposure limits</div><div class="insight-b"><strong>Users can check facility limits at a group level and validate all applicable related entities in real time</strong> — without going through 16 reports and systems. The loan section now includes automated calculations and data breakdowns, enabling users to propose facility structures that align with bank policies.</div></div>
+      </div>
+      <img src="sfw-legacy-system.png" alt="Legacy Facility Summary system — no automated calculations, manual data entry" style="width:100%; border-radius:12px; margin-top:40px; display:block;">
+      <div style="margin-top:40px;">
+        <div class="cs-label">Design Iterations</div>
+        <div class="decision" style="margin-top:0;">
+          <div class="dec-col">
+            <h3>What didn't work</h3>
+            <ul>
+              <li><strong>Iterations #1 &amp; #2:</strong> Structure was insufficient for clearly presenting maximum limit and remaining balance — the two most critical data points for users.</li>
+              <li><strong>Iteration #3:</strong> Hovering over charts to view data was inconvenient. Key figures should never require interaction to surface.</li>
+            </ul>
+          </div>
+          <div class="dec-col">
+            <h3>What we landed on</h3>
+            <ul>
+              <li><strong>Persistent data display:</strong> Maximum limit and remaining balance always visible — no hover, no drill-down required.</li>
+              <li><strong>Group-level exposure view:</strong> Aggregated picture of all related entities in a single scannable layout.</li>
+              <li><strong>Policy alignment indicators:</strong> Real-time feedback on whether proposed structure is within bank thresholds.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 06 Solution 3 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">06 — Solution 3</div>
+      <div class="col2-60">
+        <div>
+          <h2>Pre-validation: early eligibility signals before full processing</h2>
+          <p>Previously, RMs and CRMs had to manually review multiple documents — bank statements, ACRA reports of related parties — before knowing if a case was viable. This wasted hours on low-probability applications.</p>
+          <p>I introduced a <strong>pre-validation layer</strong> that surfaces early eligibility signals before full application processing begins.</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> Surface uncertainty early. The cost of discovering ineligibility at the credit stage is orders of magnitude higher than discovering it at the assessment stage. Front-loading the signal is a force multiplier on the entire pipeline.</p></div>
+      </div>
+      <div class="ux-grid" style="margin-top:40px;">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-search-dollar"></i></div>
+          <h3>Creditworthiness upfront</h3>
+          <p>Users can assess loan eligibility of a customer in one place — without manual data input. Early signal before any significant effort is invested.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-filter-horizontal"></i></div>
+          <h3>Filter before committing</h3>
+          <p>Low-probability cases are surfaced early and filtered out. RMs focus only on viable opportunities — making the pipeline significantly more efficient.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-badge-01"></i></div>
+          <h3>Improved decision confidence</h3>
+          <p>Early validation means fewer late-stage surprises. Credit reviewers receive better-prepared applications, and RMs enter the process with higher confidence in outcome.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 07 Impact -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">07 — Impact & Outcomes</div>
+      <h2>From a 3-month process to an 11-minute decision</h2>
+      <p>The redesigned workflow delivered significant operational improvements across the entire financing pipeline.</p>
+      <div class="impact-grid">
+        <div class="impact-card hi"><span class="imp-n">11 min</span><span class="imp-l">Processing time per case after redesign</span><h3>120 minutes → 11 minutes</h3><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes — a 91% reduction in processing time per case.</p></div>
+        <div class="impact-card"><span class="imp-n">20%</span><span class="imp-l">Rework rate after redesign</span><h3>80% → 20% rework rate</h3><p>Automated calculations and early eligibility signals eliminated the primary drivers of rework — late-stage rejections and manual data errors.</p></div>
+        <div class="impact-card"><span class="imp-n">16+→1</span><span class="imp-l">Systems consolidated into a single flow</span><h3>System fragmentation eliminated</h3><p>All credit-related data, eligibility checks, and exposure calculations now happen inside a single structured workflow — no external tools, no spreadsheets.</p></div>
+        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Early-stage decision confidence</span><h3>Better pipeline quality</h3><p>Pre-validation surfaces low-probability cases early. RMs and credit reviewers operate with higher confidence, investing effort only where it's likely to convert.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 08 Reflection -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">08 — Reflection</div>
+      <h2>What I learned designing for financial decision-making</h2>
+      <div class="ref-grid">
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Designing for financial systems is less about UI — and more about decision architecture</h3><p>The interface was almost secondary. The real design work was understanding the credit logic, eligibility criteria, and exposure calculation rules — then structuring them into a flow that made decisions faster and more reliable.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>The biggest gains came from eliminating uncertainty early</h3><p>Optimising later steps had diminishing returns. Front-loading the eligibility signal — before any significant effort was invested — was the single highest-leverage change in the entire redesign.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Automation is most powerful when it reduces cognitive load, not just effort</h3><p>Automating DOA group calculations wasn't just about saving time. It removed the mental overhead of holding financial relationships in working memory — letting users focus on judgement instead of arithmetic.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>Trust in financial tools comes from clarity, predictability, and transparency</h3><p>Users don't just need accurate data — they need to understand where it came from, how it was calculated, and what it means for their decision. Transparency is a UX requirement, not a nice-to-have.</p></div>
+      </div>
+      <div class="pq" style="margin-top:48px;">
+        <blockquote>"Designing internal tools for a bank taught me that the most important design decisions aren't visual — they're structural."</blockquote>
+        <cite>— Jisoo Ahn, 5 Unexpected Lessons Learned While Designing Internal Tools for a Bank</cite>
+      </div>
+    </div>
+  </section>
+
+  <div class="cs-foot">
+    <button class="back-btn" onclick="go('work')" style="margin-bottom:0;">← Back to Work</button>
+    <a href="https://jisooahn.medium.com/5-unexpected-lessons-learned-while-designing-internal-tools-for-a-bank-be42a83094da" target="_blank" class="btn-solid">Read the write-up →</a>
+  </div>
+
+</div><!-- /page-cs-sfw -->
+
+
+<!-- Blank project pages -->
+
+<div id="page-cs-blank3" class="page">
+  <div class="blank">
+    <button class="back-btn" onclick="go('work')" style="margin-bottom:0;">← Back to Work</button>
+    <h2>Case Study Coming Soon</h2>
+    <p>This project is currently being documented.</p>
+  </div>
+</div>
+
+
+<script>
+/* ════════════════════════════════════════════════════════
+   CONTENT CONFIG
+   All editable site content lives here.
+   Change text, links, and project details in this object —
+   the page renders automatically from it on load.
+════════════════════════════════════════════════════════ */
+const CONTENT = {
+
+  /* ─── SITE ─────────────────────────────────────────── */
+  siteTitle: "Jisoo Ahn — Product Designer",
+  logo:      "Jisoo Ahn",
+
+  /* ─── ABOUT HERO ────────────────────────────────────── */
+  heroKicker: "Product Designer",
+  heroDim1:   "I design products that make",
+  heroDim2:   "complex workflows feel simple.",
+  heroName:   "Jisoo",
+  heroDesc:   "Product designer specializing in enterprise and fintech — helping banks, financial institutions, and B2B platforms turn manual, opaque processes into clear, efficient digital experiences.",
+  heroEmail:  "hello@jisooahn.com",  /* used for all mailto links */
+
+  /* ─── BIO PARAGRAPHS ────────────────────────────────── */
+  /* Each string becomes a <p>. HTML tags are supported.  */
+  bio: [
+    "I'm a digital product designer with experience across the IT, media, and finance industries. I've worked on products ranging from self-serve merchant platforms and large-scale corporate onboarding systems to loan financing, entertainment, and editorial products.",
+    "Across multiple product teams, I've built strong <strong>end-to-end design expertise</strong> — from early discovery and strategy through to launch and iteration. I'm comfortable leading ambiguous 0→1 initiatives, navigating complex stakeholder environments, and partnering closely with engineering to bring ideas to life.",
+    "More recently, I've been focused on <strong>AI-native product design</strong> — exploring how agentic systems should behave in high-stakes financial environments, where trust, clarity, and human control are essential.",
+    "At the core, I care about designing products that not only <strong>solve complex problems</strong>, but feel intuitive, thoughtful, and genuinely useful to the people using them.",
+  ],
+
+  /* ─── SIDEBAR META ──────────────────────────────────── */
+  metaBased:      "Singapore",
+  metaCurrent:    "Lead Product Designer, Reap (B2B Fintech)",
+  metaIndustries: "Fintech · Media · IT · Enterprise SaaS",
+  metaWriting: {
+    label: "Medium — Design & reflections ↗",
+    url:   "https://jisooahn.medium.com/",
+  },
+
+  /* ─── OUTSIDE OF WORK CARDS ─────────────────────────── */
+  /* icon: HugeIcons stroke-rounded name (without "hgi-") */
+  outside: [
+    {
+      icon:  "sparkles",
+      title: "Content creation",
+      desc:  "Create content around living abroad, career reflections, travel, and lifestyle through my personal blog and social media channels.",
+    },
+    {
+      icon:  "pedestrian",
+      title: "Movement",
+      desc:  "Catching waves, yoga mat, tennis court. Movement is how I reset — physically and creatively.",
+    },
+    {
+      icon:  "airplane-01",
+      title: "Travel",
+      desc:  "Wanderlust at heart — always exploring. If not at my desk, somewhere warm with a cocktail nearby.",
+    },
+  ],
+
+  /* ─── WHAT I DO ─────────────────────────────────── */
+  whatIDo: [
+    { title: "Discovery & Research",  desc: "User interviews, desk research, service blueprints, user flows, pain-point synthesis" },
+    { title: "Interaction Design",    desc: "Wireframes, high-fidelity UI, prototypes, UI scenarios, usability testing" },
+    { title: "Design Systems",        desc: "Component contribution, new pattern creation, cross-platform UI consistency" },
+    { title: "Stakeholder Alignment", desc: "Design advocacy, cross-functional collaboration, presenting to leadership for buy-in" },
+  ],
+
+  /* ─── CONTACT ───────────────────────────────────── */
+  contactDesc: "Feel free to reach out to me and talk about my experiences, skills, and how I can add value to your team or organization.",
+  contactLinkedIn: {
+    label: "linkedin.com/in/ahnjisoo",
+    url:   "https://www.linkedin.com/in/ahnjisoo/",
+  },
+
+  /* ─── FOOTER ────────────────────────────────────── */
+  footerText: "Content © 2026 Jisoo Ahn.",
+
+  /* ─── WORK PAGE HEADER ──────────────────────────────── */
+  workTitle: ["Projects &", "Case Studies"],
+  workDesc:  "End-to-end product design across fintech, media, and enterprise — from research to shipped product.",
+
+  /* ─── PROJECT CARDS ─────────────────────────────────── */
+  /* id:   matches page id (e.g. "cs-ai" → page-cs-ai)    */
+  /* flip: alternates thumbnail left/right                  */
+  /* live: true = clickable, false = coming soon            */
+  /* icon: HugeIcons name for the placeholder               */
+  /* To add a cover image, replace pcard-placeholder in     */
+  /* renderProjects() with an <img> tag.                    */
+  projects: [
+    {
+      id:    "cs-ai",
+      idx:   "01 / 03",
+      tags:  [{ label: "AI Agent" }, { label: "Fintech" }, { label: "Shipped", muted: true }],
+      title: "Card Spend Management AI Agent",
+      desc:  "Led the end-to-end design of an AI agent for corporate card management — diagnosing a broken alpha, defining the UX framework, interaction model, and full state system for v2. Shipped internally at Reap.",
+      flip:  false,
+      icon:  "bot",
+      live:  true,
+    },
+    {
+      id:    "cs-sfw",
+      idx:   "02 / 03",
+      tags:  [{ label: "Enterprise Fintech" }, { label: "Institutional Banking" }, { label: "Shipped", muted: true }],
+      title: "Loan Financing Workflow Redesign",
+      desc:  "Led end-to-end redesign of a fragmented SME pre-approval workflow — turning 16 disconnected systems and 3-month processing times into a 4-step, 11-minute decision flow for institutional banking.",
+      flip:  true,
+      icon:  "bank",
+      live:  true,
+    },
+    {
+      id:    "cs-blank3",
+      idx:   "03 / 03",
+      tags:  [{ label: "Coming Soon", muted: true }],
+      title: "Project Title",
+      desc:  "Case study coming soon.",
+      flip:  false,
+      icon:  "brush",
+      live:  false,
+    },
+  ],
+
+};
+/* ════════════════════════════════════════════════════════
+   END OF CONTENT CONFIG
+════════════════════════════════════════════════════════ */
+
+
+function hydrate() {
+  document.title = CONTENT.siteTitle;
+
+  /* Simple text injections */
+  const set = (sel, val) => { const el = document.querySelector(sel); if (el) el.textContent = val; };
+  set('[data-c="heroKicker"]',      CONTENT.heroKicker);
+  set('[data-c="heroName"]',        CONTENT.heroName);
+  set('[data-c="heroDim1"]',        CONTENT.heroDim1);
+  set('[data-c="heroDim2"]',        CONTENT.heroDim2);
+  set('[data-c="heroDesc"]',        CONTENT.heroDesc);
+  set('[data-c="contactDesc"]',     CONTENT.contactDesc);
+  set('[data-c="footerText"]',      CONTENT.footerText);
+  set('[data-c="workDesc"]',        CONTENT.workDesc);
+
+  /* Work title (two lines) */
+  const wtEl = document.querySelector('[data-c="workTitle"]');
+  if (wtEl) wtEl.innerHTML = CONTENT.workTitle.join('<br>');
+
+  /* All mailto links */
+  document.querySelectorAll('[data-email]').forEach(el => {
+    el.href = `mailto:${CONTENT.heroEmail}`;
+    if (el.hasAttribute('data-email-label')) el.textContent = CONTENT.heroEmail;
+  });
+
+  /* LinkedIn link */
+  const liEl = document.querySelector('[data-c="contactLinkedIn"]');
+  if (liEl) { liEl.href = CONTENT.contactLinkedIn.url; liEl.textContent = CONTENT.contactLinkedIn.label; }
+
+  /* Bio paragraphs */
+  const bioEl = document.querySelector('.about-body');
+  if (bioEl) bioEl.innerHTML = CONTENT.bio.map(p => `<p>${p}</p>`).join('');
+
+  /* What I Do grid */
+  const widoGrid = document.querySelector('.whatido-grid');
+  if (widoGrid) widoGrid.innerHTML = CONTENT.whatIDo.map(i => `
+    <div class="whatido-card">
+      <h3>${i.title}</h3>
+      <p>${i.desc}</p>
+    </div>`).join('');
+
+  /* Outside of work grid */
+  const outGrid = document.querySelector('.out-grid');
+  if (outGrid) outGrid.innerHTML = CONTENT.outside.map(o => `
+    <div class="out-card">
+      <div class="out-icon"><i class="hgi-stroke hgi-${o.icon}"></i></div>
+      <div class="out-title">${o.title}</div>
+      <div class="out-desc">${o.desc}</div>
+    </div>`).join('');
+
+  /* Project cards */
+  const wg = document.querySelector('.work-grid');
+  if (wg) wg.innerHTML = CONTENT.projects.map(p => `
+    <div class="pcard${p.flip ? ' flip' : ''}"${p.live ? ` onclick="go('${p.id}')"` : ' style="cursor:default;"'}>
+      <div class="pcard-thumb">
+        <!-- To add a cover image: replace the pcard-placeholder div below with:
+             <img class="pcard-img" src="your-image.jpg" alt="${p.title}"> -->
+        <div class="pcard-placeholder">
+          <div class="pcard-placeholder-icon"><i class="hgi-stroke hgi-${p.icon}"></i></div>
+          <span>Cover image coming</span>
+        </div>
+      </div>
+      <div class="pcard-body">
+        <div>
+          <span class="pcard-idx">${p.idx}</span>
+          <div class="pcard-tags">${p.tags.map(t => `<span class="ptag${t.muted ? ' muted' : ''}">${t.label}</span>`).join('')}</div>
+          <div class="pcard-title">${p.title}</div>
+          <div class="pcard-desc">${p.desc}</div>
+        </div>
+        <div class="pcard-foot">
+          ${p.live ? '<span class="pcard-arrow">→</span>' : '<span class="coming-badge">In progress</span>'}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (id === 'home') document.getElementById('nav-home').classList.add('active');
+  if (id === 'work' || id.startsWith('cs-')) document.getElementById('nav-work').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleTheme() {
+  const h = document.documentElement;
+  h.setAttribute('data-theme', h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+}
+
+hydrate();
+</script>
+</body>
+</html>
