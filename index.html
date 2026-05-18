@@ -209,7 +209,8 @@
     line-height:.93; letter-spacing:-.04em; max-width:938px; margin-bottom:40px;
   }
   .hi  { color:var(--accent); }
-  .dim { display:block; color:#D6D6D6; font-weight:300; font-size:clamp(28px,4vw,56px); line-height:1.05; }
+  .hi-line { display:block; }
+  .dim { display:block; color:#D6D6D6; font-weight:300; font-size:clamp(28px,4vw,56px); line-height:1; margin-bottom:4px; }
   [data-theme="light"] .dim { color:var(--fg3); }
 
   .home-desc {
@@ -720,7 +721,7 @@
     </div>
     <div class="home-hero">
       <div class="home-kicker" data-c="heroKicker"></div>
-      <h1>Hello,<br>I'm <span class="hi" data-c="heroName"></span>.<br><span class="dim" data-c="heroDim1"></span><br><span class="dim" data-c="heroDim2"></span></h1>
+      <h1><span class="hi-line">Hello,<br>I'm <span class="hi" data-c="heroName"></span>.</span><span class="dim" data-c="heroDim1"></span><span class="dim" data-c="heroDim2"></span></h1>
       <p class="home-desc" data-c="heroDesc"></p>
       <div class="cta-row">
         <button class="btn-solid" onclick="go('work')">View work →</button>
