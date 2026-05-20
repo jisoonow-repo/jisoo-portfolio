@@ -846,7 +846,7 @@
             <span class="rtag on">Strategy</span><span class="rtag on">Research</span>
             <span class="rtag on">Interaction design</span><span class="rtag on">Systems thinking</span>
           </div>
-          <div class="note"><p><strong>Note:</strong> This is a shipped product at Reap, currently available to select clients.</p></div>
+          <div class="note"><p><strong>Note:</strong> This shipped product at Reap is currently available to select clients.</p></div>
         </div>
       </div>
       <div class="stats">
@@ -867,9 +867,9 @@
       <p>The alpha shipped with engineering ambition but no UX foundation to match it. I diagnosed four distinct failure modes — not from the backend out, but from the user's perspective in: what broke trust, what made good design structurally impossible, and what had to change before any interface work could begin.</p>
       <div class="prob-grid">
         <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>The trust problem</h3><p>The agent showed <strong>"Completed ✅"</strong> then immediately displayed an error. Progress indicators were decoupled from reality. No correction mid-flow. Responses appeared all at once after a 47-second wait.</p><p>This is not a latency problem. It's an <strong>honesty problem</strong>. An AI that lies about its own state cannot be trusted with financial actions.</p></div>
-        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>The architecture problem</h3><p>Streaming responses, honest progress indicators, instant acknowledgment — core UX requirements — were structurally impossible. A guardrails pipeline ran 3 sequential LLM calls before the agent could start, adding 2.5 seconds of overhead before any response began.</p><p>Without defined scope, the same agent handling card operations also responded to mental health queries with helpline numbers. <strong>No scope meant no safe design surface to work with.</strong></p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>The scope problem</h3><p>No one had clearly defined what the agent should and shouldn't do. The same agent handling card operations also responded to mental health queries with helpline numbers. Without clear boundaries, there was no safe design surface to work with — and no way to design confidently for any of it. <strong>Before interface work could begin, product clarity had to come first.</strong></p></div>
         <div class="prob-card"><span class="prob-n">03</span><h3>The interaction model problem</h3><p>The agent lived in a generic chat drawer. No quick actions. No structured confirmation. No visual card preview. The UX was a <strong>blank text box bolted onto a broken backend</strong>.</p></div>
-        <div class="prob-card"><span class="prob-n">04</span><h3>The scope problem</h3><p>No one had clearly defined what the agent should and shouldn't do. <strong>Before design could begin, product clarity had to come first.</strong></p></div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>The architecture problem</h3><p>Streaming responses, honest progress indicators, instant acknowledgment — core UX requirements — were structurally impossible. A guardrails pipeline ran 3 sequential LLM calls before the agent could start, adding 2.5 seconds of overhead before any response began. <strong>Design intent kept colliding with infrastructure constraints.</strong></p></div>
       </div>
     </div>
   </section>
@@ -881,7 +881,7 @@
     <div class="cs-wrap">
       <div class="cs-label">03 — Research & discovery</div>
       <h2>What I needed to learn before designing</h2>
-      <p>I ran a structured discovery sprint across three tracks simultaneously — user pain points, technical constraints, and establishing a principled AI design framework for the team.</p>
+      <p>I ran discovery across three parallel tracks: user pain points, technical constraints, and building an AI design framework for the team.</p>
       <div class="steps">
         <div class="step"><span class="step-n">Track 01</span><div class="step-t">User pain mapping</div><div class="step-d">Observed ops team screen shares. Identified the highest-friction card management tasks and where errors compound.</div></div>
         <div class="step"><span class="step-n">Track 02</span><div class="step-t">Technical constraints</div><div class="step-d">Worked directly with engineering on the Nemo Guardrails architecture. Understood why latency was structural, not incidental.</div></div>
