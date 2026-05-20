@@ -820,11 +820,11 @@
     <div class="cs-hero-grid"></div>
     <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
       <button class="back-btn" onclick="go('work')">← Back to Work</button>
-      <div class="cs-eye">Case Study — Shipped Product</div>
+      <div class="cs-eye">Case study — Shipped product</div>
       <h1>Card Spend<br>Management<br><em>AI Agent</em></h1>
       <div class="cs-meta">
         <div class="cs-meta-item"><label>Company</label><span>Reap — B2B Fintech</span></div>
-        <div class="cs-meta-item"><label>My Role</label><span>Lead Product Designer</span></div>
+        <div class="cs-meta-item"><label>My role</label><span>Lead Product Designer</span></div>
         <div class="cs-meta-item"><label>Domain</label><span>Agentic AI · Corporate Cards</span></div>
         <div class="cs-meta-item"><label>Stage</label><span>Internal Alpha → v2 Build</span></div>
       </div>
@@ -844,7 +844,7 @@
         <div>
           <div class="rtags">
             <span class="rtag on">Strategy</span><span class="rtag on">Research</span>
-            <span class="rtag on">Interaction Design</span><span class="rtag on">Systems Thinking</span>
+            <span class="rtag on">Interaction design</span><span class="rtag on">Systems thinking</span>
           </div>
           <div class="note"><p><strong>Note:</strong> This is a shipped product at Reap, currently available to select clients.</p></div>
         </div>
@@ -862,14 +862,14 @@
   <!-- 02 Problem -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">02 — Problem Definition</div>
+      <div class="cs-label">02 — Problem definition</div>
       <h2>Two failures, one product</h2>
       <p>The alpha shipped with real engineering ambition but no design foundation. I identified two distinct failure modes — one technical, one experiential — that together made the agent feel broken even when it wasn't.</p>
       <div class="prob-grid">
-        <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>The Trust Problem</h3><p>The agent showed <strong>"Completed ✅"</strong> then immediately displayed an error. Progress indicators were decoupled from reality. No correction mid-flow. Responses appeared all at once after a 47-second wait.</p><p>This is not a latency problem. It's a <strong>honesty problem</strong>. An AI that lies about its own state cannot be trusted with financial actions.</p></div>
-        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>The Architecture Problem</h3><p>A supervisor agent routing to 5 sub-agents, with NeMo Guardrails running 3 sequential LLM calls before any request was processed — adding 2.5 seconds of overhead before the agent started thinking.</p><p>The same agent that froze on card creation also responded to mental health queries with helpline numbers. <strong>No scope, no guardrails that worked.</strong></p></div>
-        <div class="prob-card"><span class="prob-n">03</span><h3>The Interaction Model Problem</h3><p>The agent lived in a generic chat drawer. No quick actions. No structured confirmation. No visual card preview. The UX was a <strong>blank text box bolted onto a broken backend</strong>.</p></div>
-        <div class="prob-card"><span class="prob-n">04</span><h3>The Scope Problem</h3><p>No one had clearly defined what the agent should and shouldn't do. <strong>Before design could begin, product clarity had to come first.</strong></p></div>
+        <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>The trust problem</h3><p>The agent showed <strong>"Completed ✅"</strong> then immediately displayed an error. Progress indicators were decoupled from reality. No correction mid-flow. Responses appeared all at once after a 47-second wait.</p><p>This is not a latency problem. It's a <strong>honesty problem</strong>. An AI that lies about its own state cannot be trusted with financial actions.</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>The architecture problem</h3><p>A supervisor agent routing to 5 sub-agents, with NeMo Guardrails running 3 sequential LLM calls before any request was processed — adding 2.5 seconds of overhead before the agent started thinking.</p><p>The same agent that froze on card creation also responded to mental health queries with helpline numbers. <strong>No scope, no guardrails that worked.</strong></p></div>
+        <div class="prob-card"><span class="prob-n">03</span><h3>The interaction model problem</h3><p>The agent lived in a generic chat drawer. No quick actions. No structured confirmation. No visual card preview. The UX was a <strong>blank text box bolted onto a broken backend</strong>.</p></div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>The scope problem</h3><p>No one had clearly defined what the agent should and shouldn't do. <strong>Before design could begin, product clarity had to come first.</strong></p></div>
       </div>
     </div>
   </section>
@@ -879,20 +879,20 @@
   <!-- 03 Research -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">03 — Research & Discovery</div>
+      <div class="cs-label">03 — Research & discovery</div>
       <h2>What I needed to learn before designing</h2>
       <p>I ran a structured discovery sprint across three tracks simultaneously — user pain points, technical constraints, and establishing a principled AI design framework for the team.</p>
       <div class="steps">
-        <div class="step"><span class="step-n">Track 01</span><div class="step-t">User Pain Mapping</div><div class="step-d">Observed ops team screen shares. Identified the highest-friction card management tasks and where errors compound.</div></div>
-        <div class="step"><span class="step-n">Track 02</span><div class="step-t">Technical Constraints</div><div class="step-d">Worked directly with engineering on the Nemo Guardrails architecture. Understood why latency was structural, not incidental.</div></div>
-        <div class="step"><span class="step-n">Track 03</span><div class="step-t">AI Capability Framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation — and which interaction model fits each.</div></div>
-        <div class="step"><span class="step-n">Track 04</span><div class="step-t">Competitive Reference</div><div class="step-d">Audited Notion AI, Devin, Intercom, Google Gemini, and Apple Intelligence for agentic UI patterns.</div></div>
+        <div class="step"><span class="step-n">Track 01</span><div class="step-t">User pain mapping</div><div class="step-d">Observed ops team screen shares. Identified the highest-friction card management tasks and where errors compound.</div></div>
+        <div class="step"><span class="step-n">Track 02</span><div class="step-t">Technical constraints</div><div class="step-d">Worked directly with engineering on the Nemo Guardrails architecture. Understood why latency was structural, not incidental.</div></div>
+        <div class="step"><span class="step-n">Track 03</span><div class="step-t">AI capability framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation — and which interaction model fits each.</div></div>
+        <div class="step"><span class="step-n">Track 04</span><div class="step-t">Competitive reference</div><div class="step-d">Audited Notion AI, Devin, Intercom, Google Gemini, and Apple Intelligence for agentic UI patterns.</div></div>
       </div>
       <div class="pq">
         <blockquote>"The ops team couldn't finish basic card creation. Testing was abandoned. The previous agent's 47-second response time is not a baseline — it's a failure mode."</blockquote>
         <cite>— AI Agent v2 PRD, internal document</cite>
       </div>
-      <div class="cs-label">Key Research Findings</div>
+      <div class="cs-label">Key research findings</div>
       <div class="insights">
         <div class="insight"><div class="insight-q">"I'm lazy to follow all the steps and fill up the form to create a card."</div><div class="insight-b"><strong>Card creation is the highest-friction task.</strong> Finance managers must navigate multi-step forms, fill in the same fields repeatedly, and cross-reference team info. Bulk creation compounds this — a single misstep affects multiple employees. This became the primary use case for agentic intervention.</div></div>
         <div class="insight"><div class="insight-q">"I spend a lot of time checking spends for overspending, duplicated charges, missing receipts."</div><div class="insight-b"><strong>Spend monitoring is cognitively expensive but high-value.</strong> Admins run manual audits across dozens of cards. AI augmentation — flagging anomalies, surfacing patterns — removes cognitive load without removing human judgment.</div></div>
@@ -906,7 +906,7 @@
   <!-- 04 Framework -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">04 — AI Design Framework</div>
+      <div class="cs-label">04 — AI design framework</div>
       <div class="col2-60">
         <div>
           <h2>Deciding what AI should — and shouldn't — do</h2>
@@ -932,7 +932,7 @@
         </div>
       </div>
       <div style="margin-top:48px;">
-        <div class="cs-label">Interaction Model Selection</div>
+        <div class="cs-label">Interaction model selection</div>
         <div class="decision">
           <div class="dec-col">
             <h3>Rule of thumb I defined for the team</h3>
@@ -963,7 +963,7 @@
   <!-- 05 Design -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">05 — Design Decisions</div>
+      <div class="cs-label">05 — Design decisions</div>
       <h2>Every UX choice had a reason</h2>
       <p>The v2 design was built on one principle: <strong>the agent earns trust through honesty, speed, and knowing its limits.</strong></p>
       <div class="pq"><blockquote>"Never show success before confirming success."</blockquote><cite>— UX Requirement, AI Agent v2 PRD</cite></div>
@@ -983,21 +983,21 @@
   <!-- 06 States -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">06 — States Designed</div>
+      <div class="cs-label">06 — States designed</div>
       <h2>Designing for every moment in the conversation</h2>
       <p>The alpha had no concept of agent state. I defined 8 distinct states covering the full lifecycle of a card operation conversation.</p>
       <div class="state-table-wrap">
       <table class="state-table">
-        <thead><tr><th>State</th><th>When it occurs</th><th>UX Behavior</th><th>Design Intent</th></tr></thead>
+        <thead><tr><th>State</th><th>When it occurs</th><th>UX behavior</th><th>Design intent</th></tr></thead>
         <tbody>
           <tr><td><span class="sn">Idle / Empty</span></td><td>Agent ready, no conversation</td><td>Quick action chips: Create card, Freeze card, View cards, Summarise spending — role-scoped.</td><td>Lower activation energy. No blank cursor.</td></tr>
-          <tr><td><span class="sn">Waiting for Input</span></td><td>Agent asked a question</td><td>Input field active. Previous question stays visible. No timeout pressure.</td><td>Conversation feels like dialogue, not interrogation.</td></tr>
+          <tr><td><span class="sn">Waiting for input</span></td><td>Agent asked a question</td><td>Input field active. Previous question stays visible. No timeout pressure.</td><td>Conversation feels like dialogue, not interrogation.</td></tr>
           <tr><td><span class="sn">Processing</span></td><td>Agent executing an action</td><td>Step-by-step progress. Streaming text. Each step is honest about system state.</td><td>Transparency over speed illusion.</td></tr>
           <tr><td><span class="sn">Disambiguation</span></td><td>Multiple matches found</td><td>Agent presents options with distinguishing details: name, email, role, card last 4 digits.</td><td>Avoids wrong-person errors in financial contexts.</td></tr>
-          <tr><td><span class="sn">Confirmation Required</span></td><td>High-impact or destructive action</td><td>Full card preview. Explicit confirm required. Card termination: additional password re-entry.</td><td>Human authority over AI execution.</td></tr>
-          <tr><td><span class="sn">Action Complete</span></td><td>Action succeeded</td><td>Clear success message with result details. Never followed by an error.</td><td>Closure without ambiguity.</td></tr>
+          <tr><td><span class="sn">Confirmation required</span></td><td>High-impact or destructive action</td><td>Full card preview. Explicit confirm required. Card termination: additional password re-entry.</td><td>Human authority over AI execution.</td></tr>
+          <tr><td><span class="sn">Action complete</span></td><td>Action succeeded</td><td>Clear success message with result details. Never followed by an error.</td><td>Closure without ambiguity.</td></tr>
           <tr><td><span class="sn">Error</span></td><td>Action failed</td><td>Plain-language explanation. Actionable next step. Never success then error.</td><td>Honesty over appearance of competence.</td></tr>
-          <tr><td><span class="sn">Out of Scope</span></td><td>User asked something the agent can't do</td><td>Agent names its scope, says what it can't do, offers within-scope alternatives.</td><td>Bounded capability is a feature, not a bug.</td></tr>
+          <tr><td><span class="sn">Out of scope</span></td><td>User asked something the agent can't do</td><td>Agent names its scope, says what it can't do, offers within-scope alternatives.</td><td>Bounded capability is a feature, not a bug.</td></tr>
         </tbody>
       </table>
       </div>
@@ -1009,7 +1009,7 @@
   <!-- 07 Eng -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">07 — Working With Engineering</div>
+      <div class="cs-label">07 — Working with engineering</div>
       <h2>Design decisions informed by architecture</h2>
       <p>I worked closely with Aero, the AI tech lead rebuilding the agent from scratch. Understanding the technical constraints wasn't optional — it was the only way to design responsibly.</p>
       <div class="col2" style="margin-top:40px;">
@@ -1033,7 +1033,7 @@
   <!-- 08 Impact -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">08 — Impact & Outcomes</div>
+      <div class="cs-label">08 — Impact & outcomes</div>
       <h2>From abandoned alpha to production-ready v2</h2>
       <p>The v2 design became the foundation for a rebuild that moved the agent from an internal embarrassment to a product the team is confident shipping.</p>
       <div class="impact-grid">
@@ -1058,7 +1058,7 @@
         <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Architecture and UX are the same problem</h3><p>I couldn't have designed honest progress indicators without understanding why the alpha's streaming was blocked. The most impactful decisions also changed engineering priorities.</p></div>
       </div>
       <div style="margin-top:48px;">
-        <div class="cs-label">What I Would Do Differently</div>
+        <div class="cs-label">What I would do differently</div>
         <div class="decision" style="margin-top:0;">
           <div class="dec-col"><h3>More user testing earlier</h3><ul><li>We inferred pain points from observation and ops team feedback. I would have run structured task tests with finance managers on the alpha — even broken sessions — to capture the exact moments of trust collapse.</li></ul></div>
           <div class="dec-col"><h3>Define success metrics earlier</h3><ul><li>Several targets were left as TODOs because we lacked baseline data. I should have pushed harder to define proxy metrics we could track even before the rebuild.</li></ul></div>
