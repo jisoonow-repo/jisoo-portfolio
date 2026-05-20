@@ -509,7 +509,6 @@
     box-shadow: 0 12px 40px color-mix(in srgb,var(--accent) 30%,transparent);
   }
   .impact-card.hi h3, .impact-card.hi p { color:var(--accent-fg); }
-  .impact-card.hi p { opacity:.7; }
   .imp-n { font-size:60px; font-weight:800; line-height:1; letter-spacing:-.05em; color:var(--accent); display:block; margin-bottom:4px; }
   .impact-card.hi .imp-n { color:var(--accent-fg); }
   .imp-l { font-size:10px; font-weight:600; color:var(--fg3); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px; display:block; }
@@ -670,7 +669,7 @@
   [data-theme="dark"] .prob-card p,
   [data-theme="dark"] .ref-card p,
   [data-theme="dark"] .dec-col li,
-  [data-theme="dark"] .impact-card p { color:#D6D6D6; }
+  [data-theme="dark"] .impact-card:not(.hi) p { color:#D6D6D6; }
 
   /* ── OUT-GRID SIDE (vertical in about column) ── */
   .out-grid-side { grid-template-columns:1fr; gap:12px; margin-top:0; }
@@ -1036,7 +1035,7 @@
     <div class="cs-wrap">
       <div class="cs-label">08 — Impact & outcomes</div>
       <h2>From abandoned alpha to production-ready v2</h2>
-      <p>The v2 design became the foundation for a rebuild that moved the agent from an internal embarrassment to a product the team is confident shipping.</p>
+      <p>The v2 design transformed an abandoned prototype into a production-ready agent that the team is confident shipping to clients.</p>
       <div class="impact-grid">
         <div class="impact-card hi"><span class="imp-n">7</span><span class="imp-l">Agent operations fully designed & specced</span><h3>Complete operation coverage</h3><p>Create virtual card, freeze, unfreeze, terminate, update spend limit, view cards, summarise spending — each with full state coverage and edge cases.</p></div>
         <div class="impact-card"><span class="imp-n">8</span><span class="imp-l">Distinct UI states designed</span><h3>No state left undefined</h3><p>Idle, processing, disambiguation, confirmation, success, error, out-of-scope, session timeout. Every moment is designed — not defaulted.</p></div>
