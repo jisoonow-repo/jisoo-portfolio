@@ -100,25 +100,32 @@
   [data-theme="light"] .nav-btn:hover  { background:rgba(0,0,0,0.06); }
   [data-theme="light"] .nav-btn.active { background:rgba(0,0,0,0.09); }
 
-  /* dark/light pill toggle */
+  /* dark/light pill toggle — knob inset matches gap to pill stroke (top = bottom) */
   .toggle {
-    width:56px; height:30px; border-radius:100px;
-    background:var(--tog-bg); border:1px solid var(--border2);
-    position:relative; cursor:pointer;
+    --tog-track-h: 30px;
+    --tog-knob-size: 20px;
+    --tog-stroke: 1px;
+    --tog-knob-inset: calc((var(--tog-track-h) - 2 * var(--tog-stroke) - var(--tog-knob-size)) / 2);
+    -webkit-appearance:none; appearance:none;
+    width:56px; height:var(--tog-track-h); border-radius:100px;
+    background:var(--tog-bg); border:var(--tog-stroke) solid var(--border2);
+    position:relative; cursor:pointer; line-height:0;
     transition: background .25s, border-color .25s;
     display:flex; align-items:center; padding:0 7px;
     justify-content:space-between;
     outline-offset: 3px;
   }
   .toggle-knob {
-    position:absolute; top:5px; left:5px;
-    width:20px; height:20px; border-radius:50%;
+    position:absolute;
+    top:50%; left:5px;
+    transform:translateY(-50%);
+    width:var(--tog-knob-size); height:var(--tog-knob-size); border-radius:50%;
     background:var(--tog-knob);
     z-index:2;
     transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s;
     pointer-events:none;
   }
-  [data-theme="light"] .toggle-knob { transform:translateX(26px); }
+  [data-theme="light"] .toggle-knob { transform:translateX(26px) translateY(-50%); }
   .toggle-icon {
     font-size:13px; line-height:1; pointer-events:none; z-index:1;
     user-select:none;
@@ -838,9 +845,8 @@
           <div class="rtags">
             <span class="rtag on">Strategy</span><span class="rtag on">Research</span>
             <span class="rtag on">Interaction Design</span><span class="rtag on">Systems Thinking</span>
-            <span class="rtag">Eng Collaboration</span>
           </div>
-          <div class="note"><p><strong>Note:</strong> This is a shipped internal product at Reap, currently in v2 build. All metrics and quotes are from internal documentation.</p></div>
+          <div class="note"><p><strong>Note:</strong> This is a shipped product at Reap, currently available to select clients.</p></div>
         </div>
       </div>
       <div class="stats">
