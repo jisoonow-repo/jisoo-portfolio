@@ -441,7 +441,9 @@
     box-shadow: var(--glass-shadow);
     transition:background .25s;
   }
+  .pq:not(:has(cite)) { padding:24px 32px; margin:48px 0; }
   .pq blockquote { font-size:clamp(18px,2.5vw,26px); font-weight:700; line-height:1.35; letter-spacing:-.02em; margin-bottom:16px; }
+  .pq blockquote:last-child { margin-bottom:0; }
   .pq cite { font-size:12px; color:var(--fg3); letter-spacing:.04em; font-style:normal; font-weight:500; }
 
   .ux-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
