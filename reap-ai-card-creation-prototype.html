@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reap AI Card Creation Prototype</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #FAFAFA; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  #root { width: 100%; height: 100vh; }
+</style>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+
+
+const STEPS = {
+  DASHBOARD: "dashboard", DRAWER_DEFAULT: "drawer_default", USER_PROMPT: "user_prompt",
+  AI_ASKS: "ai_asks", USER_REPLY_1: "user_reply_1", AI_ASKS_PURPOSE: "ai_asks_purpose",
+  USER_REPLY_2: "user_reply_2", AI_ASKS_LIMITS: "ai_asks_limits", USER_REPLY_3: "user_reply_3",
+  AGENT_RUNNING: "agent_running", AGENT_DONE: "agent_done", EDIT_FIELD: "edit_field",
+  CONFIRM: "confirm", CARD_CREATING: "card_creating", SUCCESS: "success",
+};
+const STEP_ORDER = Object.values(STEPS);
+
+function useTypewriter(text, speed = 28, trigger = true) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    if (!trigger) { setDisplayed(""); setDone(false); return; }
+    setDisplayed(""); setDone(false); let i = 0;
+    const iv = setInterval(() => { i++; setDisplayed(text.slice(0, i)); if (i >= text.length) { clearInterval(iv); setDone(true); } }, speed);
+    return () => clearInterval(iv);
+  }, [text, trigger]);
+  return { displayed, done };
+}
+
+// Animates rich JSX content by tracking total chars revealed.
+// segments: array of { text, bold? }
+// Returns { count } — number of chars currently visible.
+function useRichTypewriter(segments, speed = 6, trigger = true) {
+  const total = segments.reduce((s, seg) => s + seg.text.length, 0);
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!trigger) { setCount(0); return; }
+    setCount(0);
+    let c = 0;
+    const iv = setInterval(() => {
+      c++;
+      setCount(c);
+      if (c >= total) clearInterval(iv);
+    }, speed);
+    return () => clearInterval(iv);
+  }, [trigger, total, speed]);
+
+  // Render only the revealed portion, preserving bold/normal per segment
+  let remaining = count;
+  const nodes = [];
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i];
+    if (remaining <= 0) break;
+    const visible = seg.text.slice(0, remaining);
+    remaining -= seg.text.length;
+    if (seg.bold) {
+      nodes.push(<strong key={i}>{visible}</strong>);
+    } else {
+      nodes.push(<span key={i}>{visible}</span>);
+    }
+  }
+  return { nodes, done: count >= total };
+}
+
+
+function FadeIn({ children, delay = 0, show = true }) {
+  const [vis, setVis] = useState(false);
+  useEffect(() => { if (!show) { setVis(false); return; } const t = setTimeout(() => setVis(true), delay); return () => clearTimeout(t); }, [show, delay]);
+  return <div style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(6px)", transition: "opacity 0.35s, transform 0.35s" }}>{children}</div>;
+}
+
+/* ─── SVG Icons (matching Figma sidebar icons) ─── */
+const Icons = {
+  home: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11.9896V14.5C3 17.7998 3 19.4497 4.02513 20.4749C5.05025 21.5 6.70017 21.5 10 21.5H14C17.2998 21.5 18.9497 21.5 19.9749 20.4749C21 19.4497 21 17.7998 21 14.5V11.9896C21 10.3083 21 9.46773 20.6441 8.74005C20.2882 8.01237 19.6247 7.49628 18.2976 6.46411L16.2976 4.90855C14.2331 3.30285 13.2009 2.5 12 2.5C10.7991 2.5 9.76689 3.30285 7.70242 4.90855L5.70241 6.46411C4.37533 7.49628 3.71179 8.01237 3.3559 8.74005C3 9.46773 3 10.3083 3 11.9896Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M15.0002 17C14.2007 17.6224 13.1504 18 12.0002 18C10.8499 18 9.79971 17.6224 9.00018 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  cards: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12C2 8.46252 2 6.69377 3.0528 5.5129C3.22119 5.32403 3.40678 5.14935 3.60746 4.99087C4.86213 4 6.74142 4 10.5 4H13.5C17.2586 4 19.1379 4 20.3925 4.99087C20.5932 5.14935 20.7788 5.32403 20.9472 5.5129C22 6.69377 22 8.46252 22 12C22 15.5375 22 17.3062 20.9472 18.4871C20.7788 18.676 20.5932 18.8506 20.3925 19.0091C19.1379 20 17.2586 20 13.5 20H10.5C6.74142 20 4.86213 20 3.60746 19.0091C3.40678 18.8506 3.22119 18.676 3.0528 18.4871C2 17.3062 2 15.5375 2 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M10 16H11.5" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M14.5 16L18 16" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M2 9H22" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>,
+  payments: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M14.7102 10.0611C14.6111 9.29844 13.7354 8.06622 12.1608 8.06619C10.3312 8.06616 9.56136 9.07946 9.40515 9.58611C9.16145 10.2638 9.21019 11.6571 11.3547 11.809C14.0354 11.999 15.1093 12.3154 14.9727 13.956C14.836 15.5965 13.3417 15.951 12.1608 15.9129C10.9798 15.875 9.04764 15.3325 8.97266 13.8733M11.9734 6.99805V8.06982M11.9734 15.9031V16.998" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  treasury: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.125 5.75H12M12.25 5.75C12.25 5.88807 12.1381 6 12 6C11.8619 6 11.75 5.88807 11.75 5.75C11.75 5.61193 11.8619 5.5 12 5.5C12.1381 5.5 12.25 5.61193 12.25 5.75Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M5 9V19M9 9V19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M15 9V19M19 9V19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M21.3518 9H2.64822C2.29022 9 2 8.70651 2 8.34447C2 8.12259 2.11099 7.91577 2.29495 7.79485L8.73007 3.56485C10.3171 2.52162 11.1107 2 12 2C12.8893 2 13.6829 2.52162 15.2699 3.56485L21.7051 7.79485C21.889 7.91577 22 8.12259 22 8.34447C22 8.70651 21.7098 9 21.3518 9Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M21.0397 20.2929L20.3519 19.5858C20.0707 19.2968 19.9301 19.1522 19.7514 19.0761C19.5726 19 19.3738 19 18.9762 19H5.02382C4.62621 19 4.4274 19 4.24863 19.0761C4.06987 19.1522 3.92929 19.2968 3.64814 19.5858L2.9603 20.2929C2.25356 21.0194 1.9002 21.3827 2.02456 21.6913C2.14893 22 2.64867 22 3.64814 22H20.3519C21.3513 22 21.8511 22 21.9754 21.6913C22.0998 21.3827 21.7464 21.0194 21.0397 20.2929Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  approvals: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M8 12.5L10.5 15L16 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  team: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 11C15.5 9.067 13.933 7.5 12 7.5C10.067 7.5 8.5 9.067 8.5 11C8.5 12.933 10.067 14.5 12 14.5C13.933 14.5 15.5 12.933 15.5 11Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M15.4827 11.3499C15.8047 11.4475 16.1462 11.5 16.5 11.5C18.433 11.5 20 9.933 20 8C20 6.067 18.433 4.5 16.5 4.5C14.6851 4.5 13.1928 5.8814 13.0173 7.65013" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M10.9827 7.65013C10.8072 5.8814 9.31492 4.5 7.5 4.5C5.567 4.5 4 6.067 4 8C4 9.933 5.567 11.5 7.5 11.5C7.85381 11.5 8.19535 11.4475 8.51727 11.3499" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M22 16.5C22 13.7386 19.5376 11.5 16.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M17.5 19.5C17.5 16.7386 15.0376 14.5 12 14.5C8.96243 14.5 6.5 16.7386 6.5 19.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M7.5 11.5C4.46243 11.5 2 13.7386 2 16.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  settings: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.3175 7.14139L20.8239 6.28479C20.4506 5.63696 20.264 5.31305 19.9464 5.18388C19.6288 5.05472 19.2696 5.15664 18.5513 5.36048L17.3311 5.70418C16.8725 5.80994 16.3913 5.74994 15.9726 5.53479L15.6357 5.34042C15.2766 5.11043 15.0004 4.77133 14.8475 4.37274L14.5136 3.37536C14.294 2.71534 14.1842 2.38533 13.9228 2.19657C13.6615 2.00781 13.3143 2.00781 12.6199 2.00781H11.5051C10.8108 2.00781 10.4636 2.00781 10.2022 2.19657C9.94085 2.38533 9.83106 2.71534 9.61149 3.37536L9.27753 4.37274C9.12465 4.77133 8.84845 5.11043 8.48937 5.34042L8.15249 5.53479C7.73374 5.74994 7.25259 5.80994 6.79398 5.70418L5.57375 5.36048C4.85541 5.15664 4.49625 5.05472 4.17867 5.18388C3.86109 5.31305 3.67445 5.63696 3.30115 6.28479L2.80757 7.14139C2.45766 7.74864 2.2827 8.05227 2.31666 8.37549C2.35061 8.69871 2.58483 8.95918 3.05326 9.48012L4.0843 10.6328C4.3363 10.9518 4.51521 11.5078 4.51521 12.0077C4.51521 12.5078 4.33636 13.0636 4.08433 13.3827L3.05326 14.5354C2.58483 15.0564 2.35062 15.3168 2.31666 15.6401C2.2827 15.9633 2.45766 16.2669 2.80757 16.8741L3.30114 17.7307C3.67443 18.3785 3.86109 18.7025 4.17867 18.8316C4.49625 18.9608 4.85542 18.8589 5.57377 18.655L6.79394 18.3113C7.25263 18.2055 7.73387 18.2656 8.15267 18.4808L8.4895 18.6752C8.84851 18.9052 9.12464 19.2442 9.2775 19.6428L9.61149 20.6403C9.83106 21.3003 9.94085 21.6303 10.2022 21.8191C10.4636 22.0078 10.8108 22.0078 11.5051 22.0078H12.6199C13.3143 22.0078 13.6615 22.0078 13.9228 21.8191C14.1842 21.6303 14.294 21.3003 14.5136 20.6403L14.8476 19.6428C15.0004 19.2442 15.2765 18.9052 15.6356 18.6752L15.9724 18.4808C16.3912 18.2656 16.8724 18.2055 17.3311 18.3113L18.5513 18.655C19.2696 18.8589 19.6288 18.9608 19.9464 18.8316C20.264 18.7025 20.4506 18.3785 20.8239 17.7307L21.3175 16.8741C21.6674 16.2669 21.8423 15.9633 21.8084 15.6401C21.7744 15.3168 21.5402 15.0564 21.0718 14.5354L20.0407 13.3827C19.7887 13.0636 19.6098 12.5078 19.6098 12.0077C19.6098 11.5078 19.7888 10.9518 20.0407 10.6328L21.0718 9.48012C21.5402 8.95918 21.7744 8.69871 21.8084 8.37549C21.8423 8.05227 21.6674 7.74864 21.3175 7.14139Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M15.5195 12C15.5195 13.933 13.9525 15.5 12.0195 15.5C10.0865 15.5 8.51953 13.933 8.51953 12C8.51953 10.067 10.0865 8.5 12.0195 8.5C13.9525 8.5 15.5195 10.067 15.5195 12Z" stroke="currentColor" strokeWidth="1.5"/></svg>,
+  integrations: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 2V6M8.5 6V2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M6.00446 7.61331C5.93719 6.74273 6.63957 6 7.53014 6H16.4699C17.3604 6 18.0628 6.74273 17.9955 7.61331L17.8117 9.99197C17.6796 11.7019 17.1011 13.3498 16.132 14.7773L15.5312 15.6622C14.9638 16.4979 14.0077 17 12.9838 17H11.0162C9.99228 17 9.03617 16.4979 8.46881 15.6622L7.86803 14.7773C6.89885 13.3498 6.32041 11.7019 6.18827 9.99197L6.00446 7.61331Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M12 17V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M11 9H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  cardIssuing: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 20H10.5C6.74142 20 4.86213 20 3.60746 19.0091C3.40678 18.8506 3.22119 18.676 3.0528 18.4871C2 17.3062 2 15.5375 2 12C2 8.46252 2 6.69377 3.0528 5.5129C3.22119 5.32403 3.40678 5.14935 3.60746 4.99087C4.86213 4 6.74142 4 10.5 4H13.5C17.2586 4 19.1379 4 20.3925 4.99087C20.5932 5.14935 20.7788 5.32403 20.9472 5.5129C21.8957 6.57684 21.9897 8.11799 21.999 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M2 9H22" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+<path d="M14 18C14 18 15 18 16 20C16 20 19.1765 15 22 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  featureReq: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  chevDown: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  chevUp: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.9998 15C17.9998 15 13.5809 9.00001 11.9998 9C10.4187 8.99999 5.99985 15 5.99985 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+  sidebarToggle: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12C2 8.31087 2 6.4663 2.81382 5.15877C3.1149 4.67502 3.48891 4.25427 3.91891 3.91554C5.08116 3 6.72077 3 10 3H14C17.2792 3 18.9188 3 20.0811 3.91554C20.5111 4.25427 20.8851 4.67502 21.1862 5.15877C22 6.4663 22 8.31087 22 12C22 15.6891 22 17.5337 21.1862 18.8412C20.8851 19.325 20.5111 19.7457 20.0811 20.0845C18.9188 21 17.2792 21 14 21H10C6.72077 21 5.08116 21 3.91891 20.0845C3.48891 19.7457 3.1149 19.325 2.81382 18.8412C2 17.5337 2 15.6891 2 12Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M9.5 3L9.5 21" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+<path d="M5 7H6M5 10H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+};
+
+function SparkleIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#1E0A5C"/><stop offset="40%" stopColor="#6D28D9"/><stop offset="70%" stopColor="#3B82F6"/><stop offset="100%" stopColor="#06B6D4"/></linearGradient></defs>
+      <path d="M12 2C12 2 13.2 7.8 13.5 8.5C13.8 9.2 14.8 10.2 15.5 10.5C16.2 10.8 22 12 22 12C22 12 16.2 13.2 15.5 13.5C14.8 13.8 13.8 14.8 13.5 15.5C13.2 16.2 12 22 12 22C12 22 10.8 16.2 10.5 15.5C10.2 14.8 9.2 13.8 8.5 13.5C7.8 13.2 2 12 2 12C2 12 7.8 10.8 8.5 10.5C9.2 10.2 10.2 9.2 10.5 8.5C10.8 7.8 12 2 12 2Z" fill="url(#sg)"/>
+      <path d="M19 3C19 3 19.4 4.6 19.5 4.8C19.6 5 20 5.4 20.2 5.5C20.4 5.6 22 6 22 6C22 6 20.4 6.4 20.2 6.5C20 6.6 19.6 7 19.5 7.2C19.4 7.4 19 9 19 9C19 9 18.6 7.4 18.5 7.2C18.4 7 18 6.6 17.8 6.5C17.6 6.4 16 6 16 6C16 6 17.6 5.6 17.8 5.5C18 5.4 18.4 5 18.5 4.8C18.6 4.6 19 3 19 3Z" fill="url(#sg)" opacity="0.7"/>
+    </svg>
+  );
+}
+function CheckIcon() { return <svg width={18} height={18} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#16A34A"}}><path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M8 12.75C8 12.75 9.6 13.6625 10.4 15C10.4 15 12.8 9.75 16 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>; }
+function PencilIcon() { return <svg width={14} height={14} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"currentColor"}}><path d="M15.2141 5.98239L16.6158 4.58063C17.39 3.80646 18.6452 3.80646 19.4194 4.58063C20.1935 5.3548 20.1935 6.60998 19.4194 7.38415L18.0176 8.78591M15.2141 5.98239L6.98023 14.2163C5.93493 15.2616 5.41226 15.7842 5.05637 16.4211C4.70047 17.058 4.3424 18.5619 4 20C5.43809 19.6576 6.94199 19.2995 7.57889 18.9436C8.21579 18.5877 8.73844 18.0651 9.78375 17.0198L18.0176 8.78591M15.2141 5.98239L18.0176 8.78591" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M11 20H17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>; }
+
+/* ─── Reap AI Button — canvas-drawn rotating conic gradient border ─── */
+function ReapAIButton({ onClick, animated }) {
+  const canvasRef = useRef(null);
+  const rafRef = useRef(null);
+  const angleRef = useRef(0);
+
+  useEffect(() => {
+    if (!animated) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+
+    function draw() {
+      const W = canvas.width / dpr;
+      const H = canvas.height / dpr;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const r = H / 2;           // pill corner radius = half height
+      const strokeW = 1.5;
+      const cx = W / 2, cy = H / 2;
+
+      // Build conic gradient centered on the pill
+      // Colors from video: purple → blue → cyan → purple (full loop)
+      const grad = ctx.createConicGradient(
+        (angleRef.current * Math.PI) / 180,  // start angle in radians
+        cx * dpr, cy * dpr
+      );
+      grad.addColorStop(0,    "#7C3AED");   // purple
+      grad.addColorStop(0.25, "#3B82F6");   // blue
+      grad.addColorStop(0.5,  "#06B6D4");   // cyan
+      grad.addColorStop(0.75, "#7C3AED");   // purple again
+      grad.addColorStop(1,    "#06B6D4");   // cyan to close loop
+
+      // Draw pill-shaped stroke
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(W - r, 0);
+      ctx.arcTo(W, 0, W, r, r);
+      ctx.lineTo(W, H - r);
+      ctx.arcTo(W, H, W - r, H, r);
+      ctx.lineTo(r, H);
+      ctx.arcTo(0, H, 0, H - r, r);
+      ctx.lineTo(0, r);
+      ctx.arcTo(0, 0, r, 0, r);
+      ctx.closePath();
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = strokeW;
+      ctx.stroke();
+      ctx.restore();
+
+      // Advance angle — full rotation in ~3s at 60fps
+      angleRef.current = (angleRef.current + 360 / (3 * 60)) % 360;
+      rafRef.current = requestAnimationFrame(draw);
+    }
+
+    // Size canvas to match button
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width  = rect.width  * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width  = rect.width  + "px";
+      canvas.style.height = rect.height + "px";
+    }
+    resize();
+    draw();
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [animated]);
+
+  return (
+    <button onClick={onClick} style={{
+      position: "relative", display: "inline-flex", alignItems: "center", gap: 7,
+      padding: "8px 18px 8px 14px", background: "white", border: "none",
+      borderRadius: 999, cursor: "pointer", fontSize: 14, fontWeight: 500,
+      color: "#09090B", fontFamily: "inherit",
+    }}>
+      {/* Static border for non-animated state */}
+      {!animated && (
+        <div style={{
+          position: "absolute", inset: 0, borderRadius: 999,
+          border: "1.5px solid #E4E4E7", pointerEvents: "none",
+        }}/>
+      )}
+      {/* Canvas border for animated state */}
+      {animated && (
+        <canvas ref={canvasRef} style={{
+          position: "absolute", inset: 0, borderRadius: 999,
+          pointerEvents: "none",
+        }}/>
+      )}
+      {/* White fill so content isn't obscured */}
+      <div style={{ position: "absolute", inset: 1.5, borderRadius: 999, background: "white", zIndex: 0 }}/>
+      <span style={{ position: "relative", zIndex: 1, display: "flex" }}><SparkleIcon size={18}/></span>
+      <span style={{ position: "relative", zIndex: 1 }}>Reap AI</span>
+    </button>
+  );
+}
+
+/* ─── New Feature Popover ─── */
+function NewFeaturePopover({ onTryNow, onLater }) {
+  return (
+    <div style={{ width: 384, background: "#fff", borderRadius: 16, border: "1px solid #E9E4E4", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)", overflow: "hidden" }}>
+      <div style={{ height: 160, overflow: "hidden", flexShrink: 0 }}>
+        <svg width="383" height="160" viewBox="0 0 383 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{display:"block",width:"100%",height:"100%"}}>
+  <defs>
+    {/* Angular gradient for ring — approximated as linear */}
+    <linearGradient id="ringGrad" x1="123" y1="85.5" x2="211" y2="85.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#1E0A5C"/>
+      <stop offset="25%" stopColor="#7C3AED"/>
+      <stop offset="50%" stopColor="#D946EF"/>
+      <stop offset="75%" stopColor="#00FBFF"/>
+      <stop offset="100%" stopColor="#1E0A5C"/>
+    </linearGradient>
+    {/* Sparkle gradient */}
+    <linearGradient id="sparkleGrad" x1="152" y1="70.5" x2="182" y2="100.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#1E0A5C"/>
+      <stop offset="30%" stopColor="#7C3AED"/>
+      <stop offset="65%" stopColor="#00FBFF"/>
+      <stop offset="100%" stopColor="#7C3AED"/>
+    </linearGradient>
+    <filter id="blur0" x="42" y="-62.5" width="300" height="300" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+    <filter id="blur1" x="-30" y="-77.5" width="260" height="260" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+    <filter id="blur2" x="148" y="66.5" width="38" height="38" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+
+  {/* Soft purple blob */}
+  <g opacity="0.08" filter="url(#blur0)">
+    <circle cx="192" cy="87.5" r="90" fill="#7C3AED"/>
+  </g>
+  {/* Soft blue blob */}
+  <g opacity="0.08" filter="url(#blur1)">
+    <circle cx="100" cy="52.5" r="70" fill="#0EA5E9"/>
+  </g>
+
+  {/* Chat bubble */}
+  <path d="M205.625 29.5H247.625C251.338 29.5 254.899 30.975 257.525 33.6005C260.15 36.226 261.625 39.787 261.625 43.5V55.75C261.625 56.2141 261.441 56.6593 261.112 56.9874C260.784 57.3156 260.339 57.5 259.875 57.5H191.625C187.912 57.5 184.351 56.025 181.726 53.3995C179.1 50.774 177.625 47.213 177.625 43.5C177.625 39.787 179.1 36.226 181.726 33.6005C184.351 30.975 187.912 29.5 191.625 29.5H205.625Z" fill="#F1F5F9" stroke="#E2E8F0"/>
+  {/* Chat bubble lines */}
+  <rect x="195.312" y="37.5" width="48" height="4" rx="2" fill="#CBD5E1"/>
+  <rect x="195.312" y="45.5" width="26" height="4" rx="2" fill="#CBD5E1"/>
+  <rect x="232" y="48.5" width="26" height="4" rx="2" fill="#CBD5E1"/>
+
+  {/* White circle background */}
+  <circle cx="167" cy="85.5" r="44" fill="white" fillOpacity="0.8"/>
+
+  {/* Gradient ring border */}
+  <circle cx="167" cy="85.5" r="43.5" stroke="url(#ringGrad)" strokeWidth="1" fill="none" opacity="0.8"/>
+
+  {/* Main sparkle shape */}
+  <path d="M163.903 90.7499C163.769 90.2308 163.498 89.757 163.119 89.378C162.74 88.9989 162.267 88.7283 161.747 88.5944L152.545 86.2215C152.388 86.1769 152.25 86.0824 152.152 85.9522C152.053 85.8219 152 85.6632 152 85.5C152 85.3368 152.053 85.178 152.152 85.0478C152.25 84.9176 152.388 84.8231 152.545 84.7785L161.747 82.4041C162.266 82.2703 162.74 81.9999 163.119 81.6212C163.498 81.2424 163.769 80.7689 163.903 80.2501L166.276 71.0479C166.32 70.8902 166.414 70.7514 166.545 70.6525C166.675 70.5535 166.834 70.5 166.998 70.5C167.162 70.5 167.321 70.5535 167.451 70.6525C167.582 70.7514 167.676 70.8902 167.72 71.0479L170.092 80.2501C170.226 80.7692 170.496 81.243 170.875 81.622C171.254 82.0011 171.728 82.2717 172.247 82.4056L181.449 84.777C181.608 84.8207 181.747 84.915 181.847 85.0456C181.946 85.1762 182 85.3358 182 85.5C182 85.6642 181.946 85.8238 181.847 85.9544C181.747 86.085 181.608 86.1793 181.449 86.223L172.247 88.5944C171.728 88.7283 171.254 88.9989 170.875 89.378C170.496 89.757 170.226 90.2308 170.092 90.7499L167.719 99.9521C167.675 100.11 167.58 100.249 167.45 100.348C167.319 100.446 167.16 100.5 166.997 100.5C166.833 100.5 166.674 100.446 166.543 100.348C166.413 100.249 166.318 100.11 166.274 99.9521L163.903 90.7499Z" fill="url(#sparkleGrad)"/>
+
+  {/* Blurred glow behind sparkle */}
+  <g filter="url(#blur2)" style={{mixBlendMode:"lighten"}}>
+    <path d="M163.903 90.7499C163.769 90.2308 163.498 89.757 163.119 89.378C162.74 88.9989 162.267 88.7283 161.747 88.5944L152.545 86.2215C152.388 86.1769 152.25 86.0824 152.152 85.9522C152.053 85.8219 152 85.6632 152 85.5C152 85.3368 152.053 85.178 152.152 85.0478C152.25 84.9176 152.388 84.8231 152.545 84.7785L161.747 82.4041C162.266 82.2703 162.74 81.9999 163.119 81.6212C163.498 81.2424 163.769 80.7689 163.903 80.2501L166.276 71.0479C166.32 70.8902 166.414 70.7514 166.545 70.6525C166.675 70.5535 166.834 70.5 166.998 70.5C167.162 70.5 167.321 70.5535 167.451 70.6525C167.582 70.7514 167.676 70.8902 167.72 71.0479L170.092 80.2501C170.226 80.7692 170.496 81.243 170.875 81.622C171.254 82.0011 171.728 82.2717 172.247 82.4056L181.449 84.777C181.608 84.8207 181.747 84.915 181.847 85.0456C181.946 85.1762 182 85.3358 182 85.5C182 85.6642 181.946 85.8238 181.847 85.9544C181.747 86.085 181.608 86.1793 181.449 86.223L172.247 88.5944C171.728 88.7283 171.254 88.9989 170.875 89.378C170.496 89.757 170.226 90.2308 170.092 90.7499L167.719 99.9521C167.675 100.11 167.58 100.249 167.45 100.348C167.319 100.446 167.16 100.5 166.997 100.5C166.833 100.5 166.674 100.446 166.543 100.348C166.413 100.249 166.318 100.11 166.274 99.9521L163.903 90.7499Z" fill="url(#sparkleGrad)" opacity="0.9"/>
+  </g>
+
+  {/* Small sparkle (top right) */}
+  <path opacity="0.4" d="M178.468 74.2499C178.423 74.0769 178.333 73.919 178.206 73.7927C178.08 73.6663 177.922 73.5761 177.749 73.5315L174.682 72.7405C174.629 72.7256 174.583 72.6941 174.551 72.6507C174.518 72.6073 174.5 72.5544 174.5 72.5C174.5 72.4456 174.518 72.3927 174.551 72.3493C174.583 72.3059 174.629 72.2744 174.682 72.2595L177.749 71.468C177.922 71.4234 178.08 71.3333 178.206 71.207C178.333 71.0808 178.423 70.923 178.468 70.75L179.259 67.6826C179.273 67.6301 179.305 67.5838 179.348 67.5508C179.392 67.5178 179.445 67.5 179.499 67.5C179.554 67.5 179.607 67.5178 179.65 67.5508C179.694 67.5838 179.725 67.6301 179.74 67.6826L180.531 70.75C180.575 70.9231 180.665 71.081 180.792 71.2073C180.918 71.3337 181.076 71.4239 181.249 71.4685L184.316 72.259C184.369 72.2735 184.416 72.305 184.449 72.3485C184.482 72.3921 184.5 72.4453 184.5 72.5C184.5 72.5547 184.482 72.6079 184.449 72.6515C184.416 72.695 184.369 72.7264 184.316 72.741L181.249 73.5315C181.076 73.5761 180.918 73.6663 180.792 73.7927C180.665 73.919 180.575 74.0769 180.531 74.2499L179.74 77.3174C179.725 77.3699 179.693 77.4162 179.65 77.4492C179.606 77.4821 179.553 77.5 179.499 77.5C179.444 77.5 179.391 77.4821 179.348 77.4492C179.304 77.4162 179.273 77.3699 179.258 77.3174L178.468 74.2499Z" fill="#2F0D68"/>
+</svg>
+      </div>
+      <div style={{ padding: "24px 24px 12px" }}>
+        <div style={{ fontSize: 15, color: "#6E6E6E", marginBottom: 0, fontWeight: 400 }}>New feature</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+          <span style={{ fontSize: 20, fontWeight: 500, color: "#262626" }}>Reap AI</span>
+          <span style={{ fontSize: 13, fontWeight: 500, padding: "4px 10px", borderRadius: 12, background: "#EDE9FE", color: "#5B21B6" }}>Beta</span>
+        </div>
+        <p style={{ fontSize: 15, lineHeight: "22.5px", color: "#000", margin: 0 }}>Try Reap AI to manage cards faster. Create cards, update limits, freeze cards, and more through a simple conversation.</p>
+      </div>
+      <div style={{ display: "flex", gap: 8, padding: "12px 24px 22px" }}>
+        <button onClick={onTryNow} style={{ padding: "10px 24px", fontSize: 14, fontWeight: 500, border: "none", borderRadius: 8, background: "#6D28D9", color: "white", cursor: "pointer", fontFamily: "inherit" }}>Try now</button>
+        <button onClick={onLater} style={{ padding: "10px 24px", fontSize: 14, fontWeight: 500, border: "1px solid #E4E4E7", borderRadius: 8, background: "white", color: "#3F3F46", cursor: "pointer", fontFamily: "inherit" }}>I'll try later</button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Sidebar ─── */
+function Sidebar({ dimmed }) {
+  const ReapLogo = () => (
+    <svg width="103" height="22" viewBox="0 0 103 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_5_9969)">
+        <path d="M32.656 16.8027H28.3538V21.9775H24.0625V7.33789H34.3481C39.1939 7.33789 40.5994 9.75113 40.5994 11.982C40.5994 13.6156 39.7484 15.53 37.2004 16.3106L41.2041 21.9843H36.3278L32.656 16.8027ZM28.3528 14.1463H34.0428C36.1239 14.1463 36.7395 13.136 36.7395 12.1065C36.7395 11.0769 36.1249 10.1255 34.0634 10.1255H28.3528V14.1463Z" fill="#09090B"/>
+        <path d="M59.8182 19.0722V21.9775H44.4297V7.33789H59.6694V10.2432H48.722V13.1949H59.305V15.9169H48.7289V19.0722H59.8191H59.8182Z" fill="#09090B"/>
+        <path d="M76.7816 19.0326H68.3674L66.9688 21.9843H62.3604L69.896 7.33789H75.255L82.7769 21.9843H78.1881L76.7826 19.0326H76.7816ZM69.638 16.3695H75.5042L72.5514 9.83026L69.639 16.3695H69.638Z" fill="#09090B"/>
+        <path d="M102.183 12.2049C102.183 15.3399 99.675 17.3402 95.7825 17.3402H89.9163V21.9843H85.625V7.33789H95.8909C99.8237 7.33789 102.183 9.17412 102.183 12.2049ZM98.3502 12.3091C98.3502 10.9052 97.3299 10.1246 95.5255 10.1246H89.9163V14.5583H95.4979C97.3092 14.5583 98.3493 13.7324 98.3493 12.3082L98.3502 12.3091Z" fill="#09090B"/>
+        <path d="M14.7923 4.63274C15.072 4.10011 15.1252 3.99783 15.4049 3.4652L12.9682 0.0166016H9.54359C9.26288 0.551163 9.2097 0.651514 8.929 1.18511L10.8082 3.84441L10.2626 4.88362H5.49062C5.20696 5.4095 5.15082 5.51467 4.86716 6.04151L7.6151 9.92915L6.76216 11.5541H0.660541C0.377867 12.0828 0.322713 12.1861 0.0400391 12.7148L6.58192 21.978L13.9236 21.9722C14.2121 21.4328 14.2683 21.3267 14.5569 20.7873L8.09181 11.6255L8.42176 10.9973L13.1602 10.9925C13.4409 10.4589 13.4941 10.3585 13.7748 9.82494L11.0564 5.9759L11.7547 4.64529L14.7932 4.63274H14.7923Z" fill="#09090B"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_5_9969">
+          <rect width="102.235" height="22" fill="white"/>
+        </clipPath>
+      </defs>
+    </svg>
+  );
+
+  const navItems = [
+    { id: "home", icon: Icons.home, label: "Home" },
+    { id: "cards", icon: Icons.cards, label: "Cards", hasChev: true, expanded: true },
+    { id: "bs", label: "Balance & Statements", level: 2, active: true },
+    { id: "tx", label: "Transactions", level: 2 },
+    { id: "cards2", label: "Cards", level: 2 },
+    { id: "so", label: "Spend overview", level: 2 },
+    { id: "pay", icon: Icons.payments, label: "Payments", hasChev: true },
+    { id: "tres", icon: Icons.treasury, label: "Treasury" },
+    { id: "appr", icon: Icons.approvals, label: "Approvals", hasChev: true },
+    { id: "team", icon: Icons.team, label: "Team" },
+    { id: "sep1", separator: true },
+    { id: "settings", icon: Icons.settings, label: "Settings", hasChev: true },
+    { id: "integ", icon: Icons.integrations, label: "Integrations" },
+    { id: "cis", icon: Icons.cardIssuing, label: "Card issuing service" },
+  ];
+
+  return (
+    <div style={{
+      width: 240, background: "#FAFAFA", padding: 8,
+      display: "flex", flexDirection: "column", justifyContent: "space-between",
+      flexShrink: 0, height: "100%",
+      opacity: dimmed ? 0.3 : 1,
+      pointerEvents: dimmed ? "none" : "auto",
+    }}>
+      <div style={{ width: 224 }}>
+        {/* Header: logo + toggle */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "4px 4px 4px 12px", height: 36, marginBottom: 8 }}>
+          <ReapLogo />
+          <div style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", borderRadius: 6 }}>
+            {Icons.sidebarToggle}
+          </div>
+        </div>
+        {/* Nav items */}
+        <div style={{ padding: "8px 0" }}>
+          {navItems.map(item => {
+            if (item.separator) return <div key={item.id} style={{ height: 1, background: "#E4E4E7", margin: "4px 0" }}/>;
+            const isL2 = item.level === 2;
+            return (
+              <div key={item.id} style={{
+                height: isL2 ? 32 : 36,
+                display: "flex", alignItems: "center",
+                padding: isL2 ? "0 12px 0 44px" : "0 8px 0 12px",
+                gap: 8,
+                borderRadius: 6,
+                background: item.active ? "rgba(124,58,237,0.08)" : "transparent",
+                color: item.active ? "#09090B" : "#71717A",
+                fontSize: 14, fontWeight: 500, cursor: "pointer",
+                marginBottom: 0,
+              }}>
+                {!isL2 && item.icon && <span style={{ display: "flex", alignItems: "center", color: "#71717A", flexShrink: 0 }}>{item.icon}</span>}
+                <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.label}</span>
+                {item.hasChev && (
+                  <span style={{ display: "flex", alignItems: "center", color: "#A1A1AA", flexShrink: 0 }}>
+                    {item.expanded ? Icons.chevUp : Icons.chevDown}
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {/* Bottom: Feature request + User */}
+      <div style={{ width: 224 }}>
+        <div style={{ height: 36, display: "flex", alignItems: "center", padding: "0 12px", gap: 8, color: "#71717A", fontSize: 14, fontWeight: 500, cursor: "pointer", marginBottom: 8 }}>
+          <span style={{ display: "flex", color: "#71717A" }}>{Icons.featureReq}</span>
+          Feature request
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: 8 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: "#F0EBFF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 600, color: "#7C3AED", flexShrink: 0 }}>FL</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 500, color: "#09090B", lineHeight: "20px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>FuturePay (HK) Ltd</div>
+            <div style={{ fontSize: 12, color: "#71717A", lineHeight: "16px" }}>Direct (HKD)</div>
+          </div>
+          <span style={{ display: "flex", color: "#A1A1AA" }}>{Icons.chevDown}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Card Form ─── */
+function CardForm({ showEdit, cardOverrides = {}, editingField, onEdit, onSave, onCancel, editValue, onEditChange }) {
+  const defaults = {
+    type: "Virtual card", holder: "Jisoo Ahn", title: "Figma subscription",
+    category: "Software subscription", expiry: "09 March 2036",
+  };
+  const fields = [
+    { label: "Card type",   value: cardOverrides.type     || defaults.type,     key: "type" },
+    { label: "Card holder", value: cardOverrides.holder   || defaults.holder,   key: "holder",   ed: true },
+    { label: "Card title",  value: cardOverrides.title    || defaults.title,    key: "title",    ed: true },
+    { label: "Category",    value: cardOverrides.category || defaults.category, key: "category", ed: true },
+    { label: "Expiry date", value: cardOverrides.expiry   || defaults.expiry,   key: "expiry",   ed: true },
+  ];
+
+  const EditBtn = ({ fieldKey, fieldValue }) => (
+    <button
+      onClick={() => onEdit(fieldKey, fieldValue)}
+      style={{
+        display: "flex", alignItems: "center", gap: 4, flexShrink: 0,
+        background: "none", border: "none", cursor: "pointer",
+        color: "#09090B", fontSize: 13, fontWeight: 500, fontFamily: "inherit",
+        padding: "2px 0", lineHeight: "19.5px",
+      }}
+    >
+      <PencilIcon /> Edit
+    </button>
+  );
+
+  return (
+    <div style={{ borderRadius: 6, overflow: "hidden", marginTop: 8, width: "100%" }}>
+      {/* ── Header bar — #EDE9FE ── */}
+      <div style={{
+        background: "#EDE9FE", padding: "12px 16px",
+      }}>
+        <span style={{ fontSize: 15, fontWeight: 400, color: "#09090B", lineHeight: "22.5px" }}>
+          Create a virtual card
+        </span>
+      </div>
+
+      {/* ── Body — #F5F3FF ── */}
+      <div style={{ background: "#F5F3FF", padding: 16, display: "flex", flexDirection: "column", gap: 16 }}>
+
+        {/* Card details section */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ fontSize: 15, fontWeight: 500, color: "#09090B", lineHeight: "22.5px" }}>
+            Card details
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {fields.map(f => (
+              <div key={f.key}>
+                {editingField === f.key ? (
+                  /* ── Inline edit state ── */
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <span style={{ fontSize: 15, color: "#3F3F46", lineHeight: "22.5px" }}>{f.label}</span>
+                      </div>
+                      <input
+                        value={editValue}
+                        onChange={e => onEditChange(e.target.value)}
+                        autoFocus
+                        style={{
+                          width: "100%", padding: "8px 12px",
+                          border: "1px solid #E4E4E7", borderRadius: 6,
+                          fontSize: 16, fontFamily: "inherit", outline: "none",
+                          background: "white", color: "#09090B",
+                          boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+                          lineHeight: "24px",
+                        }}
+                      />
+                    </div>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button
+                        onClick={onCancel}
+                        style={{
+                          padding: "6px 16px", fontSize: 14, fontWeight: 500,
+                          border: "1px solid #E4E4E7", borderRadius: 6,
+                          background: "white", cursor: "pointer", fontFamily: "inherit",
+                          color: "#09090B", lineHeight: "20px",
+                        }}
+                      >Cancel</button>
+                      <button
+                        onClick={onSave}
+                        style={{
+                          padding: "6px 16px", fontSize: 14, fontWeight: 500,
+                          border: "none", borderRadius: 6,
+                          background: "#6D28D9", color: "white",
+                          cursor: "pointer", fontFamily: "inherit", lineHeight: "20px",
+                        }}
+                      >Save</button>
+                    </div>
+                  </div>
+                ) : (
+                  /* ── Default display state ── */
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, color: "#3F3F46", lineHeight: "19.5px" }}>{f.label}</div>
+                      <div style={{ fontSize: 16, color: "#09090B", lineHeight: "24px" }}>{f.value}</div>
+                    </div>
+                    {f.ed && showEdit && <EditBtn fieldKey={f.key} fieldValue={f.value} />}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Divider ── */}
+        <div style={{ height: 1, background: "#E5E5E5", width: "calc(100% + 32px)", marginLeft: -16 }} />
+
+        {/* ── Spend restrictions section ── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span style={{ fontSize: 15, fontWeight: 500, color: "#09090B", lineHeight: "22.5px" }}>
+              Spend restrictions (optional)
+            </span>
+            {showEdit && <EditBtn fieldKey="spend" fieldValue="" />}
+          </div>
+          <div style={{ fontSize: 15, color: "#09090B", lineHeight: "22.5px" }}>
+            <span style={{ fontWeight: 400 }}>HKD </span><span style={{ fontWeight: 500 }}>4,000.00</span>
+            <span style={{ fontWeight: 400 }}> per month</span>
+          </div>
+          <div style={{ fontSize: 15, color: "#09090B", lineHeight: "22.5px" }}>
+            <span style={{ fontWeight: 400 }}>HKD </span><span style={{ fontWeight: 500 }}>40,000.00</span>
+            <span style={{ fontWeight: 400 }}> per year</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Agent Activity ─── */
+function AgentActivity({ running, completed }) {
+  const [s1, setS1] = useState(false);
+  const [s2, setS2] = useState(false);
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    if (running) { setS1(true); setS2(false); }
+    if (completed) {
+      setS1(true);
+      // Step 2 completes at 400ms, then collapse at 700ms — tight & snappy
+      const t1 = setTimeout(() => setS2(true), 400);
+      const t2 = setTimeout(() => setOpen(false), 700);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
+    }
+  }, [running, completed]);
+
+  return (
+    <div style={{ marginBottom: 8 }}>
+      <button onClick={() => setOpen(!open)} style={{ display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}>
+        <span style={{ fontSize: 12, color: "#71717A" }}>Agent activity</span>
+        <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 10, background: completed ? "#DCFCE7" : "#DBEAFE", color: completed ? "#16A34A" : "#2563EB" }}>
+          {completed ? "Completed" : "Running"}
+        </span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color: "#A1A1AA", transform: open ? "rotate(180deg)" : "rotate(-90deg)", transition: "transform 0.25s ease" }}><path d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+      {/* Smooth animated collapse via max-height */}
+      <div style={{
+        overflow: "hidden",
+        maxHeight: open ? 120 : 0,
+        opacity: open ? 1 : 0,
+        transition: "max-height 0.3s ease, opacity 0.25s ease",
+      }}>
+        <div style={{ marginLeft: 8, marginTop: 8, paddingLeft: 12, borderLeft: "1.5px solid #E4E4E7" }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: "#52525B", marginBottom: 6 }}>Card agent</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+            {s1 ? <CheckIcon/> : <div style={{ width: 18, height: 18, borderRadius: "50%", border: "1.5px solid #D1D5DB", flexShrink: 0 }}/>}
+            <span style={{ fontSize: 12, color: "#3F3F46" }}>Fetching Reap Cards</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {s2 ? <CheckIcon/> : running
+              ? <div style={{ width: 18, height: 18, borderRadius: "50%", border: "2px solid #E5E7EB", borderTopColor: "#7C3AED", animation: "spin 0.8s linear infinite", flexShrink: 0 }}/>
+              : <div style={{ width: 18, height: 18, borderRadius: "50%", border: "1.5px solid #D1D5DB", flexShrink: 0 }}/>
+            }
+            <span style={{ fontSize: 12, color: "#3F3F46" }}>Validating required fields</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Bubble({ from = "ai", children }) {
+  const u = from === "user";
+  return <div style={{ display: "flex", justifyContent: u ? "flex-end" : "flex-start", marginBottom: 32 }}><div style={{ maxWidth: "88%", padding: u ? "10px 14px" : "0", background: u ? "#F3F0FF" : "transparent", borderRadius: u ? "14px 14px 4px 14px" : 0, fontSize: 14, lineHeight: 1.55, color: "#09090B" }}>{children}</div></div>;
+}
+
+function ActionChips({ items, onSelect }) {
+  return <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 6, marginBottom: 8 }}>
+    {items.map(item => <button key={item} onClick={() => onSelect(item)} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", background: "white", border: "1px solid #E4E4E7", borderRadius: 10, cursor: "pointer", fontSize: 14, color: "#09090B", fontFamily: "inherit", textAlign: "left", transition: "0.15s" }} onMouseEnter={e=>{e.currentTarget.style.borderColor="#7C3AED";e.currentTarget.style.background="#FAFAFF"}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E4E4E7";e.currentTarget.style.background="white"}}>
+      {item==="Create a new virtual card"&&<span style={{color:"#71717A"}}>⊕</span>}
+      {item==="Freeze a card"&&<span style={{color:"#71717A"}}>❄</span>}
+      {item==="Summarize card spending"&&<span style={{color:"#71717A"}}>📋</span>}
+      {item==="Tell me what you can do"&&<span style={{color:"#71717A"}}>💡</span>}
+      {item}</button>)}
+  </div>;
+}
+
+/* ─── Main Content ─── */
+function MainContent({ dimmed }) {
+  return (
+    <div style={{ flex: 1, padding: "32px 80px", overflow: "auto", opacity: dimmed ? 0.3 : 1, pointerEvents: dimmed ? "none" : "auto" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32 }}>
+        <h1 style={{ fontSize: 30, fontWeight: 500, color: "#09090B", margin: 0 }}>Balance & Statements</h1>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button style={{ padding: "10px 20px", fontSize: 14, border: "1px solid #E4E4E7", borderRadius: 8, background: "white", color: "#09090B", cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>View collateral details</button>
+          <button style={{ padding: "10px 20px", fontSize: 14, border: "none", borderRadius: 8, background: "#6D28D9", color: "white", cursor: "pointer", fontFamily: "inherit", fontWeight: 500, display: "flex", alignItems: "center", gap: 6 }}>⊕ Add funds</button>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 32, marginBottom: 32 }}>
+        <div style={{ flex: "0 0 560px" }}>
+          <div style={{ fontSize: 16, color: "#3F3F46", marginBottom: 4 }}>Available credit</div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 24 }}>
+            <span style={{ fontSize: 18, color: "#3F3F46" }}>HKD</span>
+            <span style={{ fontSize: 30, fontWeight: 500, color: "#09090B" }}>1,661,974</span>
+            <span style={{ fontSize: 30, fontWeight: 500, color: "#71717A" }}>.10</span>
+          </div>
+          {[["Total credit limit","1,750,000.00",false,true],["Outstanding balance","86,520.50",true,false],["Pending amount","1,505.40",true,true],["Available credit","1,661,974.10",false,false]].map(([l,v,neg,sep],i)=>(
+            <div key={i}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0"}}>
+              <span style={{fontSize:15,color:"#09090B",display:"flex",alignItems:"center",gap:6}}>{l}{i>0&&<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#A1A1AA"}}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12 16V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12.125 8.25H12M12.25 8.25C12.25 8.11193 12.1381 8 12 8C11.8619 8 11.75 8.11193 11.75 8.25C11.75 8.38807 11.8619 8.5 12 8.5C12.1381 8.5 12.25 8.38807 12.25 8.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}</span>
+              <span style={{fontSize:16}}>{neg&&<span style={{color:"#3F3F46",fontWeight:500}}>- </span>}<span style={{color:"#3F3F46",fontWeight:500}}>HKD </span><span style={{fontWeight:600,color:"#09090B"}}>{v}</span></span>
+            </div>{sep&&<div style={{height:1,background:"#E4E4E7"}}/>}</div>
+          ))}
+          <div style={{paddingLeft:16,borderLeft:"1px solid #E4E4E7",marginLeft:8,marginTop:4}}>
+            {[["Unallocated credit","1,111,564.10"],["Allocated credit to top-up cards","550,410.00"]].map(([l,v],i)=>(
+              <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0"}}>
+                <span style={{fontSize:15,color:"#09090B",display:"flex",alignItems:"center",gap:6}}>{l}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#A1A1AA"}}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12 16V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12.125 8.25H12M12.25 8.25C12.25 8.11193 12.1381 8 12 8C11.8619 8 11.75 8.11193 11.75 8.25C11.75 8.38807 11.8619 8.5 12 8.5C12.1381 8.5 12.25 8.38807 12.25 8.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+                <span style={{fontSize:16}}><span style={{color:"#3F3F46",fontWeight:500}}>HKD </span><span style={{fontWeight:600,color:"#09090B"}}>{v}</span></span>
+              </div>
+            ))}
+          </div>
+          <div style={{display:"flex",gap:16,justifyContent:"flex-end",marginTop:16}}>
+            <span style={{fontSize:14,color:"#3F3F46",cursor:"pointer"}}>View all top-up cards →</span>
+            <span style={{fontSize:14,color:"#3F3F46",cursor:"pointer"}}>Export credit history →</span>
+          </div>
+        </div>
+        <div style={{flex:1,border:"1px solid #E4E4E7",borderRadius:16,alignSelf:"flex-start"}}>
+          <div style={{padding:"20px 20px 8px"}}><div style={{fontSize:16,fontWeight:500,color:"#09090B"}}>Current card statement</div></div>
+          <div style={{padding:"12px 20px 16px",display:"flex",flexDirection:"column",gap:16}}>
+            <div style={{display:"flex",gap:24}}>
+              <div style={{flex:1}}><div style={{fontSize:15,color:"#3F3F46",marginBottom:4}}>Current balance due</div><div><span style={{fontSize:15,color:"#3F3F46"}}>HKD </span><span style={{fontSize:16,fontWeight:600,color:"#09090B"}}>73,520.50</span></div></div>
+              <div style={{width:160}}><div style={{fontSize:15,color:"#3F3F46",marginBottom:4}}>Minimum payment</div><div><span style={{fontSize:15,color:"#3F3F46"}}>HKD </span><span style={{fontSize:16,fontWeight:500,color:"#09090B"}}>250.00</span></div></div>
+            </div>
+            <div style={{display:"flex",gap:24}}>
+              <div style={{flex:1}}><div style={{fontSize:15,color:"#3F3F46",marginBottom:4}}>Billing cycle</div><div style={{fontSize:16,fontWeight:500,color:"#09090B"}}>01 Apr - 30 Apr 2026</div></div>
+              <div style={{width:160}}><div style={{fontSize:15,color:"#3F3F46",marginBottom:4}}>Payment due</div><div style={{fontSize:16,fontWeight:500,color:"#09090B"}}>15 May 2026</div></div>
+            </div>
+          </div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px",borderTop:"1px solid #E4E4E7"}}>
+            <button style={{fontSize:14,color:"#3F3F46",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:6}}>↓ PDF</button>
+            <button style={{fontSize:14,color:"#09090B",background:"none",border:"1px solid #E4E4E7",borderRadius:8,padding:"8px 16px",cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>Make payment</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style={{display:"flex",gap:24,marginBottom:16}}>
+          <span style={{fontSize:16,fontWeight:500,color:"#09090B",borderBottom:"2px solid #3F3F46",paddingBottom:12}}>Previous statements</span>
+          <span style={{fontSize:16,color:"#71717A",paddingBottom:12}}>Repayment history</span>
+        </div>
+        <div style={{background:"#FAFAFA",borderRadius:10,display:"flex",padding:"12px"}}>
+          <div style={{flex:1,fontSize:13,fontWeight:550,color:"#52525B"}}>Billing cycle</div>
+          <div style={{width:200,fontSize:13,fontWeight:550,color:"#52525B",textAlign:"right"}}>Statement balance</div>
+          <div style={{width:140}}/>
+        </div>
+        {[["01 Mar - 30 Mar 2026","86,520.50"],["01 Feb - 28 Feb 2026","1,700,000.00"],["01 Jan - 30 Jan 2026","75,045.56"],["01 Dec - 30 Dec 2025","8,000,387.07"]].map(([p,a],i)=>(
+          <div key={i} style={{display:"flex",alignItems:"center",padding:"18px 12px",borderBottom:"1px solid #E4E4E7"}}>
+            <div style={{flex:1,fontSize:14,fontWeight:500,color:"#09090B"}}>{p}</div>
+            <div style={{width:200,textAlign:"right"}}><span style={{fontSize:14,color:"#3F3F46",fontWeight:500}}>HKD </span><span style={{fontSize:14,fontWeight:600,color:"#09090B"}}>{a}</span></div>
+            <div style={{width:140,textAlign:"right"}}><span style={{fontSize:13,color:"#3F3F46",cursor:"pointer"}}>↓ Download PDF</span></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════
+   MAIN PROTOTYPE
+   ═══════════════════════════════════ */
+
+/* ─── PromptBox with Context Selection Dropdown ─── */
+function PromptBox({ step, onSubmit }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("reap");
+  const [inputText, setInputText] = useState("");
+  const dropdownRef = useRef(null);
+  const textareaRef = useRef(null);
+
+  // Auto-resize textarea
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 68) + "px";
+  }, [inputText]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClick(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    if (open) document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const agents = [
+    {
+      id: "reap",
+      label: "Reap agent",
+      desc: "Get help with any tasks",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="sg2" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#1E0A5C"/><stop offset="40%" stopColor="#6D28D9"/><stop offset="70%" stopColor="#3B82F6"/><stop offset="100%" stopColor="#06B6D4"/></linearGradient></defs>
+          <path d="M12 2C12 2 13.2 7.8 13.5 8.5C13.8 9.2 14.8 10.2 15.5 10.5C16.2 10.8 22 12 22 12C22 12 16.2 13.2 15.5 13.5C14.8 13.8 13.8 14.8 13.5 15.5C13.2 16.2 12 22 12 22C12 22 10.8 16.2 10.5 15.5C10.2 14.8 9.2 13.8 8.5 13.5C7.8 13.2 2 12 2 12C2 12 7.8 10.8 8.5 10.5C9.2 10.2 10.2 9.2 10.5 8.5C10.8 7.8 12 2 12 2Z" fill="url(#sg2)"/>
+          <path d="M19 3C19 3 19.4 4.6 19.5 4.8C19.6 5 20 5.4 20.2 5.5C20.4 5.6 22 6 22 6C22 6 20.4 6.4 20.2 6.5C20 6.6 19.6 7 19.5 7.2C19.4 7.4 19 9 19 9C19 9 18.6 7.4 18.5 7.2C18.4 7 18 6.6 17.8 6.5C17.6 6.4 16 6 16 6C16 6 17.6 5.6 17.8 5.5C18 5.4 18.4 5 18.5 4.8C18.6 4.6 19 3 19 3Z" fill="url(#sg2)" opacity="0.7"/>
+        </svg>
+      ),
+    },
+    {
+      id: "card",
+      label: "Card agent",
+      desc: "Get help with your Reap Card tasks",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M2 12C2 8.46252 2 6.69377 3.0528 5.5129C3.22119 5.32403 3.40678 5.14935 3.60746 4.99087C4.86213 4 6.74142 4 10.5 4H13.5C17.2586 4 19.1379 4 20.3925 4.99087C20.5932 5.14935 20.7788 5.32403 20.9472 5.5129C22 6.69377 22 8.46252 22 12C22 15.5375 22 17.3062 20.9472 18.4871C20.7788 18.676 20.5932 18.8506 20.3925 19.0091C19.1379 20 17.2586 20 13.5 20H10.5C6.74142 20 4.86213 20 3.60746 19.0091C3.40678 18.8506 3.22119 18.676 3.0528 18.4871C2 17.3062 2 15.5375 2 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M10 16H11.5" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M14.5 16L18 16" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M2 9H22" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+      ),
+    },
+  ];
+
+  const current = agents.find(a => a.id === selected);
+
+  return (
+    <div style={{
+      background: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)",
+      padding: "0 24px 12px", flexShrink: 0, position: "relative",
+    }}>
+      {/* Textarea card */}
+      <div style={{
+        background: "white", border: "1px solid #E4E4E7", borderRadius: 6,
+        boxShadow: "0 1px 2px rgba(0,0,0,0.05)", padding: "16px",
+        display: "flex", flexDirection: "column", gap: 8, height: 140,
+      }}>
+        <textarea
+          ref={textareaRef}
+          value={inputText}
+          onChange={e => setInputText(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              if (inputText.trim() && onSubmit) { onSubmit(inputText.trim()); setInputText(""); }
+            }
+          }}
+          placeholder={
+            step === "drawer_default" ? "Ask Reap AI anygthing" : ""
+          }
+          rows={1}
+          style={{
+            flex: 1, fontSize: 16, color: "#09090B", lineHeight: "24px",
+            minHeight: 24, resize: "none", border: "none", outline: "none",
+            background: "transparent", fontFamily: "inherit", width: "100%",
+            overflow: "hidden", padding: 0,
+          }}
+        />
+        {/* Actions row */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          {/* Agent selector button */}
+          <div ref={dropdownRef} style={{ position: "relative" }}>
+            <button
+              onClick={() => setOpen(v => !v)}
+              style={{
+                display: "flex", alignItems: "center", gap: 8, padding: "6px 12px",
+                background: "white", border: "1px solid #D7D1D1", borderRadius: 8,
+                cursor: "pointer", fontSize: 14, fontWeight: 500, color: "#171717",
+                fontFamily: "inherit", lineHeight: "20px",
+              }}
+            >
+              {current.label}
+            </button>
+
+            {/* Dropdown — floats above the button */}
+            {open && (
+              <div style={{
+                position: "absolute", bottom: "calc(100% + 8px)", left: 0,
+                background: "white", borderRadius: 12,
+                boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+                overflow: "hidden", minWidth: 300, zIndex: 50,
+                animation: "fadeUp 0.15s ease-out",
+              }}>
+                {agents.map(agent => (
+                  <button
+                    key={agent.id}
+                    onClick={() => { setSelected(agent.id); setOpen(false); }}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 12,
+                      padding: "12px 16px", width: "100%", border: "none",
+                      background: selected === agent.id ? "#F5F3FF" : "white",
+                      cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+                      transition: "background 0.1s",
+                    }}
+                    onMouseEnter={e => { if (selected !== agent.id) e.currentTarget.style.background = "#FAFAFA"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = selected === agent.id ? "#F5F3FF" : "white"; }}
+                  >
+                    {/* Icon */}
+                    <div style={{ flexShrink: 0, display: "flex", alignItems: "center" }}>
+                      {agent.icon}
+                    </div>
+                    {/* Text */}
+                    <div>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: "#09090B", lineHeight: "20px" }}>
+                        {agent.label}
+                      </div>
+                      <div style={{ fontSize: 13, color: "#71717A", lineHeight: "18px" }}>
+                        {agent.desc}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Mic + Send */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <button style={{ width: 32, height: 32, borderRadius: "50%", border: "none", background: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M17 7V11C17 13.7614 14.7614 16 12 16C9.23858 16 7 13.7614 7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7Z" stroke="currentColor" strokeWidth="1.5"/><path d="M17 7H14M17 11H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M20 11C20 15.4183 16.4183 19 12 19M12 19C7.58172 19 4 15.4183 4 11M12 19V22M12 22H15M12 22H9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </button>
+            <button
+              onClick={() => { if (inputText.trim() && onSubmit) { onSubmit(inputText.trim()); setInputText(""); } }}
+              style={{
+                width: 32, height: 32, borderRadius: 8, border: "none",
+                background: inputText.trim() ? "#7C3AED" : "rgba(28,23,23,0.1)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: inputText.trim() ? "pointer" : "default",
+                padding: 0, opacity: inputText.trim() ? 1 : 0.5,
+                transition: "background 0.15s, opacity 0.15s",
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color: inputText.trim() ? "white" : "#09090B"}}><path d="M21.0477 3.05293C18.8697 0.707363 2.48648 6.4532 2.50001 8.551C2.51535 10.9299 8.89809 11.6617 10.6672 12.1581C11.7311 12.4565 12.016 12.7625 12.2613 13.8781C13.3723 18.9305 13.9301 21.4435 15.2014 21.4996C17.2278 21.5892 23.1733 5.342 21.0477 3.05293Z" stroke="currentColor" strokeWidth="1.5"/><path d="M11.4999 12.5L14.9999 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Caption */}
+      <p style={{ fontSize: 13, color: "#71717A", lineHeight: "20px", marginTop: 4 }}>
+        Reap AI can make mistakes.
+      </p>
+    </div>
+  );
+}
+
+
+/* ─── Card Creation Activity ─── */
+function CardCreationActivity({ active, done }) {
+  // 3 sequential steps: each takes ~1s to complete
+  const [step1, setStep1] = useState(false); // Validating card details
+  const [step2, setStep2] = useState(false); // Creating virtual card
+  const [step3, setStep3] = useState(false); // Sending cardholder notification
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    if (!active && !done) { setStep1(false); setStep2(false); setStep3(false); setOpen(true); return; }
+    if (active || done) {
+      const t1 = setTimeout(() => setStep1(true), 500);
+      const t2 = setTimeout(() => setStep2(true), 1400);
+      const t3 = setTimeout(() => setStep3(true), 2400);
+      // Collapse after all done
+      const t4 = setTimeout(() => setOpen(false), 3200);
+      return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+    }
+  }, [active, done]);
+
+  const steps = [
+    { label: "Validating card details", done: step1 },
+    { label: "Creating virtual card",   done: step2 },
+    { label: "Notifying cardholder",    done: step3 },
+  ];
+
+  const allDone = step1 && step2 && step3;
+
+  return (
+    <div style={{ marginBottom: 8 }}>
+      <button
+        onClick={() => setOpen(v => !v)}
+        style={{ display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
+      >
+        <span style={{ fontSize: 12, color: "#71717A" }}>Agent activity</span>
+        <span style={{
+          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 10,
+          background: allDone ? "#DCFCE7" : "#DBEAFE",
+          color: allDone ? "#16A34A" : "#2563EB",
+        }}>
+          {allDone ? "Completed" : "Running"}
+        </span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+          style={{ color: "#A1A1AA", transform: open ? "rotate(180deg)" : "rotate(-90deg)", transition: "transform 0.25s ease" }}>
+          <path d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+
+      {/* Smooth collapse */}
+      <div style={{
+        overflow: "hidden",
+        maxHeight: open ? 200 : 0,
+        opacity: open ? 1 : 0,
+        transition: "max-height 0.3s ease, opacity 0.25s ease",
+      }}>
+        <div style={{ marginLeft: 8, marginTop: 8, paddingLeft: 12, borderLeft: "1.5px solid #E4E4E7" }}>
+          <div style={{ fontSize: 12, fontWeight: 600, color: "#52525B", marginBottom: 6 }}>Card agent</div>
+          {steps.map((s, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: i < steps.length - 1 ? 5 : 0 }}>
+              {s.done ? (
+                <CheckIcon />
+              ) : (active || done) ? (
+                <div style={{ width: 18, height: 18, borderRadius: "50%", border: "2px solid #E5E7EB", borderTopColor: "#7C3AED", animation: "spin 0.8s linear infinite", flexShrink: 0 }}/>
+              ) : (
+                <div style={{ width: 18, height: 18, borderRadius: "50%", border: "1.5px solid #D1D5DB", flexShrink: 0 }}/>
+              )}
+              <span style={{ fontSize: 12, color: s.done ? "#3F3F46" : "#71717A" }}>{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReapAIPrototype() {
+  const [step, setStep] = useState(STEPS.DASHBOARD);
+  const [editingField, setEditingField] = useState(null);
+  const [editValue, setEditValue] = useState("");
+  const [cardOverrides, setCardOverrides] = useState({});
+  const [userMessages, setUserMessages] = useState({ prompt: "", reply1: "", reply2: "", reply3: "" });
+  const chatEndRef = useRef(null);
+  const scrollRef = useRef(null);
+  const [showScrollDown, setShowScrollDown] = useState(false);
+  const si = STEP_ORDER.indexOf(step);
+  const goNext = () => { const n = STEP_ORDER[si + 1]; if (n) setStep(n); };
+  const goPrev = () => { const p = STEP_ORDER[si - 1]; if (p) { setStep(p); setEditingField(null); } };
+  const restart = () => { setStep(STEPS.DASHBOARD); setEditingField(null); setUserMessages({ prompt: "", reply1: "", reply2: "", reply3: "" }); setCardOverrides({}); };
+
+  // Maps the current step to what happens when the user submits a message
+  const handlePromptSubmit = (text) => {
+    if (step === STEPS.DRAWER_DEFAULT) {
+      setUserMessages(m => ({ ...m, prompt: text }));
+      setStep(STEPS.USER_PROMPT);
+    } else if (step === STEPS.AI_ASKS) {
+      setUserMessages(m => ({ ...m, reply1: text }));
+      setStep(STEPS.USER_REPLY_1);
+    } else if (step === STEPS.AI_ASKS_PURPOSE) {
+      setUserMessages(m => ({ ...m, reply2: text }));
+      setStep(STEPS.USER_REPLY_2);
+    } else if (step === STEPS.AI_ASKS_LIMITS) {
+      setUserMessages(m => ({ ...m, reply3: text }));
+      setStep(STEPS.USER_REPLY_3);
+    }
+  };
+  const agentDoneRef = useRef(null);
+  const checkOverflow = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // Account for the 16vh bottom spacer — only show button if real content is hidden
+    const spacerHeight = window.innerHeight * 0.16;
+    const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    const hasMore = distanceToBottom > spacerHeight + 20;
+    setShowScrollDown(hasMore);
+  };
+  useEffect(() => {
+    // For steps with long agent output (card form), anchor top of the agent activity bar
+    const anchorSteps = [STEPS.AGENT_DONE, STEPS.EDIT_FIELD, STEPS.CONFIRM];
+    if (anchorSteps.includes(step)) {
+      // Delay to let FadeIn render the content first
+      const t = setTimeout(() => {
+        if (agentDoneRef.current && scrollRef.current) {
+          const container = scrollRef.current;
+          const elRect = agentDoneRef.current.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+          const scrollOffset = elRect.top - containerRect.top + container.scrollTop;
+          container.scrollTo({ top: scrollOffset, behavior: "smooth" });
+        }
+      }, 700);
+      return () => clearTimeout(t);
+    } else {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [step, editingField]);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkOverflow);
+    return () => el.removeEventListener("scroll", checkOverflow);
+  }, [si]);
+  useEffect(() => { if (step === STEPS.AGENT_RUNNING) { const t = setTimeout(() => setStep(STEPS.AGENT_DONE), 2800); return () => clearTimeout(t); } }, [step]);
+  useEffect(() => { if (step === STEPS.CARD_CREATING) { const t = setTimeout(() => setStep(STEPS.SUCCESS), 3600); return () => clearTimeout(t); } }, [step]);
+  // Auto-advance: user input steps → next AI response
+  useEffect(() => {
+    const autoAdvanceMap = {
+      [STEPS.USER_PROMPT]: STEPS.AI_ASKS,
+      [STEPS.USER_REPLY_1]: STEPS.AI_ASKS_PURPOSE,
+      [STEPS.USER_REPLY_2]: STEPS.AI_ASKS_LIMITS,
+      [STEPS.USER_REPLY_3]: STEPS.AGENT_RUNNING,
+      [STEPS.AGENT_DONE]: STEPS.CONFIRM,
+    };
+    const next = autoAdvanceMap[step];
+    if (next) {
+      const t = setTimeout(() => setStep(next), 800);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
+  const drawerOpen = si >= STEP_ORDER.indexOf(STEPS.DRAWER_DEFAULT);
+  const showPopover = step === STEPS.DASHBOARD;
+  const triggered = si >= STEP_ORDER.indexOf(STEPS.AI_ASKS);
+  const askIntro = useTypewriter("To create a card, I need two things:", 6, triggered);
+  const askBulletsSegs = [
+    { text: "• Who should be the " },
+    { text: "cardholder", bold: true },
+    { text: " (" },
+    { text: "name", bold: true },
+    { text: " or " },
+    { text: "email", bold: true },
+    { text: ")?\n• What should be the " },
+    { text: "card title?", bold: true },
+  ];
+  const askBullets = useRichTypewriter(askBulletsSegs, 6, askIntro.done);
+  const purposeMsg = useTypewriter("What will this card be used for?", 16, si >= STEP_ORDER.indexOf(STEPS.AI_ASKS_PURPOSE));
+  const limitsSegments = [
+    { text: "Any " },
+    { text: "spending limits", bold: true },
+    { text: "? Let me know the " },
+    { text: "amount", bold: true },
+    { text: " and " },
+    { text: "frequency", bold: true },
+    { text: " (daily, monthly, etc)." },
+  ];
+  const limitsMsg = useRichTypewriter(limitsSegments, 16, si >= STEP_ORDER.indexOf(STEPS.AI_ASKS_LIMITS));
+  const reviewMsg = useTypewriter("Review the following virtual card details, then confirm to create the card. You can edit details in the form or tell me what to change.", 6, si >= STEP_ORDER.indexOf(STEPS.AGENT_DONE));
+
+  return (
+    <div style={{ fontFamily: "'DM Sans', -apple-system, system-ui, sans-serif", width: "100%", height: "100vh", background: "#FAFAFA", position: "relative", overflow: "hidden", display: "flex", borderRadius: 24, boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)" }}>
+      <style>{"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&display=swap'); @keyframes spin{to{transform:rotate(360deg)}} @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}} @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}} textarea::placeholder { color: #A3A3A3; } textarea:focus { outline: none; } @keyframes successPop{0%{transform:scale(.85);opacity:0}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}} @keyframes rotateBorder{from{transform:rotate(0deg)}to{transform:rotate(360deg)}} *{box-sizing:border-box;margin:0} ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#D1D5DB;border-radius:4px}"}</style>
+
+      <Sidebar dimmed={drawerOpen}/>
+
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, padding: "8px 8px 8px 0" }}>
+        <div style={{ height: 68, display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 24px", gap: 4, flexShrink: 0, opacity: drawerOpen ? 0.3 : 1, pointerEvents: drawerOpen ? "none" : "auto", position: "relative" }}>
+          <ReapAIButton onClick={goNext} animated={showPopover}/>
+          <button style={{ padding: 10, background: "none", border: "none", cursor: "pointer", color: "#71717A" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"currentColor"}}><path d="M5 5.82759H7.7M11 5.82759H9.5M7.7 5.82759H9.5M7.7 5.82759V5M9.5 5.82759C9.18351 6.95937 8.52075 8.02923 7.76429 8.96946M5.83571 11C6.44723 10.4377 7.13788 9.74802 7.76429 8.96946M7.76429 8.96946C7.37857 8.51724 6.83857 7.78558 6.68429 7.45455M7.76429 8.96946L8.92143 10.1724" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M13.5 19L14.3333 17M18.5 19L17.6667 17M14.3333 17L16 13L17.6667 17M14.3333 17H17.6667" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M14 10V8C14 5.17157 14 3.75736 13.1213 2.87868C12.2426 2 10.8284 2 8 2C5.17157 2 3.75736 2 2.87868 2.87868C2 3.75736 2 5.17157 2 8C2 10.8284 2 12.2426 2.87868 13.1213C3.75736 14 5.17157 14 8 14H10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M10 16C10 13.1716 10 11.7574 10.8787 10.8787C11.7574 10 13.1716 10 16 10C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22C13.1716 22 11.7574 22 10.8787 21.1213C10 20.2426 10 18.8284 10 16Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M4 16.5C4 17.9045 4 18.6067 4.33706 19.1111C4.48298 19.3295 4.67048 19.517 4.88886 19.6629C5.39331 20 6.09554 20 7.5 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M20 7.5C20 6.09554 20 5.39331 19.6629 4.88886C19.517 4.67048 19.3295 4.48298 19.1111 4.33706C18.6067 4 17.9045 4 16.5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          <button style={{ padding: 10, background: "none", border: "none", cursor: "pointer", color: "#71717A" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"currentColor"}}><path d="M17 8.5C17 5.73858 14.7614 3.5 12 3.5C9.23858 3.5 7 5.73858 7 8.5C7 11.2614 9.23858 13.5 12 13.5C14.7614 13.5 17 11.2614 17 8.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M19 20.5C19 16.634 15.866 13.5 12 13.5C8.13401 13.5 5 16.634 5 20.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          {showPopover && <div style={{ position: "absolute", top: 60, right: 24, zIndex: 50 }}><NewFeaturePopover onTryNow={goNext} onLater={() => {}}/></div>}
+        </div>
+        <div style={{ flex: 1, background: "white", borderRadius: 16, border: "1px solid #E4E4E7", boxShadow: "0 1px 2px rgba(0,0,0,0.05)", overflow: "auto" }}>
+          <MainContent dimmed={drawerOpen}/>
+        </div>
+      </div>
+
+      {/* DRAWER — matches Figma node 2:36508 exactly */}
+      {drawerOpen && (
+        <div style={{
+          position: "absolute", right: 0, top: 0, bottom: 0, width: 448,
+          background: "white", display: "flex", flexDirection: "column",
+          boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)",
+          animation: "slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1)", zIndex: 10,
+        }}>
+
+          {/* ── Header: frosted, sticky ── */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "12px 16px", flexShrink: 0,
+            background: "rgba(255,255,255,0.75)", backdropFilter: "blur(10px)",
+            position: "sticky", top: 0, zIndex: 2,
+          }}>
+            {/* New chat icon: annotation-plus (speech bubble + plus) */}
+            <button style={{ width: 32, height: 32, borderRadius: "50%", border: "none", background: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0 }}>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M2 10.5C2 9.72921 2.01346 8.97679 2.03909 8.2503C2.12282 5.87683 2.16469 4.69009 3.13007 3.71745C4.09545 2.74481 5.3157 2.6926 7.7562 2.58819C9.09517 2.5309 10.5209 2.5 12 2.5C13.4791 2.5 14.9048 2.5309 16.2438 2.58819C18.6843 2.6926 19.9046 2.74481 20.8699 3.71745C21.8353 4.69009 21.8772 5.87683 21.9609 8.2503C21.9865 8.97679 22 9.72921 22 10.5C22 11.2708 21.9865 12.0232 21.9609 12.7497C21.8772 15.1232 21.8353 16.3099 20.8699 17.2826C19.9046 18.2552 18.6843 18.3074 16.2437 18.4118C15.5098 18.4432 14.7498 18.4667 13.9693 18.4815C13.2282 18.4955 12.8576 18.5026 12.532 18.6266C12.2064 18.7506 11.9325 18.9855 11.3845 19.4553L9.20503 21.3242C9.07273 21.4376 8.90419 21.5 8.72991 21.5C8.32679 21.5 8 21.1732 8 20.7701V18.4219C7.91842 18.4186 7.83715 18.4153 7.75619 18.4118C5.31569 18.3074 4.09545 18.2552 3.13007 17.2825C2.16469 16.3099 2.12282 15.1232 2.03909 12.7497C2.01346 12.0232 2 11.2708 2 10.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M15.5 10.5H8.5M12 7V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+            {/* Close icon */}
+            <button onClick={() => { setStep(STEPS.DASHBOARD); setEditingField(null); }} style={{ width: 32, height: 32, borderRadius: "50%", border: "none", background: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", padding: 0 }}>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M18 6L6.00081 17.9992M17.9992 18L6 6.00085" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+          </div>
+
+          {/* ── Scrollable chat body ── */}
+          <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", position: "relative" }}>
+
+            {/* DEFAULT STATE — content anchored to bottom */}
+            {step === STEPS.DRAWER_DEFAULT && (
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "16px 24px" }}>
+                <FadeIn show delay={100}>
+                  {/* Sparkle icon */}
+                  <div style={{ marginBottom: 16 }}><SparkleIcon size={32}/></div>
+                  {/* Heading + Beta badge */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20, paddingLeft: 8 }}>
+                    <span style={{ fontSize: 24, fontWeight: 500, color: "#292424", lineHeight: "30px", whiteSpace: "nowrap" }}>How can I help?</span>
+                    <span style={{ fontSize: 12, fontWeight: 500, padding: "3px 10px", borderRadius: 99, background: "#F5F3FF", color: "#6D28D9", lineHeight: "18px", flexShrink: 0 }}>Beta</span>
+                  </div>
+                  {/* Suggestion list — matches Figma items exactly */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 16 }}>
+                    {[
+                      { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12 8V16M16 12H8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, label: "Create a new virtual card", action: () => { setUserMessages(m => ({...m, prompt: "Create a new virtual card"})); goNext(); } },
+                      { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M21 14.25L20.1689 13.591C19.223 12.841 18.75 12.466 18.75 12C18.75 11.534 19.223 11.159 20.1689 10.409L21 9.75M3 9.75L3.83115 10.409C4.77705 11.159 5.25 11.534 5.25 12C5.25 12.466 4.77705 12.841 3.83115 13.591L3 14.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M14.5718 21L14.7282 19.9412C14.9062 18.7362 14.9951 18.1337 15.4019 17.8986C15.8087 17.6635 16.3744 17.8876 17.5058 18.3358L18.5 18.7296M9.4282 3L9.27182 4.0588C9.09384 5.26379 9.00486 5.86629 8.59808 6.10139C8.1913 6.3365 7.62558 6.1124 6.49416 5.6642L5.5 5.27038" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M5 18.7317L6.07032 18.3375C7.2884 17.8889 7.89747 17.6645 8.33521 17.8994C8.77295 18.1343 8.86844 18.7367 9.05941 19.9414L9.22722 21M19 5.26825L17.9297 5.66249C16.7116 6.11115 16.1025 6.33548 15.6648 6.1006C15.2271 5.86571 15.1316 5.26333 14.9406 4.05859L14.7728 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M19 12.0003H5M15.5 17.9998L8.5 6M15.5 6.00025L8.5 18" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>, label: "Freeze a card" },
+                      { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M21.5 4.5C21.5 5.60457 20.6046 6.5 19.5 6.5C18.3954 6.5 17.5 5.60457 17.5 4.5C17.5 3.39543 18.3954 2.5 19.5 2.5C20.6046 2.5 21.5 3.39543 21.5 4.5Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M20.4711 9.40577C20.5 10.2901 20.5 11.3119 20.5 12.5C20.5 16.7426 20.5 18.864 19.182 20.182C17.864 21.5 15.7426 21.5 11.5 21.5C7.25736 21.5 5.13604 21.5 3.81802 20.182C2.5 18.864 2.5 16.7426 2.5 12.5C2.5 8.25736 2.5 6.13604 3.81802 4.81802C5.13604 3.5 7.25736 3.5 11.5 3.5C12.6881 3.5 13.7099 3.5 14.5942 3.52895" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M6.5 14.5L9.29289 11.7071C9.68342 11.3166 10.3166 11.3166 10.7071 11.7071L12.2929 13.2929C12.6834 13.6834 13.3166 13.6834 13.7071 13.2929L16.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, label: "Unfreeze a card" },
+                      { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M21 6C21 7.65685 19.6569 9 18 9C16.3431 9 15 7.65685 15 6C15 4.34315 16.3431 3 18 3C19.6569 3 21 4.34315 21 6Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M21 18C21 19.6569 19.6569 21 18 21C16.3431 21 15 19.6569 15 18C15 16.3431 16.3431 15 18 15C19.6569 15 21 16.3431 21 18Z" stroke="currentColor" strokeWidth="1.5"/>
+<path d="M15 8L3 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M15.0003 16L11 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M3 5.00011L8.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, label: "Terminate a card" },
+                      { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M13 20.8268V22H14.1734C14.5827 22 14.7874 22 14.9715 21.9238C15.1555 21.8475 15.3003 21.7028 15.5897 21.4134L20.4133 16.5894C20.6864 16.3164 20.8229 16.1799 20.8959 16.0327C21.0347 15.7525 21.0347 15.4236 20.8959 15.1434C20.8229 14.9961 20.6864 14.8596 20.4133 14.5866C20.1403 14.3136 20.0038 14.1771 19.8565 14.1041C19.5763 13.9653 19.2473 13.9653 18.9671 14.1041C18.8198 14.1771 18.6833 14.3136 18.4103 14.5866L18.4103 14.5866L13.5867 19.4106C13.2972 19.7 13.1525 19.8447 13.0762 20.0287C13 20.2128 13 20.4174 13 20.8268Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+<path d="M19 11C19 11 19 9.4306 18.8478 9.06306C18.6955 8.69552 18.4065 8.40649 17.8284 7.82843L13.0919 3.09188C12.593 2.593 12.3436 2.34355 12.0345 2.19575C11.9702 2.165 11.9044 2.13772 11.8372 2.11401C11.5141 2 11.1614 2 10.4558 2C7.21082 2 5.58831 2 4.48933 2.88607C4.26731 3.06508 4.06508 3.26731 3.88607 3.48933C3 4.58831 3 6.21082 3 9.45584V14C3 17.7712 3 19.6569 4.17157 20.8284C5.23467 21.8915 6.8857 21.99 10 21.9991M12 2.5V3C12 5.82843 12 7.24264 12.8787 8.12132C13.7574 9 15.1716 9 18 9H18.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, label: "Summarize card spending" },
+                      { icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#09090B"}}><path d="M6.08938 14.9992C5.71097 14.1486 5.5 13.2023 5.5 12.2051C5.5 8.50154 8.41015 5.49921 12 5.49921C15.5899 5.49921 18.5 8.50154 18.5 12.2051C18.5 13.2023 18.289 14.1486 17.9106 14.9992" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M12 1.99921V2.99921" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M22 11.9992H21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M3 11.9992H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M19.0704 4.92792L18.3633 5.63503" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M5.6368 5.636L4.92969 4.92889" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M14.517 19.3056C15.5274 18.9788 15.9326 18.054 16.0466 17.1238C16.0806 16.8459 15.852 16.6154 15.572 16.6154L8.47685 16.6156C8.18725 16.6156 7.95467 16.8614 7.98925 17.1489C8.1009 18.0773 8.3827 18.7555 9.45345 19.3056M14.517 19.3056C14.517 19.3056 9.62971 19.3056 9.45345 19.3056M14.517 19.3056C14.3955 21.2506 13.8338 22.0209 12.0068 21.9993C10.0526 22.0354 9.60303 21.0833 9.45345 19.3056" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>, label: "Tell me what you can do" },
+                    ].map(({ icon, label, action }) => (
+                      <button key={label} onClick={action} style={{
+                        display: "flex", alignItems: "center", gap: 10,
+                        padding: "8px 8px", background: "none", border: "none",
+                        borderRadius: 6, cursor: "pointer", fontFamily: "inherit",
+                        fontSize: 16, color: "#09090B", textAlign: "left", width: "100%",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = "#F5F3FF"}
+                      onMouseLeave={e => e.currentTarget.style.background = "none"}
+                      >
+                        <span style={{ flexShrink: 0, display: "flex" }}>{icon}</span>
+                        <span style={{ lineHeight: "24px" }}>{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {/* Info alert strip */}
+                  <div style={{
+                    display: "flex", alignItems: "center", gap: 12,
+                    background: "#F5F3FF", borderRadius: 12, padding: "16px",
+                  }}>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color:"#6D28D9", flexShrink:0}}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12 16V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M12.125 8.25H12M12.25 8.25C12.25 8.11193 12.1381 8 12 8C11.8619 8 11.75 8.11193 11.75 8.25C11.75 8.38807 11.8619 8.5 12 8.5C12.1381 8.5 12.25 8.38807 12.25 8.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <span style={{ fontSize: 13, color: "#6D28D9", lineHeight: "19.5px" }}>Reap AI is currently available for Reap Card support.</span>
+                  </div>
+                </FadeIn>
+              </div>
+            )}
+
+            {/* CHAT MESSAGES — shown after user starts */}
+            {step !== STEPS.DRAWER_DEFAULT && (
+              <div style={{ flex: 1, padding: "16px 24px", display: "flex", flexDirection: "column" }}>
+                {si>=STEP_ORDER.indexOf(STEPS.USER_PROMPT)&&<FadeIn show delay={100}><Bubble from="user">{userMessages.prompt||"Create a new virtual card"}</Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.AI_ASKS)&&<FadeIn show delay={300}><Bubble from="ai">
+                  <div style={{fontSize:15,color:"#09090B",lineHeight:1.6}}>
+                    <div>{askIntro.displayed}{!askIntro.done&&<span style={{animation:"pulse 1s infinite"}}>|</span>}</div>
+                    {(askBullets.nodes.length > 0 || askIntro.done) && (
+                      <div style={{whiteSpace:"pre-wrap",marginTop:8}}>
+                        {askBullets.nodes}{!askBullets.done&&<span style={{animation:"pulse 1s infinite"}}>|</span>}
+                      </div>
+                    )}
+                  </div>
+                </Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.USER_REPLY_1)&&<FadeIn show delay={100}><Bubble from="user">{userMessages.reply1||("For Jisoo Ahn - jisoo.ahn@reap.hk\nCard title: " + (cardOverrides.title||"Figma subscription"))}</Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.AI_ASKS_PURPOSE)&&<FadeIn show delay={400}><Bubble from="ai"><div style={{fontSize:15,color:"#09090B"}}>{purposeMsg.displayed}{!purposeMsg.done&&<span style={{animation:"pulse 1s infinite"}}>|</span>}</div></Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.USER_REPLY_2)&&<FadeIn show delay={100}><Bubble from="user">{userMessages.reply2||cardOverrides.title||"SaaS subscription"}</Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.AI_ASKS_LIMITS)&&<FadeIn show delay={400}><Bubble from="ai">
+                  <div style={{fontSize:15,color:"#09090B",lineHeight:1.6}}>
+                    {limitsMsg.nodes}{!limitsMsg.done&&<span style={{animation:"pulse 1s infinite"}}>|</span>}
+                  </div>
+                </Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.USER_REPLY_3)&&<FadeIn show delay={100}><Bubble from="user">{userMessages.reply3||"HK 4000 per month and HKD 40000 per year"}</Bubble></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.AGENT_RUNNING)&&<FadeIn show delay={200}><div ref={agentDoneRef} style={{marginTop:8}}><AgentActivity running={step===STEPS.AGENT_RUNNING} completed={si>=STEP_ORDER.indexOf(STEPS.AGENT_DONE)}/></div></FadeIn>}
+                {si>=STEP_ORDER.indexOf(STEPS.AGENT_DONE)&&<FadeIn show delay={500}><div>
+                  <div style={{fontSize:15,lineHeight:1.6,color:"#09090B",marginBottom:6}}>{reviewMsg.displayed}{!reviewMsg.done&&<span style={{animation:"pulse 1s infinite"}}>|</span>}</div>
+                  <CardForm showEdit={step !== STEPS.SUCCESS && step !== STEPS.CARD_CREATING} cardOverrides={cardOverrides} editingField={editingField} onEdit={(k,v)=>{setEditingField(k);setEditValue(v);setStep(STEPS.EDIT_FIELD)}} onSave={()=>{setCardOverrides(prev=>({...prev,[editingField]:editValue}));setEditingField(null);setStep(STEPS.CONFIRM)}} onCancel={()=>{setEditingField(null);setStep(STEPS.CONFIRM)}} editValue={editValue} onEditChange={setEditValue}/>
+                  {step!==STEPS.SUCCESS&&step!==STEPS.CARD_CREATING&&<FadeIn show delay={800}>
+                    <div style={{display:"flex",gap:8,marginTop:8,marginBottom:20}}>
+                      <button onClick={()=>setStep(STEPS.DASHBOARD)} style={{
+                        padding:"8px 16px", fontSize:15, fontWeight:500,
+                        border:"1px solid #E4E4E7", borderRadius:8,
+                        background:"white", cursor:"pointer", fontFamily:"inherit", color:"#09090B",
+                        lineHeight:"20px", height:36,
+                      }}>Cancel</button>
+                      <button
+                        onClick={()=>setStep(STEPS.CARD_CREATING)}
+                        disabled={!!editingField}
+                        style={{
+                          padding:"8px 16px", fontSize:15, fontWeight:500,
+                          border:"none", borderRadius:8,
+                          background: editingField ? "rgba(109,40,217,0.4)" : "#6D28D9",
+                          color:"white", cursor: editingField ? "default" : "pointer",
+                          fontFamily:"inherit", lineHeight:"20px", height:36,
+                        }}
+                      >Create card</button>
+                    </div>
+                  </FadeIn>}
+                </div></FadeIn>}
+                {(step===STEPS.CARD_CREATING||step===STEPS.SUCCESS)&&<FadeIn show delay={0}>
+                  <div style={{marginTop:32}}>
+                    <CardCreationActivity active={step===STEPS.CARD_CREATING} done={step===STEPS.SUCCESS}/>
+                  </div>
+                </FadeIn>}
+                {step===STEPS.SUCCESS&&<FadeIn show delay={200}>
+                  <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:32}}>
+                    <div style={{fontSize:16,color:"#262626",lineHeight:"24px"}}>
+                      Done. The card is ready to use. We've also informed the cardholder via email.
+                    </div>
+                    <div style={{display:"flex",gap:8}}>
+                      <button style={{
+                        padding:"8px 16px", fontSize:15, fontWeight:500, height:36,
+                        border:"1px solid #E4E4E7", borderRadius:8,
+                        background:"white", cursor:"pointer", fontFamily:"inherit", color:"#09090B",
+                        lineHeight:"20px", whiteSpace:"nowrap",
+                      }}>View card details</button>
+                      <button style={{
+                        padding:"8px 16px", fontSize:15, fontWeight:500, height:36,
+                        border:"1px solid #E4E4E7", borderRadius:8,
+                        background:"white", cursor:"pointer", fontFamily:"inherit", color:"#09090B",
+                        lineHeight:"20px", whiteSpace:"nowrap",
+                      }}>Create another card</button>
+                    </div>
+                  </div>
+                </FadeIn>}
+                <div ref={chatEndRef}/>
+                {/* Bottom spacer — keeps content in upper 2/3 of viewport */}
+                <div style={{ minHeight: "16vh", flexShrink: 0 }}/>
+              </div>
+            )}
+          </div>
+
+          {/* Scroll-to-bottom button — Claude style */}
+          {showScrollDown && step !== STEPS.DRAWER_DEFAULT && (
+            <div style={{ position: "relative", height: 0, zIndex: 5 }}>
+              <div style={{ position: "absolute", bottom: 24, left: 0, right: 0, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+                <button
+                  onClick={() => { chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); }}
+                  style={{
+                    width: 32, height: 32, borderRadius: "50%",
+                    background: "white", border: "1px solid #E4E4E7",
+                    boxShadow: "0 1px 6px rgba(0,0,0,0.08)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    cursor: "pointer", padding: 0, flexShrink: 0, pointerEvents: "auto",
+                    transition: "background 0.15s, box-shadow 0.15s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "#F4F4F5"; e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.12)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "white"; e.currentTarget.style.boxShadow = "0 1px 6px rgba(0,0,0,0.08)"; }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{flexShrink:0}}>
+                    <path d="M6 10L12 16L18 10" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
+
+          {/* ── Prompt box — frosted glass, matches Figma PromptBox ── */}
+          <PromptBox step={step} onSubmit={handlePromptSubmit} />
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(ReapAIPrototype));
+</script>
+</body>
+</html>
