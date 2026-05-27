@@ -1308,6 +1308,119 @@
         <div class="impact-card"><span class="imp-n">11</span><span class="imp-l">User stories written with edge cases</span><h3>Design as product spec</h3><p>Including: multiple cardholders with same name, wrong category inference, mid-flow cardholder switch, permission boundary handling — all scenarios that break generic AI chat.</p></div>
         <div class="impact-card"><span class="imp-n">0→1</span><span class="imp-l">Alpha to designed v2</span><h3>Framework for AI design at Reap</h3><p>The AI capability framework and interaction model principles I established became the team's reference for evaluating all future AI features — not just this agent.</p></div>
       </div>
+
+      <div style="margin-top:72px; padding-top:56px; border-top:1px solid var(--border);">
+        <div class="cs-label">Design</div>
+
+        <!-- Role-aware default state -->
+        <div style="margin-top:40px;">
+          <h3>Role-aware default state</h3>
+          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">The idle state isn't a blank cursor. It's the agent's first impression and a trust signal.</p>
+          <p>I designed two distinct default states based on user role. Group owners, admins, and owners see the full action set: create, freeze, unfreeze, terminate, summarise spending. Individual team members see a scoped-down view, only what they're permitted to do. Quick-action chips map directly to the agent's actual capabilities, so users know what to ask before they type anything.</p>
+          <p>Three transparency signals were deliberately built into the idle state:</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; margin-top:16px; padding:0;">
+            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Beta"</strong> sets honest expectations about maturity</span></li>
+            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Reap AI is currently available for Reap Card support"</strong> communicates scope before the user hits an out-of-scope wall</span></li>
+            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Reap AI can make mistakes"</strong> maintains honesty without undermining confidence</span></li>
+            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Tell me what you can do"</strong> is a low-friction entry point for users who aren't sure where to start</span></li>
+          </ul>
+          <div class="note" style="margin-top:24px;"><p>The default state does design work before a single message is sent.</p></div>
+        </div>
+
+        <!-- Defined loading states -->
+        <div style="margin-top:56px;">
+          <h3>Defined loading states</h3>
+          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">Loading states aren't a technical detail. In an AI agent, they're a trust mechanism.</p>
+          <div class="decision">
+            <div class="dec-col">
+              <h3>Text output</h3>
+              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">I worked with engineering to confirm that response times would be short enough that a simple "Working on it…" message with a shimmer effect would be sufficient. Streaming wasn't necessary and would have added implementation overhead for minimal UX gain.</p>
+            </div>
+            <div class="dec-col">
+              <h3>Widget-based workflows</h3>
+              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">For card creation and spend summaries, we made a different call. These operations are multi-step and take longer. The agent streams its activity in real time: the "Agent activity" label appears first with a shimmer, then expands step by step, with each item showing its own loading state. Users can see exactly where the agent is — not just that something is happening, but what.</p>
+            </div>
+          </div>
+          <div class="note" style="margin-top:24px;"><p><strong>Design principle:</strong> This distinction between text and widget loading wasn't a UI decision. It was a product decision made with engineering, grounded in latency data and user trust.</p></div>
+        </div>
+
+        <!-- Overflow and scroll behaviour -->
+        <div style="margin-top:56px;">
+          <h3>Overflow and scroll behaviour</h3>
+          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">Most chat interfaces scroll blindly. I designed the overflow behaviour around where the eye actually lands.</p>
+          <div class="decision">
+            <div class="dec-col">
+              <h3>After every message</h3>
+              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">The chat window always leaves exactly one third of its height empty below. This creates a consistent visual anchor point, so your eyes naturally rest in the upper-middle zone while reading each response. It reduces the sense of content rushing to the bottom of the screen.</p>
+            </div>
+            <div class="dec-col">
+              <h3>For longer responses</h3>
+              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">Responses that exceed the chat window height anchor to the top so users can start reading from the beginning immediately. An overflow button sits fixed at the bottom, giving users a deliberate, one-tap way to jump to the end when they're ready. Reading first, scrolling by choice.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reusable agent output patterns -->
+        <div style="margin-top:56px;">
+          <h3>Reusable agent output patterns</h3>
+          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">I can't predict every user input. So instead of designing for individual messages, I designed a system of generic, reusable output patterns that engineering can apply consistently across any response type.</p>
+          <p>Defining these patterns meant that no matter what a user types, the agent's output stays consistent, scannable, and on-brand. It also gave engineering a clear contract with fewer edge cases and fewer one-off implementations.</p>
+          <div class="ux-grid" style="grid-template-columns:repeat(4,1fr); margin-top:32px;">
+            <div class="ux-card">
+              <div class="ux-icon" style="font-size:14px; font-weight:800;">T</div>
+              <h3>Simple text</h3>
+              <p>Plain conversational responses with no UI chrome</p>
+            </div>
+            <div class="ux-card">
+              <div class="ux-icon" style="font-size:14px;">◎</div>
+              <h3>Single selection list</h3>
+              <p>When the agent needs to confirm one specific choice, such as which cardholder</p>
+            </div>
+            <div class="ux-card">
+              <div class="ux-icon" style="font-size:16px; font-weight:700;">≡</div>
+              <h3>List</h3>
+              <p>Multiple results or options presented with structure</p>
+            </div>
+            <div class="ux-card">
+              <div class="ux-icon" style="font-size:14px;">▤</div>
+              <h3>Widget</h3>
+              <p>Structured card previews for confirmation, creation, and summary flows</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fallback scenarios -->
+        <div style="margin-top:56px;">
+          <h3>Fallback scenarios with copy and UI pattern guidance</h3>
+          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">An agent that only works on the happy path isn't production-ready.</p>
+          <p>I defined four fallback scenarios, each with a design purpose, copy anatomy, and UI pattern:</p>
+          <div class="prob-grid" style="margin-top:24px;">
+            <div class="prob-card">
+              <span class="prob-n">a — Generic error</span>
+              <h3>Execution failure</h3>
+              <p>When something goes wrong technically — API failure, network error, or server issue. Copy acknowledges the attempted action, confirms nothing was changed, and offers a clear next step: Retry or Contact Support. Users should never wonder if their financial data was affected.</p>
+            </div>
+            <div class="prob-card">
+              <span class="prob-n">b — Intent ambiguity</span>
+              <h3>Confidence below threshold</h3>
+              <p>When the agent's confidence drops below 51%, it doesn't guess. It presents 2–4 closest-matching options as buttons, not text links, so users can select intent without retyping. This narrows the conversation without stopping it.</p>
+            </div>
+          </div>
+          <div class="prob-grid" style="margin-top:16px;">
+            <div class="prob-card">
+              <span class="prob-n">c — Unsupported capability</span>
+              <h3>Understood but out of scope</h3>
+              <p>When a request is understood but outside scope. The agent doesn't apologize or explain technical limitations. It states the boundary neutrally, then immediately pivots to what it can do. Every out-of-scope response ends with an alternative, never a dead end.</p>
+            </div>
+            <div class="prob-card">
+              <span class="prob-n">d — Permission and role limitation</span>
+              <h3>Restricted action</h3>
+              <p>When a user without sufficient permissions attempts a restricted action. The agent names the limitation clearly and offers escalation paths — asking an admin or viewing their own cards — without blame or friction.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
