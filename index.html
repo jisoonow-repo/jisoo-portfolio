@@ -1937,13 +1937,12 @@ function hydrate() {
       </div>
       <div class="pcard-body">
         <div>
-          <span class="pcard-idx">${p.idx}</span>
           <div class="pcard-tags">${p.tags.map(t => `<span class="ptag${t.muted ? ' muted' : ''}">${t.label}</span>`).join('')}</div>
           <div class="pcard-title">${p.title}</div>
           <div class="pcard-desc">${p.desc}</div>
         </div>
         <div class="pcard-foot">
-          ${p.live ? '<span class="pcard-arrow">→</span>' : '<span class="coming-badge">In progress</span>'}
+          ${p.live ? '' : '<span class="coming-badge">In progress</span>'}
         </div>
       </div>
     </div>`).join('');
