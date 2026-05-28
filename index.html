@@ -477,6 +477,7 @@
   .dec-col li { font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65; }
   .dec-col li::before { content:'—'; color:var(--tag-fg); flex-shrink:0; }
   .dec-col li strong { color:var(--fg); }
+  .dec-col .dec-stacked { display:flex; flex-direction:column; gap:6px; }
 
   .state-table-wrap {
     background: var(--glass);
@@ -1640,8 +1641,8 @@
             <div class="dec-col">
               <h3>What didn't work</h3>
               <ul>
-                <li><strong>Iterations #1 &amp; #2:</strong><br>Structure was insufficient for clearly presenting maximum limit and remaining balance — the two most critical data points for users.</li>
-                <li><strong>Iteration #3:</strong><br>Hovering over charts to view data was inconvenient. Key figures should never require interaction to surface.</li>
+                <li><div class="dec-stacked"><strong>Iterations #1 &amp; #2:</strong><span>Structure was insufficient for clearly presenting maximum limit and remaining balance — the two most critical data points for users.</span></div></li>
+                <li><div class="dec-stacked"><strong>Iteration #3:</strong><span>Hovering over charts to view data was inconvenient. Key figures should never require interaction to surface.</span></div></li>
               </ul>
             </div>
           </div>
@@ -1649,9 +1650,9 @@
             <div class="dec-col">
               <h3>What we landed on</h3>
               <ul>
-                <li><strong>Persistent data display:</strong><br>Maximum limit and remaining balance always visible — no hover, no drill-down required.</li>
-                <li><strong>Group-level exposure view:</strong><br>Aggregated picture of all related entities in a single scannable layout.</li>
-                <li><strong>Policy alignment indicators:</strong><br>Real-time feedback on whether proposed structure is within bank thresholds.</li>
+                <li><div class="dec-stacked"><strong>Persistent data display:</strong><span>Maximum limit and remaining balance always visible — no hover, no drill-down required.</span></div></li>
+                <li><div class="dec-stacked"><strong>Group-level exposure view:</strong><span>Aggregated picture of all related entities in a single scannable layout.</span></div></li>
+                <li><div class="dec-stacked"><strong>Policy alignment indicators:</strong><span>Real-time feedback on whether proposed structure is within bank thresholds.</span></div></li>
               </ul>
             </div>
           </div>
