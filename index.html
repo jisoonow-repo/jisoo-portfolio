@@ -1831,8 +1831,7 @@ const CONTENT = {
   /* flip: alternates thumbnail left/right                  */
   /* live: true = clickable, false = coming soon            */
   /* icon: HugeIcons name for the placeholder               */
-  /* To add a cover image, replace pcard-placeholder in     */
-  /* renderProjects() with an <img> tag.                    */
+  /* cover: optional image filename; falls back to icon     */
   projects: [
     {
       id:    "cs-ai",
@@ -1842,6 +1841,7 @@ const CONTENT = {
       desc:  "Led the end-to-end design of an AI agent for corporate card management — diagnosing a broken alpha, defining the UX framework, interaction model, and full state system for v2. Shipped internally at Reap.",
       flip:  false,
       icon:  "bot",
+      cover: "reap-ai-cover.png",
       live:  true,
     },
     {
@@ -1926,12 +1926,11 @@ function hydrate() {
   if (wg) wg.innerHTML = CONTENT.projects.map(p => `
     <div class="pcard${p.flip ? ' flip' : ''}"${p.live ? ` onclick="go('${p.id}')"` : ' style="cursor:default;"'}>
       <div class="pcard-thumb">
-        <!-- To add a cover image: replace the pcard-placeholder div below with:
-             <img class="pcard-img" src="your-image.jpg" alt="${p.title}"> -->
+        ${p.cover ? `<img class="pcard-img" src="${p.cover}" alt="${p.title}">` : `
         <div class="pcard-placeholder">
           <div class="pcard-placeholder-icon"><i class="hgi-stroke hgi-${p.icon}"></i></div>
           <span>Cover image coming</span>
-        </div>
+        </div>`}
       </div>
       <div class="pcard-body">
         <div>
