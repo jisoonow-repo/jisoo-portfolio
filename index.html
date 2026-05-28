@@ -1734,15 +1734,244 @@
 </div><!-- /page-cs-sfw -->
 
 
-<!-- Blank project pages -->
+<!-- Project 3: FI Partner Page Redesign -->
+<div id="page-cs-fi" class="page">
 
-<div id="page-cs-blank3" class="page">
-  <div class="blank">
-    <button class="back-btn" onclick="go('work')" style="margin-bottom:0;">← Back to Work</button>
-    <h2>Case Study Coming Soon</h2>
-    <p>This project is currently being documented.</p>
+  <div class="cs-hero">
+    <div class="cs-hero-grid"></div>
+    <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
+      <button class="back-btn" onclick="go('work')">← Back to Work</button>
+      <div class="cs-eye">Case Study — Shipped Product</div>
+      <h1>FI Partner Page<br><em>Redesign</em></h1>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Industry</label><span>Loyalty &amp; Rewards</span></div>
+        <div class="cs-meta-item"><label>My Role</label><span>Product Designer</span></div>
+        <div class="cs-meta-item"><label>Domain</label><span>B2B SaaS · Merchant Portal</span></div>
+        <div class="cs-meta-item"><label>Scope</label><span>Discovery → Delivery</span></div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- 01 Context -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">01 — Context</div>
+      <div class="col2-60">
+        <div>
+          <h2>A merchant portal where partnerships — and revenue — live or die</h2>
+          <p><strong>Ascenda's merchant portal is a one-stop platform for merchant partners</strong> — airlines and hotels — to explore potential Financial Institution (FI) partnerships, track existing ones, manage marketing campaigns with partnered FIs, and monitor campaign performance.</p>
+          <p>The Financial Institution pages sit at the centre of this workflow. They're how merchants discover new FI partners, qualify them, move them through the pipeline, and see the ones already live with them — directly tied to revenue generation across the platform.</p>
+        </div>
+        <div>
+          <div class="rtags">
+            <span class="rtag on">Discovery &amp; Research</span><span class="rtag on">IA &amp; Systems Design</span>
+            <span class="rtag on">Interaction Design</span><span class="rtag on">Usability Testing</span>
+          </div>
+          <div class="note"><p><strong>My role:</strong> I led the redesign end-to-end — from discovery and research with internal and external users, through information architecture and interaction design, to usability testing and post-release analytics review.</p></div>
+        </div>
+      </div>
+      <!-- IMAGE SLOT: 3-tier portal diagram (Rewards Central → Admin Portal → Merchant Portal) -->
+      <!-- <img src="fi-portal-stack.png" alt="Three-tier portal structure: Rewards Central, Admin Portal, Merchant Portal" style="width:100%; border-radius:12px; margin-top:40px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 02 Problem -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">02 — Problem Definition</div>
+      <h2>"It's just so confusing…" — a usability problem that quietly cost the business</h2>
+      <p>Poor usability made it hard for merchant partners to browse FIs efficiently. Internal teams were absorbing the cost — fielding repeated support inquiries on how to read the page, what the labels meant, and where to find specific partners. For a page directly tied to revenue, that friction was expensive.</p>
+      <div class="prob-grid">
+        <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>Unconventional labels &amp; icons</h3><p>Terms like <strong>'Active'</strong> and <strong>'Approved'</strong> didn't match merchant users' mental models. A <strong>star icon</strong> was used to indicate a live FI — but to merchants it read as "favourite," not "live partnership."</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>Redundant IA split</h3><p>'Pipeline' and 'Active' were two top-level nav tabs — but given the moderate depth of the IA, splitting the same entity across two destinations was redundant, forced extra navigation, and obscured the partnership journey.</p></div>
+      </div>
+      <div class="prob-grid" style="grid-template-columns:1fr; margin-top:16px;">
+        <div class="prob-card"><span class="prob-n">03</span><h3>No structural support for scale</h3><p>The two-tab structure made it hard to add new stages, new actions, or new merchant prompts without further fragmenting the navigation. Every future feature would have meant another tab — or another workaround.</p></div>
+      </div>
+      <!-- IMAGE SLOT: Existing 'Active' page screenshot with merchant partner quote bubble ("Active..? Approved...? Why is it star icon..?") -->
+      <!-- <img src="fi-old-active-page.png" alt="Existing Active page — unconventional labels and star icon causing confusion" style="width:100%; border-radius:12px; margin-top:24px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 03 Research -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">03 — Research &amp; Discovery</div>
+      <h2>Understanding the root causes — and the partnership journey behind them</h2>
+      <p>I combined desk research with interviews of internal users (sales, BD, MP team) to surface why the existing page was hard to use, and mapped the full partnership launch process to find what the IA <em>should</em> support.</p>
+      <div class="steps">
+        <div class="step"><span class="step-n">Method 01</span><div class="step-t">Desk Research</div><div class="step-d">Audited the current page against B2B patterns and user mental models for pipeline / Kanban-style workflows.</div></div>
+        <div class="step"><span class="step-n">Method 02</span><div class="step-t">Internal Interviews</div><div class="step-d">Spoke to sales, BD, and the merchant partner team to understand the support inquiries they were absorbing and where merchants got stuck.</div></div>
+        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Journey Mapping</div><div class="step-d">Mapped the end-to-end partnership launch process — from interest check and FI activation with Ascenda, through to live partnership between FI and merchant — to identify where the system should support each step.</div></div>
+      </div>
+      <div class="cs-label" style="margin-top:48px;">Key Research Findings</div>
+      <div class="krf-list">
+        <div class="krf-item">
+          <span class="krf-n">01</span>
+          <div class="krf-body">
+            <h3 class="krf-title">Labels and icons didn't match merchant mental models</h3>
+            <p class="krf-desc">'Active' and 'Approved' read as internal operational states, not as the partnership stages merchants think in. The 'star' icon was the most consistent source of confusion — universally read as "favourite," never as "live partnership."</p>
+          </div>
+        </div>
+        <div class="krf-item">
+          <span class="krf-n">02</span>
+          <div class="krf-body">
+            <h3 class="krf-title">The Pipeline / Active split was solving an internal problem, not a user one</h3>
+            <p class="krf-desc">The two-tab IA reflected how the system stored FIs — not how merchants browsed them. Users wanted to see <strong>all FIs across stages in one place</strong>, with the stage as a property of the FI, not as a destination.</p>
+          </div>
+        </div>
+        <div class="krf-item">
+          <span class="krf-n">03</span>
+          <div class="krf-body">
+            <h3 class="krf-title">The partnership journey is naturally staged — and naturally Kanban</h3>
+            <p class="krf-desc">Mapping the full launch process surfaced three clean stages: <strong>Opportunities → Going live → Live</strong>. Each stage had a distinct definition and a distinct use case for both merchant and internal users — a structure the existing IA didn't expose.</p>
+          </div>
+        </div>
+      </div>
+      <!-- IMAGE SLOT: Partnership launch flow diagram (Sales / MP / Merchant swimlanes across Interest check, FI Activation, Partnership launch) -->
+      <!-- <img src="fi-journey-map.png" alt="End-to-end partnership launch journey across sales team, MP team, and merchant partner" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+      <div class="note" style="margin-top:40px;">
+        <p><strong>Goal we aligned on:</strong> Improve clarity and comprehension of the pipeline content. We committed to two success metrics — a <strong>leading indicator</strong> (80% success rate on key tasks in usability testing) and a <strong>lagging indicator</strong> (increase in weekly page views and average views per partner).</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 04 Solution 1 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">04 — Solution 1</div>
+      <div class="col2-60">
+        <div>
+          <h2>One tab, three stages — a Kanban-inspired FI Partners page</h2>
+          <p>I consolidated the two existing tabs into <strong>a single 'FI Partners' tab</strong> with three sub-views — <strong>Opportunities</strong>, <strong>Going live</strong>, and <strong>Live</strong> — directly mirroring the partnership launch process surfaced in research.</p>
+          <p>I also took the opportunity to <strong>restructure the main navigation</strong> — grouping FI Partners and Campaign Proposals (the two revenue-generating surfaces) at the top, with insights and marketing tools organised beneath.</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> The IA should mirror the user's mental model of the work — not the system's storage model. Stage is a property of a partnership, not a destination in the nav.</p></div>
+      </div>
+      <div class="ux-grid" style="margin-top:40px;">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-search-01"></i></div>
+          <h3>Opportunities</h3>
+          <p>FIs that are activated or being activated with Ascenda. Use case: merchants can browse and actively find the ones that match their business strategy and preferences.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-rocket-01"></i></div>
+          <h3>Going live</h3>
+          <p>FIs that are in the process of going live with the merchant. Use case: merchants can track which deals are mid-launch and what the next step is.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-circle-02"></i></div>
+          <h3>Live</h3>
+          <p>FIs that have gone live with the merchant. Use case: merchants can view all live partnerships and the contract details associated with them.</p>
+        </div>
+      </div>
+      <div class="sol-impact-block">
+        <h3 class="sol-impact-title">Impact</h3>
+        <p class="sol-impact">Replaced an internal-storage IA with a <em>journey-shaped</em> one. The same page now serves both merchant and internal users — with stage as a filter, not a fragmented destination.</p>
+        <!-- IMAGE SLOT: Kanban concept diagram (Opportunities → Going live → Live, with Definition + Use case rows, merchant + internal personas) -->
+        <!-- <img src="fi-kanban-concept.png" alt="Kanban-inspired concept: Opportunities, Going live, Live — definitions and use cases per persona" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 05 Solution 2 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">05 — Solution 2</div>
+      <h2>Two audiences, one page — tailored views with shared structure</h2>
+      <p>The same FI Partners page serves two distinct audiences: <strong>merchant partners</strong> (external) and <strong>the Ascenda MP team</strong> (internal). They share the same mental model of the partnership journey, but they don't share the same actions.</p>
+      <div class="insights" style="margin-top:40px;">
+        <div class="insight"><div class="insight-q">Shared structure across audiences</div><div class="insight-b"><strong>Both views use the same three-stage Kanban structure</strong> — Opportunities, Going live, Live — so internal and external users speak the same language about where a partnership is in its journey.</div></div>
+        <div class="insight"><div class="insight-q">Action column for internal users</div><div class="insight-b"><strong>The internal view adds an action column</strong> — letting the MP team move FI items between stages for each merchant partner, edit details, and trigger archive — without leaving the page or breaking the shared mental model.</div></div>
+        <div class="insight"><div class="insight-q">Per-merchant tailoring on the internal side</div><div class="insight-b"><strong>Internal users can view the FI Partners page in the context of any individual merchant</strong>, with the same layout and stages — so the team can support each merchant against a consistent picture of where their partnerships stand.</div></div>
+      </div>
+      <!-- IMAGE SLOT: Side-by-side Merchant view vs Internal view of the new FI Partners page -->
+      <!-- <img src="fi-merchant-vs-internal.png" alt="Side-by-side merchant view and internal view of the new FI Partners page" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 06 Solution 3 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">06 — Solution 3</div>
+      <div class="col2-60">
+        <div>
+          <h2>A details page rebuilt for clarity — and for scale</h2>
+          <p>The previous details page mixed high-value content with low-value content, and used a rigid layout that didn't accommodate the different states an FI partnership goes through.</p>
+          <p>I redesigned it around a <strong>card-based layout</strong> — removing low-value content, grouping high-value content into cards that can vary by stage, and making the page easy to extend as new content types come in.</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> Design the container so the next feature is a card, not a redesign. Anticipating future surface area was as important as fixing today's problems.</p></div>
+      </div>
+      <div class="ux-grid" style="margin-top:40px;">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-layout-01"></i></div>
+          <h3>Card-based composition</h3>
+          <p>Content is grouped into discrete cards. Each card has a clear purpose and can appear or hide per stage — so the page composition adapts to the partnership's current state.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-filter-horizontal"></i></div>
+          <h3>Stage-aware content</h3>
+          <p>Different cards surface for Opportunities vs Going live vs Live. Users see exactly what matters at the stage they're in — and nothing they don't.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-arrow-up-right-01"></i></div>
+          <h3>Built for future steps</h3>
+          <p>The tab structure was deliberately designed to accommodate new process steps, merchant prompts, and action types — anticipating a follow-on project that has since shipped using exactly this scaffolding.</p>
+        </div>
+      </div>
+      <!-- IMAGE SLOT: Action column open with "Move to Going live / Move to Live / Edit / Archive" menu -->
+      <!-- <img src="fi-action-column.png" alt="Action column open with options to move items between stages, edit, or archive" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 07 Impact -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">07 — Impact &amp; Outcomes</div>
+      <h2>From confusing to engaging — the most-viewed page in the app</h2>
+      <p>The redesigned FI Partners page hit both success metrics we committed to in research — and the lagging indicator outperformed expectations.</p>
+      <div class="impact-grid">
+        <div class="impact-card hi"><span class="imp-n">80%</span><span class="imp-l">Success rate on key tasks (usability testing)</span><h3>Leading indicator achieved</h3><p>Usability testing on the key user tasks defined during research returned an 80% success rate — meeting the target we set with the team before delivery.</p></div>
+        <div class="impact-card"><span class="imp-n">#1</span><span class="imp-l">Most-viewed page in the merchant portal</span><h3>From underused to most-viewed</h3><p>Post-release analytics showed the FI Partners tab — previously underused — became the most-viewed page in the app, exceeding the lagging indicator we set.</p></div>
+        <div class="impact-card"><span class="imp-n">2→1</span><span class="imp-l">Tabs consolidated into one journey-shaped page</span><h3>IA simplified, mental model restored</h3><p>The two-tab Pipeline / Active split was retired. The single FI Partners page mirrors how merchants actually think about the partnership journey.</p></div>
+        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Foundation for follow-on features</span><h3>Scalability paid off</h3><p>The tab structure designed for future steps has since been used to add new process stages and merchant prompts — without re-architecting the page.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 08 Reflection -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">08 — Reflection</div>
+      <h2>What I learned redesigning a shared surface for two user groups</h2>
+      <div class="ref-grid">
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Design with impact and user value in mind</h3><p>The most defensible design decisions weren't the ones that looked best in Figma — they were the ones tied to a measurable change in user behaviour or business outcome. Committing to leading and lagging indicators upfront kept the team aligned on what "good" actually meant.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Always keep scalability in mind</h3><p>Anticipating that the tabs would later carry new process steps shaped how I designed the container. A follow-on project ended up extending exactly that scaffolding — which would have required a re-architecture if I'd optimised only for the immediate scope.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>One page can serve two audiences — if the structure is honest about the work</h3><p>Merchants and internal users don't share actions, but they share a mental model of the partnership journey. Designing one structure around that shared mental model — and layering audience-specific affordances on top — was cleaner than building two separate pages.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>IA problems hide as usability problems</h3><p>"It's just so confusing" wasn't a label problem or an icon problem — those were the symptoms. The root cause was an information architecture that mirrored how the system stored data instead of how users thought about it. Fixing the IA made the surface-level fixes obvious.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cs-foot">
+    <button class="back-btn" onclick="go('work')" style="margin-bottom:0;">← Back to Work</button>
+  </div>
+
+</div><!-- /page-cs-fi -->
 
 
 <script>
@@ -1856,14 +2085,14 @@ const CONTENT = {
       live:  true,
     },
     {
-      id:    "cs-blank3",
+      id:    "cs-fi",
       idx:   "03 / 03",
-      tags:  [{ label: "Coming Soon", muted: true }],
-      title: "Project Title",
-      desc:  "Case study coming soon.",
+      tags:  [{ label: "B2B Platform" }, { label: "Loyalty & Rewards" }, { label: "Shipped", muted: true }],
+      title: "FI Partner Page Redesign",
+      desc:  "Restructured the Financial Institution pages in a B2B merchant portal — turning a confusing, fragmented two-tab IA into a single Kanban-inspired flow that became the most-viewed page in the app.",
       flip:  false,
-      icon:  "brush",
-      live:  false,
+      icon:  "store-02",
+      live:  true,
     },
   ],
 
