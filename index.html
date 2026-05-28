@@ -1974,6 +1974,253 @@
 </div><!-- /page-cs-fi -->
 
 
+<!-- Project 4: Large Corporate Onboarding -->
+<div id="page-cs-onboard" class="page">
+
+  <div class="cs-hero">
+    <div class="cs-hero-grid"></div>
+    <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
+      <button class="back-btn" onclick="go('work')">← Back to Work</button>
+      <div class="cs-eye">Case Study — Shipped Product</div>
+      <h1>Large Corporate<br>Onboarding<br><em>Design</em></h1>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><label>Industry</label><span>Institutional Banking</span></div>
+        <div class="cs-meta-item"><label>My Role</label><span>Lead Product Designer</span></div>
+        <div class="cs-meta-item"><label>Domain</label><span>Enterprise Banking · KYC &amp; Account Opening</span></div>
+        <div class="cs-meta-item"><label>Scope</label><span>Discovery → Delivery</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 Context -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">01 — Context</div>
+      <div class="col2-60">
+        <div>
+          <h2>1,200 cases a year, 46 days each — all run on email</h2>
+          <p><strong>The bank processes over 1,200 large corporate account opening cases per year</strong>, each taking <strong>46 days on average</strong> to complete. The entire workflow — document requests, verification, signing, KYC, and account opening — was running <strong>100% manually through emails and phone calls</strong>.</p>
+          <p>The team set out to digitalise the process end-to-end, with the goal of decreasing operational costs and increasing efficiency across two distinct user groups: an internal KYC team and an external customer administrator.</p>
+        </div>
+        <div>
+          <div class="rtags">
+            <span class="rtag on">Discovery &amp; Research</span><span class="rtag on">Service Design</span>
+            <span class="rtag on">Cross-Platform UX</span><span class="rtag on">Design System</span>
+          </div>
+          <div class="note"><p><strong>My role:</strong> I led design end-to-end across two platforms — an internal KYC console and an external customer portal. I ran discovery with internal users, mapped service blueprints, drove product direction with the business team, and delivered GUI, flows, prototypes, and UI scenarios. I also contributed new patterns to the design system.</p></div>
+        </div>
+      </div>
+      <div class="stats" style="margin-top:40px;">
+        <div class="stat"><span class="stat-n">1,200+</span><span class="stat-l">Large corporate account opening cases handled per year</span></div>
+        <div class="stat"><span class="stat-n">46 days</span><span class="stat-l">Average time to complete a single case before redesign</span></div>
+        <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Of the existing workflow run on emails and phone calls</span></div>
+      </div>
+      <!-- IMAGE SLOT: Hero product shot — internal Account Opening System + external customer portal side by side -->
+      <!-- <img src="onboard-hero.png" alt="Internal Account Opening System and external customer portal" style="width:100%; border-radius:12px; margin-top:40px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 02 Problem -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">02 — Problem Definition</div>
+      <h2>Five compounding bottlenecks — and no shared view of the work</h2>
+      <p>I interviewed users on both sides and walked the existing process end-to-end. Five distinct bottlenecks emerged — each one slowing the case down, and each one absorbing manual effort that should never have existed.</p>
+      <div class="prob-grid">
+        <div class="prob-card crit"><span class="prob-n">01</span><span class="prob-tag">Critical</span><h3>Manual preparation of document requirements</h3><p>Required documents vary by product type and business type. The KYC team had to <strong>check the document requirement guideline manually</strong> for every case — a fragile lookup with no system support.</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><span class="prob-tag">Critical</span><h3>Manual cross-check of docs &amp; emails into the KYC case</h3><p>Verified documents and information were used for KYC — but the KYC team had to <strong>extract and enter every field manually</strong>, cross-checking between attachments and the case form. Time-consuming and error-prone.</p></div>
+      </div>
+      <div class="prob-grid" style="grid-template-columns:1fr; margin-top:16px;">
+        <div class="prob-card"><span class="prob-n">03</span><h3>Back-and-forth emails for document verification</h3><p>Both parties spent significant time inspecting their inboxes to find the right email and review its content. The cost compounded with every additional document — and every case had many.</p></div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>No way to check document processing status</h3><p>The KYC team kept documents on local devices and tracked readiness in a separate note or spreadsheet. Customers had no visibility at all — and frequently asked their RM or the KYC team for status, adding more inbound work.</p></div>
+        <div class="prob-card"><span class="prob-n">05</span><h3>Slow physical signing and shipping</h3><p>Signing was physical. The customer administrator collected signatures from all directors, then arranged courier delivery to the bank — a logistically cumbersome step that added days per case.</p></div>
+      </div>
+      <!-- IMAGE SLOT: Service blueprint / pain-point map showing the 5 bottlenecks across the journey -->
+      <!-- <img src="onboard-painpoints.png" alt="Service blueprint mapping the five bottlenecks across the existing journey" style="width:100%; border-radius:12px; margin-top:24px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 03 Research -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">03 — Research &amp; Discovery</div>
+      <h2>Two key personas — and three focus areas the redesign had to deliver</h2>
+      <p>I mapped every party involved in the process and identified the two personas the design had to serve in parallel: the <strong>KYC team</strong> on the internal side, and the <strong>customer administrator</strong> on the external side. Each had distinct tasks, but both depended on the same documents flowing through the same case.</p>
+      <div class="steps">
+        <div class="step"><span class="step-n">Method 01</span><div class="step-t">User Interviews</div><div class="step-d">Interviewed the KYC team to understand their tasks, pain points, and the workarounds they'd built. Surfaced the manual cross-checking, the local note-taking, and the email-as-database pattern.</div></div>
+        <div class="step"><span class="step-n">Method 02</span><div class="step-t">Process Analysis</div><div class="step-d">Walked the end-to-end case lifecycle to find where time was actually lost. Documented the five bottlenecks and the workflow gaps that drove them.</div></div>
+        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Service Blueprint</div><div class="step-d">Mapped the full service across internal and external actors — including documents, signatures, status states, and handoffs — to give the team a shared view of the system.</div></div>
+        <div class="step"><span class="step-n">Method 04</span><div class="step-t">Business Alignment</div><div class="step-d">Worked with the business team to translate the discovery findings into product goals and prioritise opportunities by organisational impact.</div></div>
+      </div>
+      <div class="cs-label" style="margin-top:48px;">Three Focus Areas</div>
+      <div class="krf-list">
+        <div class="krf-item">
+          <span class="krf-n">01</span>
+          <div class="krf-body">
+            <h3 class="krf-title">Reduce manual tasks</h3>
+            <p class="krf-desc">Every minute the KYC team spent re-typing information from attachments into a case form was a minute lost to a problem the system should have solved. Automating data flow across stages became a primary goal.</p>
+          </div>
+        </div>
+        <div class="krf-item">
+          <span class="krf-n">02</span>
+          <div class="krf-body">
+            <h3 class="krf-title">Reduce time required for document verification</h3>
+            <p class="krf-desc">Email-based document exchange was the largest single source of delay. Moving exchange into a shared, structured surface — with per-document status — was the highest-leverage change to compress case time.</p>
+          </div>
+        </div>
+        <div class="krf-item">
+          <span class="krf-n">03</span>
+          <div class="krf-body">
+            <h3 class="krf-title">Provide clear visibility of progress</h3>
+            <p class="krf-desc">Customers asked about status because they couldn't see it. Internal users tracked status in spreadsheets because the system didn't surface it. Making progress visible — to both sides, in real time — would cut inbound inquiries at the root.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 04 Solution 1 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">04 — Solution 1</div>
+      <div class="col2-60">
+        <div>
+          <h2>An end-to-end journey, organised into four stages</h2>
+          <p>I designed a holistic end-to-end onboarding journey consisting of <strong>four distinct stages</strong> — Draft, Document Exchange, Signing &amp; Certifying, and KYC / Account Opening.</p>
+          <p>Each stage has a clear owner, a defined input, and a defined output. The same stage structure is visible to both internal and external users, so both sides know exactly where a case is and what's next.</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> Give both audiences a shared mental model of the work. Stage is the unit of coordination — not the inbox, not the spreadsheet.</p></div>
+      </div>
+      <div class="ux-grid" style="margin-top:40px; grid-template-columns:repeat(4, 1fr);">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-edit-02"></i></div>
+          <h3>Draft</h3>
+          <p>RM kicks off the case digitally — customer info captured in a structured form, replacing the initial email exchange.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-folder-shared-01"></i></div>
+          <h3>Document Exchange</h3>
+          <p>Required documents are exchanged in a shared list across both portals — no email back-and-forth, with per-document status.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-pen-tool-01"></i></div>
+          <h3>Signing &amp; Certifying</h3>
+          <p>Documents are signed digitally via DocuSign — replacing the physical signing and courier step.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-circle-02"></i></div>
+          <h3>KYC / Account Opening</h3>
+          <p>KYC case is auto-populated from upstream stages — the team enriches rather than re-enters, and proceeds to account opening.</p>
+        </div>
+      </div>
+      <div class="sol-impact-block">
+        <h3 class="sol-impact-title">Impact</h3>
+        <p class="sol-impact">Replaced an email-driven workflow with a <em>journey-shaped service</em>. Both internal and external users now monitor the same stages, with the same definitions, in the same flow.</p>
+        <!-- IMAGE SLOT: 4-stage end-to-end journey diagram -->
+        <!-- <img src="onboard-journey.png" alt="Four-stage end-to-end onboarding journey: Draft, Document Exchange, Signing & Certifying, KYC/AO" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 05 Solution 2 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">05 — Solution 2</div>
+      <h2>Eliminating manual work — one source of truth across stages</h2>
+      <p>The largest source of internal effort was data re-entry. The same information moved across the RM, the KYC team, and the Ops team — and at every handoff, someone retyped it. I redesigned the workflow so that information captured upstream <strong>flows through every downstream stage</strong>.</p>
+      <div class="insights" style="margin-top:40px;">
+        <div class="insight"><div class="insight-q">Digitised initial form replaces email kickoff</div><div class="insight-b"><strong>The RM captures customer information directly in a structured form</strong> — eliminating the initial email exchange and giving every downstream user a single source of truth from the start.</div></div>
+        <div class="insight"><div class="insight-q">Auto-generated document list</div><div class="insight-b"><strong>The document list is auto-generated based on the RM's form</strong>, so the KYC team enriches rather than builds it from scratch — using sources like ACRA to minimise repetitive input on the customer side.</div></div>
+        <div class="insight"><div class="insight-q">Information reused across the KYC case</div><div class="insight-b"><strong>Information captured during the Draft stage flows through the KYC case automatically</strong> — the KYC and Ops team no longer fill in case information from scratch. The result is a more streamlined process for every internal party involved.</div></div>
+      </div>
+      <!-- IMAGE SLOT: Diagram showing data flow from RM Form → Document List → KYC Case (no re-entry) -->
+      <!-- <img src="onboard-data-flow.png" alt="Data flow from RM form through document list to KYC case — no manual re-entry" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 06 Solution 3 -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">06 — Solution 3</div>
+      <div class="col2-60">
+        <div>
+          <h2>One shared list, real-time visibility, and digital-first signing</h2>
+          <p>To compress case time and cut inbound inquiries, I designed three connected surfaces that work together across the internal console and the external customer portal — turning the document exchange, status visibility, and signing into a single seamless flow.</p>
+        </div>
+        <div class="note"><p><strong>Design principle:</strong> Give both sides the same view of the same work. Status isn't a question to answer over email — it's a property of the document, visible to everyone with a stake in it.</p></div>
+      </div>
+      <div class="ux-grid" style="margin-top:40px;">
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-folder-shared-01"></i></div>
+          <h3>One shared document list</h3>
+          <p>A single document list is shared across both portals — no back-and-forth emails. Customers can work on documents one by one with per-item status; internal users can send back only the items that need revision, with a reason attached.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-progress-01"></i></div>
+          <h3>Progress widget &amp; step-by-step guidance</h3>
+          <p>Customers unlock the case via an OTP sent to their mobile, then follow a progress widget that shows exactly where they stand. A to-do list surfaces non-sequential tasks per stage, so customers can act without waiting on instructions.</p>
+        </div>
+        <div class="ux-card">
+          <div class="ux-icon"><i class="hgi-stroke hgi-pen-tool-01"></i></div>
+          <h3>Seamless digital signing</h3>
+          <p>Digital signing is the default — integrated with DocuSign for one-click sending. Both KYC team and customers see real-time progress in their portal, and a user-friendly error-handling system surfaces clear, task-specific messages when an unhappy flow needs resolving.</p>
+        </div>
+      </div>
+      <!-- IMAGE SLOT: Customer portal screen — progress widget + to-do list + OTP unlock pattern -->
+      <!-- <img src="onboard-customer-portal.png" alt="Customer portal with progress widget, to-do list, and OTP unlock" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 07 Impact -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">07 — Impact &amp; Outcomes</div>
+      <h2>From a 46-day email chain to a digital, two-sided service</h2>
+      <p>The redesigned onboarding workflow replaced a fully manual, email-driven process with a structured, two-platform service. The structural impact spans all three focus areas the team committed to in discovery.</p>
+      <div class="impact-grid">
+        <div class="impact-card hi"><span class="imp-n">4</span><span class="imp-l">Stages in the new end-to-end journey</span><h3>Email workflow → structured service</h3><p>Replaced an undefined email-based process with a four-stage journey — Draft, Document Exchange, Signing &amp; Certifying, KYC/AO — visible to both internal and external users in real time.</p></div>
+        <div class="impact-card"><span class="imp-n">2</span><span class="imp-l">Platforms designed in parallel — internal &amp; external</span><h3>Two audiences, one shared model</h3><p>Internal KYC console and external customer portal both express the same stages, the same document list, and the same status — so both sides operate from a shared mental model of the work.</p></div>
+        <div class="impact-card"><span class="imp-n">0</span><span class="imp-l">Manual re-entry between RM form, document list, and KYC case</span><h3>Manual re-entry eliminated</h3><p>Information captured at the Draft stage flows through document generation and KYC. The team enriches data rather than rebuilding it — removing the largest source of internal effort and error.</p></div>
+        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Visibility of progress for both internal &amp; external users</span><h3>Inquiries replaced by transparency</h3><p>Per-document status and a customer-facing progress widget surface where every case stands at any moment — cutting the inbound "what's the status?" load on RMs and the KYC team.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 08 Reflection -->
+  <section class="cs-sec">
+    <div class="cs-wrap">
+      <div class="cs-label">08 — Reflection</div>
+      <h2>What I learned designing a two-platform service from scratch</h2>
+      <div class="ref-grid">
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Two audiences are best served by one shared model — not two separate products</h3><p>Internal and external users have different tasks but the same case. Designing one stage model, one document list, and one progress concept — then layering audience-specific affordances on top — produced a more coherent service than two parallel products would have.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Automation pays off most when it eliminates duplicate entry across stages</h3><p>The biggest internal gains didn't come from new features — they came from removing the re-typing that happened at every handoff. Information that flows through the system is information no human has to copy.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Visibility reduces support volume more than feature richness does</h3><p>Customers asked for status because they couldn't see it. The progress widget didn't add capability — it just exposed truth the system already knew. That single piece of transparency removed a meaningful share of inbound questions.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>Defaulting to the new behaviour accelerates adoption</h3><p>Making digital signing the default — and explaining the benefits — moved customers off physical signing faster than offering it as one option among several would have. The default is a design decision, not a neutral starting point.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cs-foot">
+    <button class="back-btn" onclick="go('work')" style="margin-bottom:0;">← Back to Work</button>
+  </div>
+
+</div><!-- /page-cs-onboard -->
+
+
 <script>
 /* ════════════════════════════════════════════════════════
    CONTENT CONFIG
@@ -2064,7 +2311,7 @@ const CONTENT = {
   projects: [
     {
       id:    "cs-ai",
-      idx:   "01 / 03",
+      idx:   "01 / 04",
       tags:  [{ label: "AI Agent" }, { label: "Fintech" }, { label: "Shipped", muted: true }],
       title: "Card Spend Management AI Agent",
       desc:  "Led the end-to-end design of an AI agent for corporate card management — diagnosing a broken alpha, defining the UX framework, interaction model, and full state system for v2. Shipped internally at Reap.",
@@ -2075,7 +2322,7 @@ const CONTENT = {
     },
     {
       id:    "cs-sfw",
-      idx:   "02 / 03",
+      idx:   "02 / 04",
       tags:  [{ label: "Enterprise Fintech" }, { label: "Institutional Banking" }, { label: "Shipped", muted: true }],
       title: "Loan Financing Workflow Redesign",
       desc:  "Led end-to-end redesign of a fragmented SME pre-approval workflow — turning 16 disconnected systems and 3-month processing times into a 4-step, 11-minute decision flow for institutional banking.",
@@ -2086,12 +2333,22 @@ const CONTENT = {
     },
     {
       id:    "cs-fi",
-      idx:   "03 / 03",
+      idx:   "03 / 04",
       tags:  [{ label: "B2B Platform" }, { label: "Loyalty & Rewards" }, { label: "Shipped", muted: true }],
       title: "FI Partner Page Redesign",
       desc:  "Restructured the Financial Institution pages in a B2B merchant portal — turning a confusing, fragmented two-tab IA into a single Kanban-inspired flow that became the most-viewed page in the app.",
       flip:  false,
       icon:  "store-02",
+      live:  true,
+    },
+    {
+      id:    "cs-onboard",
+      idx:   "04 / 04",
+      tags:  [{ label: "Enterprise Banking" }, { label: "Service Design" }, { label: "Shipped", muted: true }],
+      title: "Large Corporate Onboarding",
+      desc:  "Designed a 4-stage end-to-end onboarding journey for large corporate customers — digitalising a 46-day, fully manual process across two platforms: an internal KYC console and an external customer portal.",
+      flip:  true,
+      icon:  "briefcase-01",
       live:  true,
     },
   ],
