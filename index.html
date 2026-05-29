@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jisoo Ahn — Product Designer</title>
+<script>
+  /* Apply persisted theme before body renders to avoid a flash.
+     Default is dark (set on <html>); we only override if the user
+     has explicitly toggled via the in-app switch. */
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') {
+        document.documentElement.setAttribute('data-theme', t);
+      }
+    } catch (e) {}
+  })();
+</script>
 <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap');
@@ -12,6 +25,7 @@
   :root { --font: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif; }
 
   [data-theme="dark"] {
+    color-scheme: dark;
     --bg:      #06060A; --bg2: rgba(255,255,255,0.05); --bg3: rgba(255,255,255,0.09);
     --fg:      #F5F4F0; --fg2: #D4D4CE; --fg3: #A8A8A2;
     --border:  rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.18);
@@ -31,6 +45,7 @@
       radial-gradient(ellipse 45% 30% at 58% 5%, rgba(200,255,0,0.07) 0%, transparent 60%);
   }
   [data-theme="light"] {
+    color-scheme: light;
     --bg:      #F2F0FF; --bg2: rgba(255,255,255,0.7); --bg3: rgba(255,255,255,0.5);
     --fg:      #0A0A0A; --fg2: #4A4A45; --fg3: #8A8A85;
     --border:  rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.18);
@@ -2660,7 +2675,9 @@ window.addEventListener('popstate', () => {
 
 function toggleTheme() {
   const h = document.documentElement;
-  h.setAttribute('data-theme', h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  const next = h.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  h.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
 }
 
 hydrate();
