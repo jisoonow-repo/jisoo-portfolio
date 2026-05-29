@@ -1862,21 +1862,12 @@
       <div class="cs-label">04 — Solution 1</div>
       <div class="col2-60">
         <div>
-          <h2>One tab, three stages — a Kanban-inspired FI Partners page</h2>
-          <p>I consolidated the two existing tabs into <strong>a single 'FI Partners' tab</strong> with three sub-views — <strong>Opportunities</strong>, <strong>Going live</strong>, and <strong>Live</strong> — directly mirroring the partnership launch process surfaced in research.</p>
-          <p>I also took the opportunity to <strong>restructure the main navigation</strong> — grouping FI Partners and Campaign Proposals (the two revenue-generating surfaces) at the top, with insights and marketing tools organised beneath.</p>
+          <h2>One page, three stages, two audiences</h2>
+          <p>I consolidated the two existing tabs into <strong>a single 'FI Partners' page</strong> with three stages — <strong>Opportunities → Going live → Live</strong> — directly mirroring the partnership launch process surfaced in research.</p>
+          <p>The same page serves two distinct audiences: <strong>merchant partners</strong> (external) and <strong>the Ascenda MP team</strong> (internal). They share the same mental model of the partnership journey — but not the same actions. Audience-specific affordances layer on top of a shared structure.</p>
+          <p>I also restructured the main navigation — grouping FI Partners and Campaign Proposals (the two revenue-generating surfaces) at the top, with insights and marketing tools organised beneath.</p>
         </div>
-        <div class="note"><p><strong>Design principle:</strong> The IA should mirror the user's mental model of the work — not the system's storage model. Stage is a property of a partnership, not a destination in the nav.</p></div>
-      </div>
-      <div class="col2" style="gap:24px; margin-top:40px;">
-        <figure style="margin:0;">
-          <img src="fi-merchant-view.png" alt="Merchant view of the new FI Partners page — Opportunities tab with read-only stage labels" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Merchant view — browses partnerships by stage; stage is read-only.</figcaption>
-        </figure>
-        <figure style="margin:0;">
-          <img src="fi-internal-view.png" alt="Internal view of the new FI Partners page — Opportunities tab with editable stage dropdowns and per-row action menu" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Internal view — same structure, plus editable stage dropdowns, per-row action menu, and Create FI.</figcaption>
-        </figure>
+        <div class="note"><p><strong>Design principle:</strong> The IA should mirror the user's mental model of the work — not the system's storage model. Stage is a property of a partnership, not a destination in the nav. And one structure can serve multiple audiences when stage is shared truth.</p></div>
       </div>
       <div class="ux-grid" style="margin-top:40px;">
         <div class="ux-card">
@@ -1895,11 +1886,25 @@
           <p>FIs that have gone live with the merchant. Use case: merchants can view all live partnerships and the contract details associated with them.</p>
         </div>
       </div>
+      <div class="cs-label" style="margin-top:48px;">Same structure, audience-specific affordances</div>
+      <div class="insights" style="margin-top:24px;">
+        <div class="insight"><div class="insight-q">Shared three-stage structure</div><div class="insight-b"><strong>Both views use the same Opportunities → Going live → Live structure</strong>, so internal and external users speak the same language about where a partnership is in its journey.</div></div>
+        <div class="insight"><div class="insight-q">Action column for internal users</div><div class="insight-b"><strong>The internal view adds an action column</strong> — letting the MP team move FI items between stages, edit details, and archive — without leaving the page or breaking the shared mental model.</div></div>
+        <div class="insight"><div class="insight-q">Per-merchant tailoring on the internal side</div><div class="insight-b"><strong>Internal users can view the FI Partners page in the context of any individual merchant</strong>, with the same layout and stages — so the team can support each merchant against a consistent picture of where their partnerships stand.</div></div>
+      </div>
+      <div class="col2" style="gap:24px; margin-top:40px;">
+        <figure style="margin:0;">
+          <img src="fi-merchant-view.png" alt="Merchant view of the new FI Partners page — Opportunities tab with read-only stage labels" style="width:100%; border-radius:12px; display:block;">
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Merchant view — browses partnerships by stage; stage is read-only.</figcaption>
+        </figure>
+        <figure style="margin:0;">
+          <img src="fi-internal-view.png" alt="Internal view of the new FI Partners page — Opportunities tab with editable stage dropdowns and per-row action menu" style="width:100%; border-radius:12px; display:block;">
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Internal view — same structure, plus editable stage dropdowns, per-row action menu, and Create FI.</figcaption>
+        </figure>
+      </div>
       <div class="sol-impact-block">
         <h3 class="sol-impact-title">Impact</h3>
-        <p class="sol-impact">Replaced an internal-storage IA with a <em>journey-shaped</em> one. The same page now serves both merchant and internal users — with stage as a filter, not a fragmented destination.</p>
-        <!-- IMAGE SLOT: Kanban concept diagram (Opportunities → Going live → Live, with Definition + Use case rows, merchant + internal personas) -->
-        <!-- <img src="fi-kanban-concept.png" alt="Kanban-inspired concept: Opportunities, Going live, Live — definitions and use cases per persona" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+        <p class="sol-impact">Replaced an internal-storage IA with a <em>journey-shaped</em> one — and made the same page serve both audiences. Stage is now a filter, not a fragmented destination; audience-specific affordances layer on a shared structure.</p>
       </div>
     </div>
   </section>
@@ -1910,24 +1915,6 @@
   <section class="cs-sec">
     <div class="cs-wrap">
       <div class="cs-label">05 — Solution 2</div>
-      <h2>Two audiences, one page — tailored views with shared structure</h2>
-      <p>The same FI Partners page serves two distinct audiences: <strong>merchant partners</strong> (external) and <strong>the Ascenda MP team</strong> (internal). They share the same mental model of the partnership journey, but they don't share the same actions.</p>
-      <div class="insights" style="margin-top:40px;">
-        <div class="insight"><div class="insight-q">Shared structure across audiences</div><div class="insight-b"><strong>Both views use the same three-stage Kanban structure</strong> — Opportunities, Going live, Live — so internal and external users speak the same language about where a partnership is in its journey.</div></div>
-        <div class="insight"><div class="insight-q">Action column for internal users</div><div class="insight-b"><strong>The internal view adds an action column</strong> — letting the MP team move FI items between stages for each merchant partner, edit details, and trigger archive — without leaving the page or breaking the shared mental model.</div></div>
-        <div class="insight"><div class="insight-q">Per-merchant tailoring on the internal side</div><div class="insight-b"><strong>Internal users can view the FI Partners page in the context of any individual merchant</strong>, with the same layout and stages — so the team can support each merchant against a consistent picture of where their partnerships stand.</div></div>
-      </div>
-      <!-- IMAGE SLOT: Side-by-side Merchant view vs Internal view of the new FI Partners page -->
-      <!-- <img src="fi-merchant-vs-internal.png" alt="Side-by-side merchant view and internal view of the new FI Partners page" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- 06 Solution 3 -->
-  <section class="cs-sec">
-    <div class="cs-wrap">
-      <div class="cs-label">06 — Solution 3</div>
       <div class="col2-60">
         <div>
           <h2>A details page rebuilt for clarity — and for scale</h2>
@@ -1956,7 +1943,7 @@
       <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:40px;" class="fi-details-grid">
         <figure style="margin:0;">
           <img src="fi-details-before.png" alt="FI details page before redesign — hero banner, sparse data layout" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Before — original details page with hero banner and unstructured content.</figcaption>
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Before — original details page with low-value hero banner</figcaption>
         </figure>
         <figure style="margin:0;">
           <img src="fi-details-redesigned.png" alt="FI details page after redesign — Opportunities state with card-based Company details" style="width:100%; border-radius:12px; display:block;">
@@ -1976,10 +1963,10 @@
 
   <div class="divider"></div>
 
-  <!-- 07 Impact -->
+  <!-- 06 Impact -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">07 — Impact &amp; Outcomes</div>
+      <div class="cs-label">06 — Impact &amp; Outcomes</div>
       <h2>From confusing to engaging — the most-viewed page in the app</h2>
       <p>The redesigned FI Partners page hit both success metrics we committed to in research — and the lagging indicator outperformed expectations.</p>
       <div class="impact-grid">
@@ -1993,10 +1980,10 @@
 
   <div class="divider"></div>
 
-  <!-- 08 Reflection -->
+  <!-- 07 Reflection -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">08 — Reflection</div>
+      <div class="cs-label">07 — Reflection</div>
       <h2>What I learned redesigning a shared surface for two user groups</h2>
       <div class="ref-grid" style="grid-template-columns:repeat(2,1fr);">
         <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Design with impact and user value in mind</h3><p>The most defensible design decisions weren't the ones that looked best in Figma — they were the ones tied to a measurable change in user behaviour or business outcome. Committing to leading and lagging indicators upfront kept the team aligned on what "good" actually meant.</p></div>
