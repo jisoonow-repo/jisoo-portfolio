@@ -718,7 +718,7 @@
     .cs-hero { padding:100px 20px 60px; }
     .divider { margin:0 20px; }
     .sidebar-row { grid-template-columns:1fr; gap:24px; padding:60px 20px; }
-    .whatido-grid,.about-grid,.col2,.col2-60,.prob-grid,.ux-grid,.impact-grid,.ref-grid,.out-grid,.out-grid-side,.decision { grid-template-columns:1fr; gap:16px; }
+    .whatido-grid,.about-grid,.col2,.col2-60,.prob-grid,.ux-grid,.impact-grid,.ref-grid,.out-grid,.out-grid-side,.decision,.fi-details-grid { grid-template-columns:1fr !important; gap:16px; }
     .steps { grid-template-columns:1fr 1fr; }
     .insight { grid-template-columns:1fr; gap:16px; }
     .stats { grid-template-columns:1fr; }
@@ -1953,8 +1953,24 @@
           <p>The tab structure was deliberately designed to accommodate new process steps, merchant prompts, and action types — anticipating a follow-on project that has since shipped using exactly this scaffolding.</p>
         </div>
       </div>
-      <!-- IMAGE SLOT: Action column open with "Move to Going live / Move to Live / Edit / Archive" menu -->
-      <!-- <img src="fi-action-column.png" alt="Action column open with options to move items between stages, edit, or archive" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:40px;" class="fi-details-grid">
+        <figure style="margin:0;">
+          <img src="fi-details-before.png" alt="FI details page before redesign — hero banner, sparse data layout" style="width:100%; border-radius:12px; display:block;">
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Before — original details page with hero banner and unstructured content.</figcaption>
+        </figure>
+        <figure style="margin:0;">
+          <img src="fi-details-redesigned.png" alt="FI details page after redesign — Opportunities state with card-based Company details" style="width:100%; border-radius:12px; display:block;">
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned — card-based layout with stage-aware content (Opportunities).</figcaption>
+        </figure>
+        <figure style="margin:0;">
+          <img src="fi-details-redesigned-live.png" alt="FI details page after redesign — Live state with Launch details card" style="width:100%; border-radius:12px; display:block;">
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned, when live — extra Launch details card surfaces only at the Live stage.</figcaption>
+        </figure>
+        <figure style="margin:0;">
+          <img src="fi-details-redesigned-feature.png" alt="FI details page after redesign — Going live state with new 'Your interest' card added later" style="width:100%; border-radius:12px; display:block;">
+          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned, with another feature — a later "Your interest" card slotted in without re-architecting the page.</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
