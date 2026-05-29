@@ -472,12 +472,18 @@
     display:grid; grid-template-columns:1fr 1fr; gap:56px;
     transition:background .25s, border-color .25s;
   }
+  .decision-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:40px; }
+  .decision-grid .decision { margin-top:0; grid-template-columns:1fr; gap:0; padding:36px; }
   .dec-col h3 { font-size:16px; margin-bottom:16px; }
   .dec-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
-  .dec-col li { font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65; }
-  .dec-col li::before { content:'—'; color:var(--tag-fg); flex-shrink:0; }
+  .dec-col li { font-size:13px; color:var(--fg3); position:relative; padding-left:18px; line-height:1.65; }
+  .dec-col li::before { content:'—'; color:var(--tag-fg); position:absolute; left:0; top:0; }
   .dec-col li strong { color:var(--fg); }
   .dec-col .dec-stacked { display:flex; flex-direction:column; gap:6px; }
+  @media(max-width:860px) {
+    .decision-grid { grid-template-columns:1fr; gap:16px; }
+    .decision-grid .decision { padding:28px; }
+  }
 
   .state-table-wrap {
     background: var(--glass);
@@ -491,6 +497,10 @@
   .state-table tr:last-child td { border-bottom:none; }
   .state-table tr:hover td { background:var(--bg3); }
   .sn { font-size:12px; font-weight:600; color:var(--fg); white-space:nowrap; }
+  @media(max-width:860px) {
+    .state-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .state-table { min-width:760px; }
+  }
 
   .pill     { display:inline-block; font-size:10px; font-weight:600; padding:3px 10px; background:var(--tag-bg); color:var(--tag-fg); margin:0 4px 4px 0; border-radius:100px; }
   .pill.red { background:rgba(255,77,28,.1); color:#FF7A56; }
@@ -709,6 +719,36 @@
   /* ── OUT-GRID SIDE (vertical in about column) ── */
   .out-grid-side { grid-template-columns:1fr; gap:12px; margin-top:0; }
   .out-grid-side .out-card { padding:20px 24px; }
+
+  /* ── PASSWORD MODAL ── */
+  .pwd-modal { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .pwd-modal[hidden] { display:none; }
+  .pwd-modal-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.55); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+  .pwd-modal-card {
+    position:relative; width:100%; max-width:420px;
+    background:var(--glass);
+    backdrop-filter:var(--blur); -webkit-backdrop-filter:var(--blur);
+    border:1px solid var(--glass-border); box-shadow:var(--glass-shadow);
+    border-radius:20px; padding:32px;
+  }
+  .pwd-modal-card h3 { font-size:18px; margin-bottom:8px; color:var(--fg); letter-spacing:-.01em; }
+  .pwd-modal-card > p { font-size:13px; color:var(--fg3); margin-bottom:20px; line-height:1.6; }
+  .pwd-input {
+    width:100%; padding:12px 14px; font-size:14px;
+    background:var(--bg2); border:1px solid var(--border); border-radius:10px;
+    color:var(--fg); font-family:inherit;
+    transition:border-color .15s;
+  }
+  .pwd-input:focus { outline:none; border-color:var(--accent); }
+  .pwd-error { font-size:12px; color:#FF7A56; margin-top:10px; min-height:16px; }
+  .pwd-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+  .pwd-actions .btn-ghost {
+    background:transparent; color:var(--fg3); border:1px solid var(--border);
+    padding:10px 18px; border-radius:100px; font-size:13px; font-weight:500;
+    cursor:pointer; font-family:inherit; transition:color .15s, border-color .15s;
+  }
+  .pwd-actions .btn-ghost:hover { color:var(--fg); border-color:var(--fg3); }
+  .pwd-actions .btn-solid { padding:10px 20px; font-size:13px; }
 
   /* ── RESPONSIVE ── */
   @media(max-width:860px){
@@ -979,24 +1019,28 @@
       </div>
       <div style="margin-top:48px;">
         <div class="cs-label">Interaction model selection</div>
-        <div class="decision">
-          <div class="dec-col">
-            <h3>Rule of thumb I defined for the team</h3>
-            <ul>
-              <li><strong>If the user knows what they want</strong> → inline / structured UI</li>
-              <li><strong>If they don't know what they want</strong> → conversational</li>
-              <li><strong>If they need to be told something</strong> → insight surface</li>
-              <li><strong>If they need guided action</strong> → copilot / workflow assistant</li>
-            </ul>
-            <p style="margin-top:20px; font-size:13px; color:var(--fg3);">For card operations, users <em>know</em> what they want. We chose a <strong style="color:var(--fg)">conversational copilot with structured confirmation moments</strong> — not a pure chat interface.</p>
+        <div class="decision-grid">
+          <div class="decision">
+            <div class="dec-col">
+              <h3>Rule of thumb I defined for the team</h3>
+              <ul>
+                <li><strong>If the user knows what they want</strong> → inline / structured UI</li>
+                <li><strong>If they don't know what they want</strong> → conversational</li>
+                <li><strong>If they need to be told something</strong> → insight surface</li>
+                <li><strong>If they need guided action</strong> → copilot / workflow assistant</li>
+              </ul>
+              <p style="margin-top:20px; font-size:13px; color:var(--fg3);">For card operations, users <em>know</em> what they want. We chose a <strong style="color:var(--fg)">conversational copilot with structured confirmation moments</strong> — not a pure chat interface.</p>
+            </div>
           </div>
-          <div class="dec-col">
-            <h3>Why we ruled out alternatives</h3>
-            <ul>
-              <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
-              <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions — surprise is a bug</li>
-              <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
-            </ul>
+          <div class="decision">
+            <div class="dec-col">
+              <h3>Why we ruled out alternatives</h3>
+              <ul>
+                <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
+                <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions — surprise is a bug</li>
+                <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -2263,6 +2307,23 @@
 </div><!-- /page-cs-onboard -->
 
 
+<!-- Password modal -->
+<div id="pwd-modal" class="pwd-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pwd-modal-title">
+  <div class="pwd-modal-backdrop" id="pwd-modal-backdrop"></div>
+  <div class="pwd-modal-card">
+    <h3 id="pwd-modal-title">Protected project</h3>
+    <p>This case study is password-protected. Enter the password to continue.</p>
+    <form id="pwd-form" autocomplete="off">
+      <input type="password" id="pwd-input" class="pwd-input" placeholder="Password" autocomplete="off" spellcheck="false">
+      <div class="pwd-error" id="pwd-error" aria-live="polite"></div>
+      <div class="pwd-actions">
+        <button type="button" class="btn-ghost" id="pwd-cancel">Cancel</button>
+        <button type="submit" class="btn-solid">Enter</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
 /* ════════════════════════════════════════════════════════
    CONTENT CONFIG
@@ -2476,14 +2537,126 @@ function hydrate() {
     </div>`).join('');
 }
 
-function go(id) {
+/* ─── ROUTING ─────────────────────────────────────────
+   Page id ↔ URL mapping. Pretty URLs powered by the
+   History API. Deep links and refreshes work via a
+   404.html redirect (see /404.html).
+   ─────────────────────────────────────────────────── */
+const ROUTES = {
+  'home':       '/',
+  'work':       '/work',
+  'cs-ai':      '/work/aiagent',
+  'cs-sfw':     '/work/loan-financing',
+  'cs-fi':      '/work/fi-partner',
+  'cs-onboard': '/work/onboarding',
+};
+const PATH_TO_ID = Object.fromEntries(Object.entries(ROUTES).map(([k, v]) => [v, k]));
+
+function normalizePath(p) {
+  if (!p) return '/';
+  const cleaned = p.replace(/\/+$/, '');
+  return cleaned || '/';
+}
+
+/* ─── PASSWORD GATE ───────────────────────────────────
+   Project pages are protected by a shared password.
+   Unlock persists for the browser session.
+   ─────────────────────────────────────────────────── */
+const PROJECT_PWD = 'goodstuff';
+const PWD_KEY = 'jp_unlocked';
+const isProjectId = (id) => typeof id === 'string' && id.startsWith('cs-');
+const isUnlocked = () => sessionStorage.getItem(PWD_KEY) === '1';
+const setUnlocked = () => sessionStorage.setItem(PWD_KEY, '1');
+
+let _pwdResolve = null;
+function promptPassword() {
+  return new Promise((resolve) => {
+    _pwdResolve = resolve;
+    const modal = document.getElementById('pwd-modal');
+    const input = document.getElementById('pwd-input');
+    const err   = document.getElementById('pwd-error');
+    err.textContent = '';
+    input.value = '';
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    setTimeout(() => input.focus(), 0);
+  });
+}
+function closePwdModal(result) {
+  const modal = document.getElementById('pwd-modal');
+  modal.hidden = true;
+  modal.setAttribute('aria-hidden', 'true');
+  if (_pwdResolve) { const r = _pwdResolve; _pwdResolve = null; r(result); }
+}
+
+document.getElementById('pwd-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const input = document.getElementById('pwd-input');
+  const err   = document.getElementById('pwd-error');
+  if (input.value === PROJECT_PWD) {
+    setUnlocked();
+    closePwdModal(true);
+  } else {
+    err.textContent = 'Incorrect password. Try again.';
+    input.value = '';
+    input.focus();
+  }
+});
+document.getElementById('pwd-cancel').addEventListener('click', () => closePwdModal(false));
+document.getElementById('pwd-modal-backdrop').addEventListener('click', () => closePwdModal(false));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !document.getElementById('pwd-modal').hidden) closePwdModal(false);
+});
+
+async function go(id, opts) {
+  if (isProjectId(id) && !isUnlocked()) {
+    const ok = await promptPassword();
+    if (!ok) {
+      /* On a direct deep link the URL already points at a project.
+         Reset to /work so the URL and visible page stay in sync. */
+      const path = normalizePath(location.pathname);
+      if (PATH_TO_ID[path] && isProjectId(PATH_TO_ID[path])) {
+        history.replaceState(null, '', '/work');
+        return go('work', { skipPush: true });
+      }
+      return;
+    }
+  }
+
+  const target = document.getElementById('page-' + id);
+  if (!target) { id = 'home'; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   if (id === 'home') document.getElementById('nav-home').classList.add('active');
   if (id === 'work' || id.startsWith('cs-')) document.getElementById('nav-work').classList.add('active');
+
+  const path = ROUTES[id] || '/';
+  if (!opts || !opts.skipPush) {
+    if (normalizePath(location.pathname) !== path) {
+      history.pushState({ id }, '', path);
+    }
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+function routeFromUrl() {
+  /* Handle the 404.html redirect: ?p=/work/aiagent → rewrite URL */
+  const params = new URLSearchParams(location.search);
+  const redirected = params.get('p');
+  if (redirected) {
+    history.replaceState(null, '', redirected);
+  }
+  const path = normalizePath(location.pathname);
+  const id = PATH_TO_ID[path] || 'home';
+  go(id, { skipPush: true });
+}
+
+window.addEventListener('popstate', () => {
+  const path = normalizePath(location.pathname);
+  const id = PATH_TO_ID[path] || 'home';
+  go(id, { skipPush: true });
+});
 
 function toggleTheme() {
   const h = document.documentElement;
@@ -2491,6 +2664,7 @@ function toggleTheme() {
 }
 
 hydrate();
+routeFromUrl();
 </script>
 </body>
 </html>
