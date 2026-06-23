@@ -989,8 +989,8 @@
       <div class="steps">
         <div class="step"><span class="step-n">Track 01</span><div class="step-t">User pain mapping</div><div class="step-d">Interviewed internal users matching our target profile, working with the product team to identify the highest-friction card management tasks and where errors compound.</div></div>
         <div class="step"><span class="step-n">Track 02</span><div class="step-t">Technical constraints</div><div class="step-d">Worked directly with engineering on the guardrails architecture. Understood why latency was structural, not incidental.</div></div>
-        <div class="step"><span class="step-n">Track 03</span><div class="step-t">AI capability framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation — and which interaction model fits each.</div></div>
-        <div class="step"><span class="step-n">Track 04</span><div class="step-t">Competitive reference</div><div class="step-d">Audited Notion AI, Devin, Intercom, Google Gemini, and Apple Intelligence for agentic UI patterns.</div></div>
+        <div class="step"><span class="step-n">Track 03</span><div class="step-t">Competitive reference</div><div class="step-d">Audited Notion AI, Devin, Intercom, Google Gemini, and Apple Intelligence for agentic UI patterns.</div></div>
+        <div class="step"><span class="step-n">Track 04</span><div class="step-t">AI capability framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation — and which interaction model fits each.</div></div>
       </div>
       <div class="pq">
         <blockquote>"The ops team couldn't finish basic card creation. Testing was abandoned. The previous agent's 47-second response time is not a baseline — it's a failure mode."</blockquote>
@@ -1016,7 +1016,6 @@
           <h2>Deciding what AI should and shouldn't do</h2>
           <p>Before designing any interface, I established a capability framework with the product team. The question was never "what can AI do?" It was "what <em>should</em> AI do, and how does it know the difference?"</p>
         </div>
-        <div class="note"><p><strong>Design principle:</strong> AI chat is not always the answer. The right interface depends on whether the user knows what they want, needs to be told something, or needs guided action. This became the decision filter for every UX choice in v2.</p></div>
       </div>
       <div class="ux-grid">
         <div class="ux-card">
@@ -1142,6 +1141,8 @@
       <div class="cs-label">08 — Design iterations</div>
       <h2>Finding the right interaction model</h2>
       <p>Before committing to a direction, we explored how Reap AI should surface within the product. The question wasn't just what AI could do — it was where and how it should appear. We evaluated 4 desktop interaction models and 2 mobile entry points against three criteria: discoverability, content visibility, and suitability across task complexity.</p>
+
+      <div class="note"><p><strong>Design principle:</strong> AI chat is not always the answer. The right interface depends on whether the user knows what they want, needs to be told something, or needs guided action. This became the decision filter for every UX choice in v2.</p></div>
 
       <p class="im-sub-label" style="margin-top:40px;">Baseline — transactions page, AI trigger in nav</p>
       <img src="reap-ai-default.png" srcset="reap-ai-default.png 1x, reap-ai-default@2x.png 2x" alt="Transactions page baseline — Reap AI button visible in navigation, no AI surface open" class="im-img" style="margin-top:12px;">
