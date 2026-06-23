@@ -670,6 +670,20 @@
   .im-sub-label { font-size:11px; font-weight:600; color:var(--fg3); letter-spacing:.1em; text-transform:uppercase; margin:48px 0 0; }
   @media(max-width:860px) { .im-pros-cons { grid-template-columns:1fr; } }
 
+  /* ── INTERACTION MODEL SELECTION ── */
+  .ims-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:32px; align-items:start; }
+  .ims-card h3 { font-size:18px; font-weight:700; color:var(--fg); margin:0 0 24px; letter-spacing:-.01em; }
+  .ims-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:16px; }
+  .ims-list li { font-size:14px; line-height:1.6; color:var(--fg3); display:flex; gap:10px; align-items:flex-start; }
+  [data-theme="dark"] .ims-list li { color:#D6D6D6; }
+  .ims-list li::before { content:'—'; color:var(--tag-fg); flex-shrink:0; }
+  .ims-list strong { color:var(--fg); font-weight:700; }
+  .ims-note { font-size:14px; line-height:1.7; color:var(--fg3); margin:28px 0 0; }
+  [data-theme="dark"] .ims-note { color:#D6D6D6; }
+  .ims-note strong { color:var(--fg); font-weight:700; }
+  .ims-note em { font-style:italic; }
+  @media(max-width:860px) { .ims-grid { grid-template-columns:1fr; } }
+
   .blank { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:120px 48px; text-align:center; }
   .blank h2 { font-size:32px; font-weight:800; letter-spacing:-.03em; }
   .blank p  { font-size:15px; color:var(--fg3); }
@@ -1138,8 +1152,27 @@
 
       <div class="note"><p><strong>Design principle:</strong> AI chat is not always the answer. The right interface depends on whether the user knows what they want, needs to be told something, or needs guided action. This became the decision filter for every UX choice in v2.</p></div>
 
-      <p class="im-sub-label" style="margin-top:40px;">Baseline — transactions page, AI trigger in nav</p>
-      <img src="reap-ai-default.png" srcset="reap-ai-default.png 1x, reap-ai-default@2x.png 2x" alt="Transactions page baseline — Reap AI button visible in navigation, no AI surface open" class="im-img" style="margin-top:12px;">
+      <div class="cs-label" style="margin-top:56px;">Interaction model selection</div>
+      <div class="ims-grid">
+        <div class="im-card">
+          <h3>Rule of thumb I defined for the team</h3>
+          <ul class="ims-list">
+            <li><strong>If the user knows what they want</strong> → inline / structured UI</li>
+            <li><strong>If they don't know what they want</strong> → conversational</li>
+            <li><strong>If they need to be told something</strong> → insight surface</li>
+            <li><strong>If they need guided action</strong> → copilot / workflow assistant</li>
+          </ul>
+          <p class="ims-note">For card operations, users <em>know</em> what they want. We chose a <strong>conversational copilot with structured confirmation moments</strong> — not a pure chat interface.</p>
+        </div>
+        <div class="im-card">
+          <h3>Why we ruled out alternatives</h3>
+          <ul class="ims-list">
+            <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
+            <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions — surprise is a bug</li>
+            <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
+          </ul>
+        </div>
+      </div>
 
       <p class="im-sub-label">Desktop — 4 interaction models</p>
 
