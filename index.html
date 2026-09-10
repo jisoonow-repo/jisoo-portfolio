@@ -54,42 +54,47 @@
 
     /* layout */
     --maxw:1200px; --measure:720px; --gutter:48px; --sec-y:96px;
-
-    /* brand: wordmark and focus ring only */
-    --brand:#C8FF00;
   }
 
   [data-theme="dark"] {
     color-scheme: dark;
-    --canvas:#111113;        /* card / lifted surface */
-    --canvas-soft:#0A0A0C;   /* page */
-    --canvas-soft-2:#17171A; /* inset region, hover */
-    --ink:#EDEDED; --body:#A1A1A1; --mute:#6F6F6F;
-    --hairline:#262629; --hairline-strong:#454549;
-    --on-ink:#0A0A0C;
-    --link:#3B9EFF;
-    --danger:#FF6B4A; --danger-soft:rgba(255,107,74,.10);
+    /* surfaces: the original palette */
+    --canvas:rgba(255,255,255,0.05);   /* card / lifted surface */
+    --canvas-soft:#06060A;             /* page */
+    --canvas-soft-2:rgba(255,255,255,0.09);
+    /* typography: kept from the type system, with --mute lifted from
+       #6F6F6F (3.3:1, failed) to #9A9A95 for legibility on #06060A */
+    --ink:#F5F4F0; --body:#C9C9C3; --mute:#9A9A95;
+    --hairline:rgba(255,255,255,0.08); --hairline-strong:rgba(255,255,255,0.18);
+    --on-ink:#0A0A0A;
+    --link:#C8FF00;
+    --brand:#C8FF00;
+    --nav-bg:rgba(6,6,10,0.72);
+    --danger:#FF7A56; --danger-soft:rgba(255,77,28,0.10);
     --scrim:rgba(0,0,0,.62);
-    --overlay:rgba(10,10,12,.74);
+    --overlay:rgba(6,6,10,.74);
     --e1: inset 0 0 0 1px var(--hairline);
     --e2: inset 0 0 0 1px var(--hairline), 0 1px 2px rgba(0,0,0,.4);
-    --e3: inset 0 0 0 1px var(--hairline), 0 2px 4px rgba(0,0,0,.4), 0 8px 16px -8px rgba(0,0,0,.5);
+    --e3: inset 0 0 0 1px var(--hairline-strong), 0 2px 4px rgba(0,0,0,.4), 0 8px 16px -8px rgba(0,0,0,.5);
   }
   [data-theme="light"] {
     color-scheme: light;
-    --canvas:#FFFFFF;
-    --canvas-soft:#FAFAFA;
-    --canvas-soft-2:#F5F5F5;
-    --ink:#171717; --body:#4D4D4D; --mute:#888888;
-    --hairline:#EBEBEB; --hairline-strong:#A1A1A1;
+    --canvas:rgba(255,255,255,0.72);
+    --canvas-soft:#F2F0FF;
+    --canvas-soft-2:rgba(255,255,255,0.5);
+    /* --mute lifted from #888888 (3.9:1) to #656560 on #F2F0FF */
+    --ink:#0A0A0A; --body:#4A4A45; --mute:#656560;
+    --hairline:rgba(0,0,0,0.08); --hairline-strong:rgba(0,0,0,0.18);
     --on-ink:#FFFFFF;
-    --link:#0070F3;
-    --danger:#D93900; --danger-soft:rgba(217,57,0,.08);
+    --link:#4F7000;
+    --brand:#4F7000;
+    --nav-bg:rgba(255,255,255,0.72);
+    --danger:#CC3000; --danger-soft:rgba(204,48,0,0.08);
     --scrim:rgba(0,0,0,.45);
-    --overlay:rgba(250,250,250,.80);
+    --overlay:rgba(242,240,255,.80);
     --e1: inset 0 0 0 1px var(--hairline);
     --e2: inset 0 0 0 1px var(--hairline), 0 1px 1px rgba(0,0,0,.02), 0 2px 2px rgba(0,0,0,.04);
-    --e3: inset 0 0 0 1px var(--hairline), 0 2px 2px rgba(0,0,0,.04), 0 8px 8px -8px rgba(0,0,0,.04);
+    --e3: inset 0 0 0 1px var(--hairline-strong), 0 2px 2px rgba(0,0,0,.04), 0 8px 8px -8px rgba(0,0,0,.04);
   }
 
   /* ── RESET ── */
@@ -140,7 +145,7 @@
   .eyebrow, .cs-label, .cs-eye, .home-kicker,
   .prob-n, .step-n, .krf-n, .ref-tag, .imp-l, .im-num, .im-sub-label,
   .sol-impact-title, .pcard-meta, .fig-cap,
-  .cs-meta-item label, .state-table th {
+  .cs-meta-item label {
     font-family:var(--mono);
     font-size:var(--fs-xs); font-weight:400;
     line-height:var(--lh-normal); letter-spacing:0;
@@ -227,7 +232,7 @@
     position:fixed; top:20px; left:50%; transform:translateX(-50%);
     z-index:200; display:flex; align-items:center; gap:var(--sp-2);
     padding:var(--sp-2) var(--sp-3); border-radius:var(--r-lg);
-    background:color-mix(in srgb, var(--canvas) 82%, transparent);
+    background:var(--nav-bg);
     backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
     box-shadow:var(--e2);
     transition:background var(--dur-2);
@@ -263,8 +268,8 @@
   .toggle-icon { font-size:13px; line-height:1; pointer-events:none; z-index:1; user-select:none; display:flex; align-items:center; }
   /* the active icon sits under the knob, so it must contrast the knob */
   .toggle-icon:first-child { color:var(--on-ink); }
-  .toggle-icon:last-child  { color:var(--mute); }
-  [data-theme="light"] .toggle-icon:first-child { color:var(--mute); }
+  .toggle-icon:last-child  { color:var(--body); }
+  [data-theme="light"] .toggle-icon:first-child { color:var(--body); }
   [data-theme="light"] .toggle-icon:last-child  { color:var(--on-ink); }
 
   /* ═══════════════════════════════════════════════════════════
@@ -478,10 +483,14 @@
 
   .state-table-wrap { overflow:hidden; margin-top:var(--sp-6); }
   .state-table { width:100%; border-collapse:collapse; }
-  .state-table th { text-align:left; padding:var(--sp-3) var(--sp-4); border-bottom:1px solid var(--hairline); }
-  .state-table td { padding:var(--sp-4); font-size:var(--fs-sm); color:var(--body); border-bottom:1px solid var(--hairline); vertical-align:top; line-height:var(--lh-relaxed); transition:background var(--dur-1); }
+  .state-table th {
+    font-family:var(--mono); font-size:var(--fs-xs); font-weight:400;
+    letter-spacing:0; text-transform:none; color:var(--mute);
+    text-align:left; vertical-align:bottom; white-space:nowrap;
+    padding:var(--sp-3) var(--sp-4); border-bottom:1px solid var(--hairline);
+  }
+  .state-table td { padding:var(--sp-4); font-size:var(--fs-sm); color:var(--body); border-bottom:1px solid var(--hairline); vertical-align:top; line-height:var(--lh-relaxed); }
   .state-table tr:last-child td { border-bottom:none; }
-  .state-table tr:hover td { background:var(--canvas-soft-2); }
   .sn { white-space:nowrap; color:var(--ink); }
 
   /* Impact: the highlighted card is a polarity flip to ink, not a lime fill. */
@@ -569,8 +578,8 @@
   .im-list-label { margin-bottom:var(--sp-2); display:block; }
   .im-list-label.cons { color:var(--danger); }
   .im-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--sp-2); }
-  .im-list li { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); display:flex; gap:var(--sp-2); align-items:flex-start; }
-  .im-list li::before { content:'·'; color:var(--mute); flex-shrink:0; }
+  .im-list li { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); position:relative; padding-left:var(--sp-4); }
+  .im-list li::before { content:'·'; color:var(--mute); position:absolute; left:var(--sp-1); }
   .im-list.cons li::before { color:var(--danger); }
   .im-img { width:100%; border-radius:var(--r-lg); display:block; box-shadow:var(--e1); }
   .im-sub-label { margin:var(--sp-8) 0 0; }
@@ -578,10 +587,12 @@
   /* ── INTERACTION MODEL SELECTION ── */
   .ims-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-5); margin-top:var(--sp-6); align-items:start; }
   .ims-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:var(--sp-3); }
-  .ims-list li { font-size:var(--fs-md); line-height:var(--lh-relaxed); color:var(--body); display:flex; gap:var(--sp-2); align-items:flex-start; }
-  .ims-list li::before { content:'·'; color:var(--mute); flex-shrink:0; }
+  .ims-list li { font-size:var(--fs-md); line-height:var(--lh-relaxed); color:var(--body); position:relative; padding-left:var(--sp-4); }
+  .ims-list li::before { content:'·'; color:var(--mute); position:absolute; left:var(--sp-1); }
   .ims-list strong { color:var(--ink); font-weight:500; }
-  .ims-note { font-size:var(--fs-md); line-height:var(--lh-relaxed); color:var(--body); margin:var(--sp-5) 0 0; max-width:var(--measure); }
+  /* needs to out-specify .im-card > p, which would otherwise shrink it
+     and move its margin to the bottom */
+  .im-card > .ims-note { font-size:var(--fs-md); line-height:var(--lh-relaxed); color:var(--body); margin:var(--sp-5) 0 0; max-width:var(--measure); }
   .ims-note strong { color:var(--ink); font-weight:500; }
   .ims-note em { font-style:italic; }
 
@@ -983,7 +994,7 @@
           <h3>Why we ruled out alternatives</h3>
           <ul class="ims-list">
             <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
-            <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions: surprise is a bug</li>
+            <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions, where surprise is a bug</li>
             <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
           </ul>
         </div>

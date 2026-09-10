@@ -33,22 +33,30 @@ panel flips polarity to `--ink`.
 
 Four-step surface ladder and four-step text ramp, defined per theme.
 
+Surfaces keep the site's original palette (near-black `#06060A` in dark,
+lavender-white `#F2F0FF` in light, translucent lifted cards). Text uses the
+type system's ramp, with `--mute` raised in both themes for legibility.
+
 | Role | Dark (default) | Light |
 |---|---|---|
-| `--canvas` (card / lifted) | `#111113` | `#FFFFFF` |
-| `--canvas-soft` (page) | `#0A0A0C` | `#FAFAFA` |
-| `--canvas-soft-2` (inset, hover) | `#17171A` | `#F5F5F5` |
-| `--ink` (headings, CTA fill) | `#EDEDED` | `#171717` |
-| `--body` (paragraphs) | `#A1A1A1` | `#4D4D4D` |
-| `--mute` (captions, eyebrows) | `#6F6F6F` | `#888888` |
-| `--hairline` | `#262629` | `#EBEBEB` |
-| `--hairline-strong` (rules, quote bars) | `#454549` | `#A1A1A1` |
-| `--link` | `#3B9EFF` | `#0070F3` |
-| `--danger` | `#FF6B4A` | `#D93900` |
+| `--canvas` (card / lifted) | `rgba(255,255,255,.05)` | `rgba(255,255,255,.72)` |
+| `--canvas-soft` (page) | `#06060A` | `#F2F0FF` |
+| `--canvas-soft-2` (inset) | `rgba(255,255,255,.09)` | `rgba(255,255,255,.5)` |
+| `--ink` (headings, CTA fill) | `#F5F4F0` | `#0A0A0A` |
+| `--body` (paragraphs) | `#C9C9C3` | `#4A4A45` |
+| `--mute` (captions, eyebrows) | `#9A9A95` | `#656560` |
+| `--hairline` | `rgba(255,255,255,.08)` | `rgba(0,0,0,.08)` |
+| `--hairline-strong` | `rgba(255,255,255,.18)` | `rgba(0,0,0,.18)` |
+| `--link` / `--brand` | `#C8FF00` | `#4F7000` |
+| `--danger` | `#FF7A56` | `#CC3000` |
 
-**Ink is the CTA colour.** `--brand` (`#C8FF00`) appears in exactly two
-places: the hero wordmark (`.hi`) and the `:focus-visible` ring. It is
-never a background, a border, a label tint, or a second accent.
+Every pair above clears WCAG AA (4.5:1) on both the page and a lifted card.
+Re-check with the ratio script if you change any of them.
+
+**Ink is the CTA colour.** `--brand` appears in exactly two places: the hero
+wordmark (`.hi`) and the `:focus-visible` ring. It is never a background, a
+border, a label tint, or a second accent. It is per-theme because lime is
+illegible on the light canvas.
 
 `--danger` is the only semantic colour, and it earns its place in three
 spots: the left border on a critical problem card, the `Cons` label and
