@@ -131,10 +131,24 @@ One primitive, then modifiers. `.card` carries background + radius +
 `.ux-card`, `.decision`, `.state-table-wrap`, `.impact-card`, `.ref-card`,
 `.im-card`, `.pcard`, `.pwd-modal-card`.
 
+**Two label tiers.** A section label is a navigational landmark and a
+caption is not, so they are not the same size or colour:
+
+- **Section tier** (`.eyebrow`, `.cs-label`, `.cs-eye`): mono 14px/500,
+  `--body`, sentence case. `.eyebrow` takes `--ink` because it is a
+  standalone heading with no adjacent `h2` to carry the weight.
+- **Caption tier** (`.fig-cap`, `.pcard-meta`, `.imp-l`, `.prob-n`,
+  `.step-n`, `.krf-n`, `.ref-tag`, `.im-num`, `.cs-meta-item label`,
+  `.state-table th`): mono 12px/400, `--body`.
+
+`--mute` is for decorative marks only — bullet dots and flow arrows. Never
+for text. A 12px mono caption in `--mute` disappears.
+
 | Component | Notes |
 |---|---|
-| `.eyebrow` | Mono 12px `--mute`, sentence case. The single metadata voice. Also applied to `.cs-label`, `.prob-n`, `.step-n`, `.krf-n`, `.ref-tag`, `.imp-l`, `.im-num`, `.fig-cap`, `.cs-meta-item label`, `.state-table th` |
 | `.label` | Sans 14px/500 `--body`, for label text read as content (`Pros`/`Cons`, table row names) |
+| `.manual-flow` | Runs top to bottom at every width. Sequences read as sequences vertically; side by side they read as a table and force two-word line breaks |
+| Layout modifiers | `.g1/.g2/.g4/.flush-top/.gap-5` are declared **last** in the sheet. They are single-class selectors, so placed before `.ux-grid` / `.ref-grid` / `.decision` they are silently dead |
 | `.frame` | Image frame: full width, `--r-lg`, `--e1`, `--sp-5` top margin. `.flush` removes the margin |
 | `.prob-card.crit` | 2px `--danger` left border. **This is the severity signal** — do not add a "Critical" tag beside it |
 | `.impact-card.hi` | Polarity flip to `--ink`, not a coloured fill |

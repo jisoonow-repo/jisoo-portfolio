@@ -140,18 +140,38 @@
   }
   .card { padding:var(--sp-5); }
 
-  /* Eyebrow: the technical caption voice. Replaces 14 separate
-     uppercase, letter-spaced, accent-tinted micro-label classes. */
-  .eyebrow, .cs-label, .cs-eye, .home-kicker,
+  /* Two label tiers, both in the mono voice.
+
+     Caption tier: quiet inline metadata sitting next to the thing it
+     describes, so it can stay small. */
+  .home-kicker,
   .prob-n, .step-n, .krf-n, .ref-tag, .imp-l, .im-num, .im-sub-label,
   .sol-impact-title, .pcard-meta, .fig-cap,
   .cs-meta-item label {
     font-family:var(--mono);
     font-size:var(--fs-xs); font-weight:400;
     line-height:var(--lh-normal); letter-spacing:0;
-    text-transform:none; color:var(--mute);
+    text-transform:none; color:var(--body);
     display:block;
   }
+
+  /* Section-label tier: a navigational landmark, not a caption. These
+     were 16px/600 before, and at caption size in a wide empty column
+     they disappeared. They get the scale, weight and contrast of a
+     heading while keeping the mono voice. */
+  .eyebrow, .cs-label, .cs-eye {
+    font-family:var(--mono);
+    font-size:var(--fs-sm); font-weight:500;
+    line-height:var(--lh-normal); letter-spacing:.02em;
+    text-transform:none; color:var(--body);
+    display:block;
+  }
+  /* .eyebrow is a standalone section heading with no adjacent h2 to
+     carry the weight, so it takes full ink. */
+  .eyebrow { color:var(--ink); }
+  /* ...except the disciplines line, which is metadata that happens to
+     reuse the class. */
+  .disciplines { font-size:var(--fs-xs); font-weight:400; letter-spacing:0; color:var(--body); }
 
   /* Label: for text read as content rather than taxonomy. */
   .label, .im-list-label, .after-label, .sn {
@@ -162,7 +182,7 @@
   }
 
   .divider { height:1px; background:var(--hairline); margin:0 var(--gutter); transition:background var(--dur-2); }
-  .disciplines { margin-bottom:var(--sp-4); }
+  .eyebrow.disciplines { margin-bottom:var(--sp-4); }
 
   /* Image frame: case-study imagery is the protagonist. One treatment
      replaces 38 inline styles that spanned 5 radii and 6 top margins. */
@@ -186,15 +206,6 @@
   .mt-8  { margin-top:var(--sp-8); }
   .small { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
 
-  /* Grid-column modifiers. These live in CSS rather than inline so the
-     mobile query can still collapse them without !important. */
-  .g1 { grid-template-columns:1fr; }
-  .g2 { grid-template-columns:repeat(2,1fr); }
-  .g4 { grid-template-columns:repeat(4,1fr); }
-  .flush-top { margin-top:0; }
-  .fi-details-grid { display:grid; gap:var(--sp-5); }
-  .cs-subsec { margin-top:var(--sp-10); padding-top:var(--sp-8); border-top:1px solid var(--hairline); }
-
   /* Bullets: one list treatment, a middot marker, no em-dash glyphs. */
   .bullets { list-style:none; display:flex; flex-direction:column; gap:var(--sp-2); margin-top:var(--sp-4); padding:0; }
   .bullets li { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); position:relative; padding-left:var(--sp-4); }
@@ -212,7 +223,7 @@
   .btn-solid:hover { opacity:.85; }
 
   .back-btn {
-    font-size:var(--fs-sm); font-weight:500; color:var(--mute);
+    font-size:var(--fs-sm); font-weight:500; color:var(--body);
     display:inline-flex; align-items:center; gap:var(--sp-2);
     margin-bottom:var(--sp-8); transition:color var(--dur-1); letter-spacing:var(--tr-sm);
   }
@@ -239,7 +250,7 @@
     white-space:nowrap;
   }
   .nav-btn {
-    font-size:var(--fs-sm); font-weight:500; color:var(--mute);
+    font-size:var(--fs-sm); font-weight:500; color:var(--body);
     padding:6px 12px; border-radius:var(--r-sm);
     transition:color var(--dur-1), background var(--dur-1); letter-spacing:var(--tr-sm);
   }
@@ -307,7 +318,7 @@
   /* Outside */
   .out-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-4); margin-top:var(--sp-7); }
   .out-card { padding:var(--sp-5); }
-  .out-icon  { font-size:20px; color:var(--mute); margin-bottom:var(--sp-3); display:flex; align-items:center; }
+  .out-icon  { font-size:20px; color:var(--body); margin-bottom:var(--sp-3); display:flex; align-items:center; }
   .out-title { font-size:var(--fs-md); font-weight:500; color:var(--ink); margin-bottom:var(--sp-2); letter-spacing:var(--tr-sm); }
   .out-desc  { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
   .out-desc a { color:var(--link); }
@@ -332,13 +343,13 @@
   .contact-desc { font-size:var(--fs-md); color:var(--body); line-height:var(--lh-relaxed); max-width:var(--measure); }
   .contact-items { display:flex; flex-direction:column; gap:var(--sp-3); margin-top:var(--sp-5); }
   .contact-item { display:flex; align-items:center; gap:var(--sp-3); font-size:var(--fs-sm); color:var(--body); }
-  .contact-item i { font-size:var(--fs-md); color:var(--mute); flex-shrink:0; }
+  .contact-item i { font-size:var(--fs-md); color:var(--body); flex-shrink:0; }
   .contact-item a { color:var(--link); transition:color var(--dur-1); }
   .contact-item a:hover { text-decoration:underline; }
 
   /* Footer */
   .site-footer { padding:var(--sp-5) var(--gutter); border-top:1px solid var(--hairline); text-align:center; }
-  .site-footer p { font-size:var(--fs-sm); color:var(--mute); }
+  .site-footer p { font-size:var(--fs-sm); color:var(--body); }
 
   /* Hero video */
   .hero-section { position:relative; overflow:hidden; }
@@ -374,7 +385,7 @@
   .pcard-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s var(--ease); }
   .pcard-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:var(--sp-3); width:100%; height:100%; min-height:400px; background:var(--canvas-soft-2); }
   .pcard-placeholder-icon { font-size:28px; opacity:.3; display:flex; align-items:center; color:var(--ink); }
-  .pcard-placeholder span { font-family:var(--mono); font-size:var(--fs-xs); color:var(--mute); }
+  .pcard-placeholder span { font-family:var(--mono); font-size:var(--fs-xs); color:var(--body); }
 
   .pcard-body { padding:var(--sp-8); display:flex; flex-direction:column; justify-content:space-between; gap:var(--sp-6); }
   .pcard-meta { margin-bottom:var(--sp-4); }
@@ -443,7 +454,7 @@
   .insight-q { font-size:var(--fs-md); font-weight:500; color:var(--ink); line-height:var(--lh-normal); padding-left:var(--sp-4); border-left:2px solid var(--hairline-strong); letter-spacing:var(--tr-sm); }
   .insight-b { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
   .insight-b strong { color:var(--ink); font-weight:500; }
-  .insight-principle { margin-top:var(--sp-3); font-size:var(--fs-sm); color:var(--mute); }
+  .insight-principle { margin-top:var(--sp-3); font-size:var(--fs-sm); color:var(--body); }
   .insight-b ul { list-style:none; display:flex; flex-direction:column; gap:var(--sp-2); margin-top:var(--sp-3); }
   .insight-b li { position:relative; padding-left:var(--sp-4); }
   .insight-b li::before { content:'·'; position:absolute; left:var(--sp-1); color:var(--mute); }
@@ -455,7 +466,7 @@
   .pq:not(:has(cite)) { padding:var(--sp-5); margin:var(--sp-7) 0; }
   .pq blockquote { font-size:var(--fs-dsm); font-weight:500; line-height:var(--lh-snug); letter-spacing:var(--tr-dsm); margin-bottom:var(--sp-3); }
   .pq blockquote:last-child { margin-bottom:0; }
-  .pq cite { font-family:var(--mono); font-size:var(--fs-xs); color:var(--mute); font-style:normal; font-weight:400; }
+  .pq cite { font-family:var(--mono); font-size:var(--fs-xs); color:var(--body); font-style:normal; font-weight:400; }
 
   .ux-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-4); margin-top:var(--sp-7); }
   .ux-card { padding:var(--sp-5); }
@@ -485,7 +496,7 @@
   .state-table { width:100%; border-collapse:collapse; }
   .state-table th {
     font-family:var(--mono); font-size:var(--fs-xs); font-weight:400;
-    letter-spacing:0; text-transform:none; color:var(--mute);
+    letter-spacing:0; text-transform:none; color:var(--body);
     text-align:left; vertical-align:bottom; white-space:nowrap;
     padding:var(--sp-3) var(--sp-4); border-bottom:1px solid var(--hairline);
   }
@@ -514,7 +525,7 @@
   .sol-impact-title { margin-bottom:var(--sp-2); }
   .sol-impact { font-size:var(--fs-lg); font-weight:400; color:var(--body); line-height:var(--lh-relaxed); margin:0; }
 
-  .after-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-5); margin-top:var(--sp-4); }
+  .after-grid { display:grid; grid-template-columns:1fr; gap:var(--sp-5); margin-top:var(--sp-4); }
   .after-stat { display:flex; align-items:baseline; gap:var(--sp-2); margin-bottom:var(--sp-3); }
   .after-n { font-size:var(--fs-dmd); font-weight:600; color:var(--ink); line-height:1; letter-spacing:var(--tr-dmd); }
   .after-list { list-style:none; display:flex; flex-direction:column; gap:var(--sp-2); margin:0; padding:0; }
@@ -539,18 +550,25 @@
   .krf-desc { font-size:var(--fs-md); color:var(--body); line-height:var(--lh-relaxed); margin:0; max-width:var(--measure); }
   .krf-desc strong { color:var(--ink); font-weight:500; }
 
-  /* Manual flow diagram: the one place --danger tints a surface */
+  /* Manual flow diagram: the one place --danger tints a surface.
+     Runs top to bottom at every width. Five steps across five narrow
+     columns forced two-word line breaks and read as a table, not a
+     sequence; stacked, each step gets a real text measure. */
   .manual-flow { margin:var(--sp-6) 0; }
-  .mf-steps { display:flex; align-items:stretch; gap:0; }
+  .mf-steps { display:flex; flex-direction:column; gap:0; }
   .mf-step {
-    flex:1; background:var(--danger-soft); box-shadow:inset 0 0 0 1px var(--hairline);
-    border-radius:var(--r-md); padding:var(--sp-4); display:flex; flex-direction:column; gap:var(--sp-2);
+    background:var(--danger-soft); box-shadow:inset 0 0 0 1px var(--hairline);
+    border-radius:var(--r-md); padding:var(--sp-4);
+    display:grid; grid-template-columns:32px 1fr; gap:var(--sp-4); align-items:start;
   }
-  .mf-step.mf-loop { background:var(--danger-soft); box-shadow:inset 0 0 0 1px var(--danger); }
-  .mf-n { color:var(--danger); font-family:var(--mono); font-size:var(--fs-xs); }
-  .mf-step p { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-normal); margin:0; }
+  .mf-step.mf-loop { box-shadow:inset 0 0 0 1px var(--danger); }
+  .mf-n { color:var(--danger); font-family:var(--mono); font-size:var(--fs-xs); padding-top:2px; }
+  .mf-step p { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); margin:0; max-width:var(--measure); }
   .mf-step strong { color:var(--ink); font-weight:500; }
-  .mf-arrow { display:flex; align-items:center; padding:0 var(--sp-2); color:var(--mute); font-size:var(--fs-md); flex-shrink:0; }
+  .mf-arrow {
+    color:var(--mute); font-size:var(--fs-md); align-self:flex-start;
+    margin-left:var(--sp-5); padding:var(--sp-1) 0; transform:rotate(90deg);
+  }
   .mf-feedback {
     margin-top:var(--sp-3); font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed);
     padding:var(--sp-3) var(--sp-4); border-left:2px solid var(--danger); background:var(--danger-soft);
@@ -623,6 +641,19 @@
   .pwd-actions .btn-ghost:hover { color:var(--ink); box-shadow:inset 0 0 0 1px var(--hairline-strong); }
   .pwd-actions .btn-solid { padding:var(--sp-2) var(--sp-4); font-size:var(--fs-sm); border-radius:var(--r-sm); }
 
+  /* ── LAYOUT MODIFIERS ──
+     Declared last on purpose. These are single-class selectors, so they
+     only beat component rules like .ux-grid / .ref-grid / .decision if
+     they come after them in source order. Declared earlier (they were,
+     at the top of the sheet) every one of them was silently dead. */
+  .g1 { grid-template-columns:1fr; }
+  .g2 { grid-template-columns:repeat(2,1fr); }
+  .g4 { grid-template-columns:repeat(4,1fr); }
+  .flush-top { margin-top:0; }
+  .gap-5 { gap:var(--sp-5); }
+  .fi-details-grid { display:grid; gap:var(--sp-5); }
+  .cs-subsec { margin-top:var(--sp-10); padding-top:var(--sp-8); border-top:1px solid var(--hairline); }
+
   /* ═══════════════════════════════════════════════════════════
      RESPONSIVE: one tablet tier, one mobile tier
   ═══════════════════════════════════════════════════════════ */
@@ -647,8 +678,6 @@
     .ims-grid, .fi-details-grid, .g1, .g2, .g4 { grid-template-columns:1fr; gap:var(--sp-4); }
     .insight { grid-template-columns:1fr; gap:var(--sp-4); }
     .krf-item { grid-template-columns:1fr; gap:var(--sp-3); }
-    .mf-steps { flex-direction:column; }
-    .mf-arrow { transform:rotate(90deg); align-self:flex-start; padding:var(--sp-1) var(--sp-4); }
     .pcard { grid-template-columns:1fr; min-height:auto; }
     .pcard-thumb { min-height:240px; order:1; }
     .pcard-body  { order:2; padding:var(--sp-5); }
@@ -1551,8 +1580,8 @@
       <img src="sfw-group-limits.png" alt="Group Limits and Facilities: real-time validation of TFL, TCL, CCL exposure across mainstream and other programmes" class="frame">
       <div class="mt-7">
         <div class="cs-label">Design iterations</div>
-        <div class="col2" style="gap:24px; margin-top:0;">
-          <div class="decision g1 flush-top">
+        <div class="decision-grid flush-top">
+          <div class="decision">
             <div class="dec-col">
               <h3>What didn't work</h3>
               <ul>
@@ -1561,7 +1590,7 @@
               </ul>
             </div>
           </div>
-          <div class="decision g1 flush-top">
+          <div class="decision">
             <div class="dec-col">
               <h3>What we landed on</h3>
               <ul>
@@ -1803,7 +1832,7 @@
         <div class="insight"><div class="insight-q">Action column for internal users</div><div class="insight-b"><strong>The internal view adds an action column</strong>, letting the MP team move FI items between stages, edit details, and archive without leaving the page or breaking the shared mental model.</div></div>
         <div class="insight"><div class="insight-q">Per-merchant tailoring on the internal side</div><div class="insight-b"><strong>Internal users can view the FI Partners page in the context of any individual merchant</strong>, with the same layout and stages, so the team can support each merchant against a consistent picture of where their partnerships stand.</div></div>
       </div>
-      <div class="col2" style="gap:24px; margin-top:40px;">
+      <div class="col2 gap-5 mt-7">
         <figure class="flush">
           <img src="fi-merchant-view.png" alt="Merchant view of the new FI Partners page: Opportunities tab with read-only stage labels" class="frame flush">
           <figcaption class="fig-cap">Merchant view: browses partnerships by stage; stage is read-only.</figcaption>
