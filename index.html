@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jisoo Ahn — Product Designer</title>
+<title>Jisoo Ahn · Product Designer</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <meta name="theme-color" content="#0A0A0C">
@@ -35,11 +35,11 @@
     --font: 'Geist', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     --mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    /* space — 4px base */
+    /* space: 4px base */
     --sp-1:4px;  --sp-2:8px;  --sp-3:12px; --sp-4:16px; --sp-5:24px;
     --sp-6:32px; --sp-7:40px; --sp-8:48px; --sp-9:64px; --sp-10:96px;
 
-    /* radius — 100px is reserved for marketing-scale CTAs only */
+    /* radius: 100px is reserved for marketing-scale CTAs only */
     --r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:100px;
 
     /* type scale */
@@ -55,7 +55,7 @@
     /* layout */
     --maxw:1200px; --measure:720px; --gutter:48px; --sec-y:96px;
 
-    /* brand — wordmark and focus ring only */
+    /* brand: wordmark and focus ring only */
     --brand:#C8FF00;
   }
 
@@ -121,7 +121,7 @@
      PRIMITIVES
   ═══════════════════════════════════════════════════════════ */
 
-  /* Card — the single lifted-surface primitive. Modifiers set
+  /* Card: the single lifted-surface primitive. Modifiers set
      padding and radius; everything else inherits. */
   .card {
     background:var(--canvas);
@@ -131,7 +131,7 @@
     transition:box-shadow var(--dur-2), background var(--dur-2);
   }
 
-  /* Eyebrow — the technical caption voice. Replaces 14 separate
+  /* Eyebrow: the technical caption voice. Replaces 14 separate
      uppercase, letter-spaced, accent-tinted micro-label classes. */
   .eyebrow, .cs-label, .cs-eye, .home-kicker,
   .prob-n, .step-n, .krf-n, .ref-tag, .imp-l, .im-num, .im-sub-label,
@@ -144,7 +144,7 @@
     display:block;
   }
 
-  /* Label — for text read as content rather than taxonomy. */
+  /* Label: for text read as content rather than taxonomy. */
   .label, .im-list-label, .after-label, .sn {
     font-family:var(--font);
     font-size:var(--fs-sm); font-weight:500;
@@ -155,7 +155,7 @@
   .divider { height:1px; background:var(--hairline); margin:0 var(--gutter); transition:background var(--dur-2); }
   .disciplines { margin-bottom:var(--sp-4); }
 
-  /* Image frame — case-study imagery is the protagonist. */
+  /* Image frame: case-study imagery is the protagonist. */
   .frame {
     width:100%; display:block;
     border-radius:var(--r-lg);
@@ -163,6 +163,12 @@
   }
   figure { margin:0; }
   .fig-cap { margin-top:var(--sp-3); }
+
+  /* Bullets: one list treatment, a middot marker, no em-dash glyphs. */
+  .bullets { list-style:none; display:flex; flex-direction:column; gap:var(--sp-2); margin-top:var(--sp-4); padding:0; }
+  .bullets li { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); position:relative; padding-left:var(--sp-4); }
+  .bullets li::before { content:'·'; position:absolute; left:var(--sp-1); color:var(--mute); }
+  .bullets li strong { color:var(--ink); font-weight:500; }
 
   /* ── BUTTONS ── */
   .btn-solid {
@@ -209,7 +215,7 @@
   .nav-btn:hover  { color:var(--ink); background:var(--canvas-soft-2); }
   .nav-btn.active { color:var(--ink); background:var(--canvas-soft-2); }
 
-  /* Theme switch — a control, so the pill shape is functional. */
+  /* Theme switch: a control, so the pill shape is functional. */
   .toggle {
     --tog-track-h:30px; --tog-knob-size:20px;
     -webkit-appearance:none; appearance:none;
@@ -381,7 +387,7 @@
   .col2    { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-9); align-items:start; }
   .col2-60 { display:grid; grid-template-columns:3fr 2fr; gap:var(--sp-9); align-items:start; }
 
-  /* Stat — one component, three sizes. Replaces .stat / .impact-card / .after-stat numerals. */
+  /* Stat: one component, three sizes, replacing three separate numeral treatments. */
   .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-4); margin-top:var(--sp-8); }
   .stat  { background:var(--canvas); border-radius:var(--r-md); padding:var(--sp-6); box-shadow:var(--e1); }
   .stat-n { font-size:var(--fs-dlg); font-weight:600; line-height:var(--lh-tight); letter-spacing:var(--tr-dlg); color:var(--ink); display:block; margin-bottom:var(--sp-2); }
@@ -453,7 +459,7 @@
   .state-table tr:hover td { background:var(--canvas-soft-2); }
   .sn { white-space:nowrap; color:var(--ink); }
 
-  /* Impact — the highlighted card is a polarity flip to ink, not a lime fill. */
+  /* Impact: the highlighted card is a polarity flip to ink, not a lime fill. */
   .impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4); margin-top:var(--sp-7); }
   .impact-card { background:var(--canvas); border-radius:var(--r-md); padding:var(--sp-6); box-shadow:var(--e1); }
   .impact-card p { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
@@ -490,7 +496,7 @@
   }
   .pf-arrow { font-size:var(--fs-sm); color:var(--mute); transform:rotate(90deg); padding:2px 0; align-self:flex-start; margin-left:var(--sp-4); }
 
-  /* Key research findings — editorial hairline list */
+  /* Key research findings: editorial hairline list */
   .krf-list { display:flex; flex-direction:column; margin-top:var(--sp-6); }
   .krf-item { display:grid; grid-template-columns:48px 1fr; gap:var(--sp-6); padding:var(--sp-7) 0; border-top:1px solid var(--hairline); }
   .krf-item:last-child { border-bottom:1px solid var(--hairline); }
@@ -499,7 +505,7 @@
   .krf-desc { font-size:var(--fs-md); color:var(--body); line-height:var(--lh-relaxed); margin:0; max-width:var(--measure); }
   .krf-desc strong { color:var(--ink); font-weight:500; }
 
-  /* Manual flow diagram — the one place --danger tints a surface */
+  /* Manual flow diagram: the one place --danger tints a surface */
   .manual-flow { margin:var(--sp-6) 0; }
   .mf-steps { display:flex; align-items:stretch; gap:0; }
   .mf-step {
@@ -583,7 +589,7 @@
   .pwd-actions .btn-solid { padding:var(--sp-2) var(--sp-4); font-size:var(--fs-sm); border-radius:var(--r-sm); }
 
   /* ═══════════════════════════════════════════════════════════
-     RESPONSIVE — one tablet tier, one mobile tier
+     RESPONSIVE: one tablet tier, one mobile tier
   ═══════════════════════════════════════════════════════════ */
   @media(max-width:1024px){
     :root { --gutter:24px; --sec-y:72px; }
@@ -732,7 +738,7 @@
 
 
 <!-- ══════════════════════════════════════
-     CASE STUDY — AI AGENT
+     CASE STUDY: AI AGENT
      Edit content directly in this section.
 ══════════════════════════════════════ -->
 <div id="page-cs-ai" class="page">
@@ -740,10 +746,10 @@
   <div class="cs-hero">
     <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
       <button class="back-btn" onclick="go('work')">← Back to Work</button>
-      <div class="cs-eye">Case study — Shipped product</div>
+      <div class="cs-eye">Case study · Shipped product</div>
       <h1>Card Spend<br>Management<br><em>AI Agent</em></h1>
       <div class="cs-meta">
-        <div class="cs-meta-item"><label>Company</label><span>Reap — B2B Fintech</span></div>
+        <div class="cs-meta-item"><label>Company</label><span>Reap · B2B Fintech</span></div>
         <div class="cs-meta-item"><label>My role</label><span>Lead Product Designer</span></div>
         <div class="cs-meta-item"><label>Domain</label><span>Agentic AI · Corporate Cards</span></div>
         <div class="cs-meta-item"><label>Stage</label><span>Internal Alpha → v2 Build</span></div>
@@ -754,7 +760,7 @@
   <!-- Demo video -->
   <section class="cs-sec" style="padding-top:0;">
     <div class="cs-wrap">
-      <video autoplay loop muted playsinline style="width:100%; border-radius:20px; border:1px solid var(--glass-border); box-shadow:var(--glass-shadow); display:block;">
+      <video autoplay loop muted playsinline style="width:100%; border-radius:20px; border:1px solid var(--hairline); box-shadow:var(--e1); display:block;">
         <source src="reap-ai-demo.mov" type="video/mp4">
       </video>
     </div>
@@ -765,18 +771,18 @@
   <!-- 01 Context -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">01 — Context</div>
+      <div class="cs-label">01 Context</div>
       <div class="col2-60">
         <div>
-          <h2>A B2B fintech bet on AI — before we knew what that meant</h2>
-          <p><strong>Reap is a corporate card and expense management platform</strong> serving finance managers and business owners across Asia. Our users don't manage one card — they manage dozens, across teams, with different limits, roles, and policies.</p>
-          <p>In 2025, the company made an early bet: build an AI agent that replaces the dashboard UI for card operations. The thesis was right. The execution was not — and my job was to help fix that.</p>
+          <h2>A B2B fintech bet on AI, before we knew what that meant</h2>
+          <p><strong>Reap is a corporate card and expense management platform</strong> serving finance managers and business owners across Asia. Our users don't manage one card. They manage dozens, across teams, with different limits, roles, and policies.</p>
+          <p>In 2025, the company made an early bet: build an AI agent that replaces the dashboard UI for card operations. The thesis was right. The execution was not. My job was to help fix that.</p>
         </div>
       </div>
       <div class="stats">
-        <div class="stat"><span class="stat-n">47s</span><span class="stat-l">Average response time in Alpha — unusable by any standard</span></div>
+        <div class="stat"><span class="stat-n">47s</span><span class="stat-l">Average response time in Alpha, unusable by any standard</span></div>
         <div class="stat"><span class="stat-n">0</span><span class="stat-l">Internal testers who could complete a basic card creation flow</span></div>
-        <div class="stat"><span class="stat-n">400k</span><span class="stat-l">Tokens sent per interaction — a symptom of over-engineering</span></div>
+        <div class="stat"><span class="stat-n">400k</span><span class="stat-l">Tokens sent per interaction, a symptom of over-engineering</span></div>
       </div>
     </div>
   </section>
@@ -786,14 +792,14 @@
   <!-- 02 Problem -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">02 — Problem definition</div>
+      <div class="cs-label">02 Problem definition</div>
       <h2>Four failure modes. No design foundation.</h2>
-      <p>The alpha shipped with engineering ambition but no UX foundation to match it. I diagnosed four distinct failure modes — not from the backend out, but from the user's perspective in: what broke trust, what made good design structurally impossible, and what had to change before any interface work could begin.</p>
+      <p>The alpha shipped with engineering ambition but no UX foundation to match it. I diagnosed four distinct failure modes, not from the backend out but from the user's perspective in: what broke trust, what made good design structurally impossible, and what had to change before any interface work could begin.</p>
       <div class="prob-grid">
         <div class="prob-card crit"><span class="prob-n">01</span><h3>The trust problem</h3><p>The agent showed <strong>"Completed ✅"</strong> then immediately displayed an error. Progress indicators were decoupled from reality. No correction mid-flow. Responses appeared all at once after a 47-second wait.</p><p>This is not a latency problem. It's an <strong>honesty problem</strong>. An AI that lies about its own state cannot be trusted with financial actions.</p></div>
-        <div class="prob-card crit"><span class="prob-n">02</span><h3>The scope problem</h3><p>No one had clearly defined what the agent should and shouldn't do. The same agent handling card operations also responded to mental health queries with helpline numbers. Without clear boundaries, there was no safe design surface to work with — and no way to design confidently for any of it. <strong>Before interface work could begin, product clarity had to come first.</strong></p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><h3>The scope problem</h3><p>No one had clearly defined what the agent should and shouldn't do. The same agent handling card operations also responded to mental health queries with helpline numbers. Without clear boundaries, there was no safe design surface to work with, and no way to design confidently for any of it. <strong>Before interface work could begin, product clarity had to come first.</strong></p></div>
         <div class="prob-card"><span class="prob-n">03</span><h3>The interaction model problem</h3><p>The agent lived in a generic chat drawer. No quick actions. No structured confirmation. No visual card preview. The UX was a <strong>blank text box bolted onto a broken backend</strong>.</p></div>
-        <div class="prob-card"><span class="prob-n">04</span><h3>The architecture problem</h3><p>Streaming responses, honest progress indicators, instant acknowledgment — core UX requirements — were structurally impossible. A guardrails pipeline ran 3 sequential LLM calls before the agent could start, adding 2.5 seconds of overhead before any response began. <strong>Design intent kept colliding with infrastructure constraints.</strong></p></div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>The architecture problem</h3><p>Streaming responses, honest progress indicators, and instant acknowledgment (core UX requirements) were structurally impossible. A guardrails pipeline ran 3 sequential LLM calls before the agent could start, adding 2.5 seconds of overhead before any response began. <strong>Design intent kept colliding with infrastructure constraints.</strong></p></div>
       </div>
     </div>
   </section>
@@ -803,24 +809,24 @@
   <!-- 03 Research -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">03 — Research & discovery</div>
+      <div class="cs-label">03 Research and discovery</div>
       <h2>What I needed to learn before designing</h2>
       <p>I ran discovery across three parallel tracks: user pain points, technical constraints, and building an AI design framework for the team.</p>
       <div class="steps">
         <div class="step"><span class="step-n">Track 01</span><div class="step-t">User pain mapping</div><div class="step-d">Interviewed internal users matching our target profile, working with the product team to identify the highest-friction card management tasks and where errors compound.</div></div>
         <div class="step"><span class="step-n">Track 02</span><div class="step-t">Technical constraints</div><div class="step-d">Worked directly with engineering on the guardrails architecture. Understood why latency was structural, not incidental.</div></div>
         <div class="step"><span class="step-n">Track 03</span><div class="step-t">Competitive reference</div><div class="step-d">Audited Notion AI, Devin, Intercom, Google Gemini, and Apple Intelligence for agentic UI patterns.</div></div>
-        <div class="step"><span class="step-n">Track 04</span><div class="step-t">AI capability framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation — and which interaction model fits each.</div></div>
+        <div class="step"><span class="step-n">Track 04</span><div class="step-t">AI capability framework</div><div class="step-d">Mapped which tasks call for Automation vs Acceleration vs Augmentation, and which interaction model fits each.</div></div>
       </div>
       <div class="pq">
-        <blockquote>"The ops team couldn't finish basic card creation. Testing was abandoned. The previous agent's 47-second response time is not a baseline — it's a failure mode."</blockquote>
-        <cite>— Known problems</cite>
+        <blockquote>"The ops team couldn't finish basic card creation. Testing was abandoned. The previous agent's 47-second response time is not a baseline. It's a failure mode."</blockquote>
+        <cite>Known problems</cite>
       </div>
       <div class="cs-label">Key research findings</div>
       <div class="insights">
         <div class="insight"><div class="insight-q">"I'm lazy to follow all the steps and fill up the form to create a card."</div><div class="insight-b"><strong>Card creation is the highest-friction task.</strong> Finance managers must navigate multi-step forms, fill in the same fields repeatedly, and cross-reference team info. Bulk creation was also unsupported. This became the primary use case for agentic intervention.</div></div>
-        <div class="insight"><div class="insight-q">"I need to find the card I want to freeze — I need to manually filter them out."</div><div class="insight-b"><strong>Contextual retrieval is broken.</strong> Finding a specific card requires multiple filter interactions. An agent understanding natural language ("freeze all unused marketing cards") collapses a multi-step workflow into a single confirmation.</div></div>
-        <div class="insight"><div class="insight-q">"I spend a lot of time checking spends for overspending, duplicated charges, missing receipts."</div><div class="insight-b"><strong>Spend monitoring is cognitively expensive but high-value.</strong> Admins run manual audits across dozens of cards. AI augmentation — flagging anomalies, surfacing patterns — removes cognitive load without removing human judgment.</div></div>
+        <div class="insight"><div class="insight-q">"I need to find the card I want to freeze. I need to manually filter them out."</div><div class="insight-b"><strong>Contextual retrieval is broken.</strong> Finding a specific card requires multiple filter interactions. An agent understanding natural language ("freeze all unused marketing cards") collapses a multi-step workflow into a single confirmation.</div></div>
+        <div class="insight"><div class="insight-q">"I spend a lot of time checking spends for overspending, duplicated charges, missing receipts."</div><div class="insight-b"><strong>Spend monitoring is cognitively expensive but high-value.</strong> Admins run manual audits across dozens of cards. AI augmentation (flagging anomalies, surfacing patterns) removes cognitive load without removing human judgment.</div></div>
       </div>
     </div>
   </section>
@@ -830,7 +836,7 @@
   <!-- 04 Framework -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">04 — AI design framework</div>
+      <div class="cs-label">04 AI design framework</div>
       <div class="col2-60">
         <div>
           <h2>Deciding what AI should and shouldn't do</h2>
@@ -866,7 +872,7 @@
                 <li><strong>If they need to be told something</strong> → insight surface</li>
                 <li><strong>If they need guided action</strong> → copilot / workflow assistant</li>
               </ul>
-              <p style="margin-top:20px; font-size:13px; color:var(--fg3);">For card operations, users <em>know</em> what they want. We chose a <strong style="color:var(--fg)">conversational copilot with structured confirmation moments</strong> — not a pure chat interface.</p>
+              <p style="margin-top:20px; font-size:13px; color:var(--mute);">For card operations, users <em>know</em> what they want. We chose a <strong style="color:var(--ink)">conversational copilot with structured confirmation moments</strong>, not a pure chat interface.</p>
             </div>
           </div>
           <div class="decision">
@@ -874,7 +880,7 @@
               <h3>Why we ruled out alternatives</h3>
               <ul>
                 <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
-                <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions — surprise is a bug</li>
+                <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions: surprise is a bug</li>
                 <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
               </ul>
             </div>
@@ -889,16 +895,16 @@
   <!-- 05 Design -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">05 — Design decisions</div>
+      <div class="cs-label">05 Design decisions</div>
       <h2>Every UX choice had a reason</h2>
       <p>The v2 design was built on one principle: <strong>the agent earns trust through honesty, speed, and knowing its limits.</strong></p>
       <div class="insights">
         <div class="insight"><div class="insight-q">Conversational, not form-based</div><div class="insight-b"><strong>The agent collects information through natural conversation, not just sequential forms.</strong> If a user says "create a card for John with a $5,000 limit," the agent recognizes it already has enough and skips unnecessary questions.<p class="insight-principle">Principle: Progressive disclosure</p></div></div>
-        <div class="insight"><div class="insight-q">Honest progress — step by step</div><div class="insight-b"><strong>Streaming responses and honest step-by-step progress were non-negotiable.</strong> The alpha showed "Completed ✅" before an error — we made this structurally impossible. "Looking up team members..." → "Found 2 matches" → "Card created ✅"<p class="insight-principle">Principle: Honest feedback loops</p></div></div>
+        <div class="insight"><div class="insight-q">Honest progress, step by step</div><div class="insight-b"><strong>Streaming responses and honest step-by-step progress were non-negotiable.</strong> The alpha showed "Completed ✅" before an error. We made this structurally impossible. "Looking up team members..." → "Found 2 matches" → "Card created ✅"<p class="insight-principle">Principle: Honest feedback loops</p></div></div>
         <div class="insight"><div class="insight-q">Category inference with graceful fallback</div><div class="insight-b"><strong>With 20–30+ expense categories, a raw dropdown is a UI failure.</strong> The agent infers category from natural language, confirms, and if wrong shows 5–6 alternatives as pill buttons.<p class="insight-principle">Principle: Smart defaults with escape hatches</p></div></div>
-        <div class="insight"><div class="insight-q">Destructive actions have a physical gate</div><div class="insight-b"><strong>Terminating a card requires password re-entry — not just a confirmation click.</strong> You can't guardrail a system where the same component both decides and executes financial actions. The password gate physically separates AI intent from human execution.<p class="insight-principle">Principle: Human-in-the-loop for irreversible actions</p></div></div>
-        <div class="insight"><div class="insight-q">Role-aware scope — never silent failure</div><div class="insight-b"><strong>When a user acts outside their permissions, the agent explains why — and shows what it can do.</strong> "I can show you your own cards. You don't have access to company-wide information." Trust maintained even at the boundary of capability.<p class="insight-principle">Principle: Transparent capability boundaries</p></div></div>
-        <div class="insight"><div class="insight-q">Mid-flow correction without restarting</div><div class="insight-b"><strong>When a user says "actually, make the limit $3,000 instead," the agent re-renders the confirmation card with the change highlighted</strong> — old value in strikethrough, new value prominent. Natural corrections are first-class interactions.<p class="insight-principle">Principle: Forgiving by default</p></div></div>
+        <div class="insight"><div class="insight-q">Destructive actions have a physical gate</div><div class="insight-b"><strong>Terminating a card requires password re-entry, not just a confirmation click.</strong> You can't guardrail a system where the same component both decides and executes financial actions. The password gate physically separates AI intent from human execution.<p class="insight-principle">Principle: Human-in-the-loop for irreversible actions</p></div></div>
+        <div class="insight"><div class="insight-q">Role-aware scope, never silent failure</div><div class="insight-b"><strong>When a user acts outside their permissions, the agent explains why, and shows what it can do.</strong> "I can show you your own cards. You don't have access to company-wide information." Trust maintained even at the boundary of capability.<p class="insight-principle">Principle: Transparent capability boundaries</p></div></div>
+        <div class="insight"><div class="insight-q">Mid-flow correction without restarting</div><div class="insight-b"><strong>When a user says "actually, make the limit $3,000 instead," the agent re-renders the confirmation card with the change highlighted</strong>: old value in strikethrough, new value prominent. Natural corrections are first-class interactions.<p class="insight-principle">Principle: Forgiving by default</p></div></div>
       </div>
     </div>
   </section>
@@ -908,14 +914,14 @@
   <!-- 06 States -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">06 — States designed</div>
+      <div class="cs-label">06 States designed</div>
       <h2>Designing for every moment in the conversation</h2>
       <p>Through close collaboration with an engineer, I defined 8 distinct agent states covering the full lifecycle of a card operation conversation, a concept entirely absent in the alpha.</p>
       <div class="state-table-wrap">
       <table class="state-table">
         <thead><tr><th>State</th><th>When it occurs</th><th>UX behavior</th><th>Design intent</th></tr></thead>
         <tbody>
-          <tr><td><span class="sn">Idle / Empty</span></td><td>Agent ready, no conversation</td><td>Quick action chips: Create card, Freeze card, View cards, Summarise spending — role-scoped.</td><td>Lower activation energy. No blank cursor.</td></tr>
+          <tr><td><span class="sn">Idle / Empty</span></td><td>Agent ready, no conversation</td><td>Quick action chips: Create card, Freeze card, View cards, Summarise spending, role-scoped.</td><td>Lower activation energy. No blank cursor.</td></tr>
           <tr><td><span class="sn">Waiting for input</span></td><td>Agent asked a question</td><td>Input field active. Previous question stays visible. No timeout pressure.</td><td>Conversation feels like dialogue, not interrogation.</td></tr>
           <tr><td><span class="sn">Processing</span></td><td>Agent executing an action</td><td>Step-by-step progress. Streaming text. Each step is honest about system state.</td><td>Transparency over speed illusion.</td></tr>
           <tr><td><span class="sn">Disambiguation</span></td><td>Multiple matches found</td><td>Agent presents options with distinguishing details: name, email, role, card last 4 digits.</td><td>Avoids wrong-person errors in financial contexts.</td></tr>
@@ -934,22 +940,22 @@
   <!-- 07 Eng -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">07 — Working with engineering</div>
+      <div class="cs-label">07 Working with engineering</div>
       <h2>Design decisions informed by architecture</h2>
       <p>I worked closely with the AI engineer rebuilding the agent from scratch. Understanding the technical constraints wasn't optional, it was the only way to design responsibly.</p>
       <div class="col2" style="margin-top:40px;">
         <div>
           <h3>What I learned from the engineering docs</h3>
-          <p>The alpha's NeMo Guardrails added <strong>1.5–3.5 seconds of overhead before the agent even started</strong> — three sequential LLM calls.</p>
+          <p>The alpha's NeMo Guardrails added <strong>1.5–3.5 seconds of overhead before the agent even started</strong>: three sequential LLM calls.</p>
           <p>Understanding this taught me that UX requirements like streaming and instant acknowledgment were architectural asks, not just design preferences. I had to advocate for them with engineering context, not just user empathy.</p>
         </div>
         <div>
           <h3>Where I pushed back on product</h3>
-          <p>The initial PRD said "conversation context should not be preserved" on error. I challenged this — if a user is mid-flow and hits a technical failure, losing context forces a full restart. We revised to: preserve context, surface the specific failure, let the user retry.</p>
-          <p>I also raised the audit trail question for destructive actions, making the case that the UX needed to surface this — not just log it in the backend.</p>
+          <p>The initial PRD said "conversation context should not be preserved" on error. I challenged this. If a user is mid-flow and hits a technical failure, losing context forces a full restart. We revised to: preserve context, surface the specific failure, let the user retry.</p>
+          <p>I also raised the audit trail question for destructive actions, making the case that the UX needed to surface this, not just log it in the backend.</p>
         </div>
       </div>
-      <div class="note" style="margin-top:32px;"><p><strong>Design principle:</strong> In agentic systems, UX requirements and architecture are inseparable. You cannot design honest progress indicators if the backend doesn't stream. You cannot design safe confirmation flows if the agent has direct write access. I treated the engineering architecture as a design constraint — and as a lever.</p></div>
+      <div class="note" style="margin-top:32px;"><p><strong>Design principle:</strong> In agentic systems, UX requirements and architecture are inseparable. You cannot design honest progress indicators if the backend doesn't stream. You cannot design safe confirmation flows if the agent has direct write access. I treated the engineering architecture as a design constraint, and as a lever.</p></div>
     </div>
   </section>
 
@@ -958,9 +964,9 @@
   <!-- 08 Design iterations -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">08 — Design iterations</div>
+      <div class="cs-label">08 Design iterations</div>
       <h2>Finding the right interaction model</h2>
-      <p>Before committing to a direction, we explored how Reap AI should surface within the product. The question wasn't just what AI could do — it was where and how it should appear. We evaluated 4 desktop interaction models and 2 mobile entry points against three criteria: discoverability, content visibility, and suitability across task complexity.</p>
+      <p>Before committing to a direction, we explored how Reap AI should surface within the product. The question wasn't just what AI could do, but where and how it should appear. We evaluated 4 desktop interaction models and 2 mobile entry points against three criteria: discoverability, content visibility, and suitability across task complexity.</p>
 
       <div class="note"><p><strong>Design principle:</strong> AI chat is not always the answer. The right interface depends on whether the user knows what they want, needs to be told something, or needs guided action. This became the decision filter for every UX choice in v2.</p></div>
 
@@ -974,22 +980,22 @@
             <li><strong>If they need to be told something</strong> → insight surface</li>
             <li><strong>If they need guided action</strong> → copilot / workflow assistant</li>
           </ul>
-          <p class="ims-note">For card operations, users <em>know</em> what they want. We chose a <strong>conversational copilot with structured confirmation moments</strong> — not a pure chat interface.</p>
+          <p class="ims-note">For card operations, users <em>know</em> what they want. We chose a <strong>conversational copilot with structured confirmation moments</strong>, not a pure chat interface.</p>
         </div>
         <div class="im-card">
           <h3>Why we ruled out alternatives</h3>
           <ul class="ims-list">
             <li><strong>Pure chat:</strong> Context drift, hard to verify, no confirmation structure</li>
-            <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions — surprise is a bug</li>
+            <li><strong>Hidden workflow automation:</strong> Dangerous for financial actions: surprise is a bug</li>
             <li><strong>Insight-only surface:</strong> Doesn't address the core task completion need</li>
           </ul>
         </div>
       </div>
 
-      <p class="im-sub-label" style="margin-top:48px;">Baseline — transactions page, AI trigger in nav</p>
-      <img src="reap-ai-default.png" srcset="reap-ai-default.png 1x, reap-ai-default@2x.png 2x" alt="Transactions page baseline — Reap AI button visible in navigation, no AI surface open" class="im-img" style="margin-top:12px;">
+      <p class="im-sub-label" style="margin-top:48px;">Baseline: transactions page, AI trigger in nav</p>
+      <img src="reap-ai-default.png" srcset="reap-ai-default.png 1x, reap-ai-default@2x.png 2x" alt="Transactions page baseline: Reap AI button visible in navigation, no AI surface open" class="im-img" style="margin-top:12px;">
 
-      <p class="im-sub-label">Desktop — 4 interaction models</p>
+      <p class="im-sub-label">Desktop: 4 interaction models</p>
 
       <div class="im-grid">
 
@@ -1005,7 +1011,7 @@
             <div>
               <p class="im-list-label pros">Pros</p>
               <ul class="im-list pros">
-                <li>Dedicated space for the AI — more room for output and interaction</li>
+                <li>Dedicated space for the AI, with more room for output and interaction</li>
                 <li>Can surface contextual help relevant to the current page</li>
               </ul>
             </div>
@@ -1013,11 +1019,11 @@
               <p class="im-list-label cons">Cons</p>
               <ul class="im-list cons">
                 <li>Entry point can be hard to find before the drawer opens</li>
-                <li>Content behind is obscured — can feel cluttered for data-heavy pages</li>
+                <li>Content behind is obscured, which can feel cluttered for data-heavy pages</li>
               </ul>
             </div>
           </div>
-          <img src="reap-ai-m1a-covering.png" srcset="reap-ai-m1a-covering.png 1x, reap-ai-m1a-covering@2x.png 2x" alt="Model 1a — AI drawer open, overlaying the transactions page content" class="im-img">
+          <img src="reap-ai-m1a-covering.png" srcset="reap-ai-m1a-covering.png 1x, reap-ai-m1a-covering@2x.png 2x" alt="Model 1a: AI drawer open, overlaying the transactions page content" class="im-img">
         </div>
 
         <!-- Model 1b -->
@@ -1026,12 +1032,12 @@
             <span class="im-num">Model #1b</span>
           </div>
           <h3>Floating island</h3>
-          <p>A compact floating card anchored near the content. Designed for quick, discrete actions — expandable to a drawer or full screen when the task demands more space.</p>
+          <p>A compact floating card anchored near the content. Designed for quick, discrete actions, expandable to a drawer or full screen when the task demands more space.</p>
           <div class="im-pros-cons">
             <div>
               <p class="im-list-label pros">Pros</p>
               <ul class="im-list pros">
-                <li>Full page stays intact — no shrinking or covering</li>
+                <li>Full page stays intact, with no shrinking or covering</li>
                 <li>Ideal for quick discrete actions: freeze a card, check a balance, pull card details</li>
               </ul>
             </div>
@@ -1043,7 +1049,7 @@
               </ul>
             </div>
           </div>
-          <img src="reap-ai-m1a-covering-alt.png" srcset="reap-ai-m1a-covering-alt.png 1x, reap-ai-m1a-covering-alt@2x.png 2x" alt="Model 1b — floating island AI panel anchored to the right of the transactions page" class="im-img">
+          <img src="reap-ai-m1a-covering-alt.png" srcset="reap-ai-m1a-covering-alt.png 1x, reap-ai-m1a-covering-alt@2x.png 2x" alt="Model 1b: floating island AI panel anchored to the right of the transactions page" class="im-img">
         </div>
 
       </div>
@@ -1056,12 +1062,12 @@
             <span class="im-num">Model #2</span>
           </div>
           <h3>Drawer: content pushed</h3>
-          <p>The main content area compresses to make room for the AI drawer. The page stays visible but narrower — a cleaner compromise than full overlay.</p>
+          <p>The main content area compresses to make room for the AI drawer. The page stays visible but narrower, a cleaner compromise than full overlay.</p>
           <div class="im-pros-cons">
             <div>
               <p class="im-list-label pros">Pros</p>
               <ul class="im-list pros">
-                <li>Page content stays in view — nothing is hidden</li>
+                <li>Page content stays in view, so nothing is hidden</li>
                 <li>Cleaner and less disruptive than the covering variant</li>
               </ul>
             </div>
@@ -1073,7 +1079,7 @@
               </ul>
             </div>
           </div>
-          <img src="reap-ai-m1b-pushed.png" srcset="reap-ai-m1b-pushed.png 1x, reap-ai-m1b-pushed@2x.png 2x" alt="Model 2 — AI drawer open, main content compressed to the left" class="im-img">
+          <img src="reap-ai-m1b-pushed.png" srcset="reap-ai-m1b-pushed.png 1x, reap-ai-m1b-pushed@2x.png 2x" alt="Model 2: AI drawer open, main content compressed to the left" class="im-img">
         </div>
 
         <!-- Model 3 -->
@@ -1082,40 +1088,40 @@
             <span class="im-num">Model #3</span>
           </div>
           <h3>Chat-first (dedicated page)</h3>
-          <p>Reap AI lives as a top-level navigation item. Users navigate to a dedicated AI chat interface — the entire page becomes the AI surface.</p>
+          <p>Reap AI lives as a top-level navigation item. Users navigate to a dedicated AI chat interface. The entire page becomes the AI surface.</p>
           <div class="im-pros-cons">
             <div>
               <p class="im-list-label pros">Pros</p>
               <ul class="im-list pros">
                 <li>Plenty of space for both input and AI output</li>
-                <li>Good for exploratory use — when users don't know what to do and want to discover capabilities</li>
+                <li>Good for exploratory use, when users don't know what to do and want to discover capabilities</li>
               </ul>
             </div>
             <div>
               <p class="im-list-label cons">Cons</p>
               <ul class="im-list cons">
-                <li>Users have left the page they were working on — hard to provide context</li>
+                <li>Users have left the page they were working on, so context is hard to provide</li>
                 <li>Can't reference underlying content (transactions, card list) while chatting</li>
                 <li>Better suited for a future state where AI capabilities are more standalone and comprehensive</li>
               </ul>
             </div>
           </div>
-          <img src="reap-ai-m3-chat.png" alt="Model 3 — Reap AI as a dedicated page, full-page chat interface with quick-action chips" class="im-img">
+          <img src="reap-ai-m3-chat.png" alt="Model 3: Reap AI as a dedicated page, full-page chat interface with quick-action chips" class="im-img">
         </div>
 
-        <!-- Model 4 — preferred -->
+        <!-- Model 4: preferred -->
         <div class="im-card preferred">
           <div class="im-card-header">
             <span class="im-num">Model #4</span>
             <span class="im-badge">Preferred direction for the future</span>
           </div>
           <h3>Embedded guidance / Contextual copilot</h3>
-          <p>AI is woven directly into the interface. Rather than a separate AI surface, the system surfaces proactive nudges, inline suggestions, pre-filled settings, and insights contextually — as users work, at the moment they're most relevant.</p>
+          <p>AI is woven directly into the interface. Rather than a separate AI surface, the system surfaces proactive nudges, inline suggestions, pre-filled settings, and insights contextually as users work, at the moment they're most relevant.</p>
           <div class="im-pros-cons">
             <div>
               <p class="im-list-label pros">Pros</p>
               <ul class="im-list pros">
-                <li>Most natural and findable — AI surfaces where users already are</li>
+                <li>Most natural and findable, since AI surfaces where users already are</li>
                 <li>No mode-switching or extra navigation; potentially the most efficient model</li>
                 <li>Strong alignment with how power users actually work</li>
                 <li>Best for users who want control but benefit from a little help</li>
@@ -1131,10 +1137,10 @@
             </div>
           </div>
           <div class="note" style="margin-bottom:28px;"><p><strong>Examples explored:</strong> Card expiry warning banner with auto-renewal suggestion · Spend Overview "Insights" panel surfacing unusual patterns and savings opportunities · Card settings form with AI-pre-filled spend limits based on usage patterns.</p></div>
-          <img src="reap-ai-m4-cards-expiry.png" alt="Cards page — AI surfaces a proactive expiry warning banner with auto-renewal suggestion" class="im-img" style="margin-bottom:16px;">
-          <img src="reap-ai-m4-cards-new-card.png" alt="Cards page — New card dropdown surfaces 'Create card(s) with Reap AI' as the primary option" class="im-img" style="margin-bottom:16px;">
-          <img src="reap-ai-m4-card-settings.png" alt="Card settings form — AI pre-fills spend limits based on existing card and company settings" class="im-img" style="margin-bottom:16px;">
-          <img src="reap-ai-m4-spend-overview.png" alt="Spend Overview — AI-powered Insights panel surfaces unusual spending patterns, monthly summary, and saving opportunities" class="im-img">
+          <img src="reap-ai-m4-cards-expiry.png" alt="Cards page: AI surfaces a proactive expiry warning banner with auto-renewal suggestion" class="im-img" style="margin-bottom:16px;">
+          <img src="reap-ai-m4-cards-new-card.png" alt="Cards page: New card dropdown surfaces 'Create card(s) with Reap AI' as the primary option" class="im-img" style="margin-bottom:16px;">
+          <img src="reap-ai-m4-card-settings.png" alt="Card settings form: AI pre-fills spend limits based on existing card and company settings" class="im-img" style="margin-bottom:16px;">
+          <img src="reap-ai-m4-spend-overview.png" alt="Spend Overview: AI-powered Insights panel surfaces unusual spending patterns, monthly summary, and saving opportunities" class="im-img">
         </div>
 
       </div>
@@ -1149,49 +1155,49 @@
   <!-- 09 Impact -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">09 — Impact & outcomes</div>
+      <div class="cs-label">09 Impact and outcomes</div>
       <h2>From abandoned alpha to production-ready v2</h2>
       <p>The v2 design transformed an abandoned prototype into a production-ready agent that the team is confident shipping to clients.</p>
       <div class="impact-grid">
         <div class="impact-card hi"><span class="imp-n">7</span><span class="imp-l">Agent operations designed & specced</span><h3>Core operation coverage</h3><p>V2 scope was prioritized around card management first, the core operations users simply cannot do without. Create virtual card, freeze, unfreeze, terminate, update spend limit, view cards, summarise spending, each with full state coverage and edge cases.</p></div>
-        <div class="impact-card"><span class="imp-n">8</span><span class="imp-l">Distinct UI states designed</span><h3>No state left undefined</h3><p>Idle, processing, disambiguation, confirmation, success, error, out-of-scope, session timeout. Every moment is designed — not defaulted.</p></div>
-        <div class="impact-card"><span class="imp-n">11</span><span class="imp-l">User stories written with edge cases</span><h3>Design as product spec</h3><p>Including: multiple cardholders with same name, wrong category inference, mid-flow cardholder switch, permission boundary handling — all scenarios that break generic AI chat.</p></div>
-        <div class="impact-card"><span class="imp-n">0→1</span><span class="imp-l">Alpha to designed v2</span><h3>Framework for AI design at Reap</h3><p>The AI capability framework and interaction model principles I established became the team's reference for evaluating all future AI features — not just this agent.</p></div>
+        <div class="impact-card"><span class="imp-n">8</span><span class="imp-l">Distinct UI states designed</span><h3>No state left undefined</h3><p>Idle, processing, disambiguation, confirmation, success, error, out-of-scope, session timeout. Every moment is designed, not defaulted.</p></div>
+        <div class="impact-card"><span class="imp-n">11</span><span class="imp-l">User stories written with edge cases</span><h3>Design as product spec</h3><p>Including: multiple cardholders with same name, wrong category inference, mid-flow cardholder switch, permission boundary handling: all scenarios that break generic AI chat.</p></div>
+        <div class="impact-card"><span class="imp-n">0→1</span><span class="imp-l">Alpha to designed v2</span><h3>Framework for AI design at Reap</h3><p>The AI capability framework and interaction model principles I established became the team's reference for evaluating all future AI features, not just this agent.</p></div>
       </div>
 
-      <div style="margin-top:72px; padding-top:56px; border-top:1px solid var(--border);">
+      <div style="margin-top:72px; padding-top:56px; border-top:1px solid var(--hairline);">
         <div class="cs-label">Design</div>
 
         <!-- Role-aware default state -->
         <div style="margin-top:40px;">
           <h3>Role-aware default state</h3>
-          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">The idle state isn't a blank cursor. It's the agent's first impression and a trust signal.</p>
+          <h4>The idle state isn't a blank cursor. It's the agent's first impression and a trust signal.</h4>
           <p>I designed two distinct default states based on user role. Group owners, admins, and owners see the full action set: create, freeze, unfreeze, terminate, summarise spending. Individual team members see a scoped-down view, only what they're permitted to do. Quick-action chips map directly to the agent's actual capabilities, so users know what to ask before they type anything.</p>
           <p>Three transparency signals were deliberately built into the idle state:</p>
-          <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; margin-top:16px; padding:0;">
-            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Beta"</strong> sets honest expectations about maturity</span></li>
-            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Reap AI is currently available for Reap Card support"</strong> communicates scope before the user hits an out-of-scope wall</span></li>
-            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Reap AI can make mistakes"</strong> maintains honesty without undermining confidence</span></li>
-            <li style="font-size:13px; color:var(--fg3); display:flex; align-items:flex-start; gap:10px; line-height:1.65;"><span style="color:var(--tag-fg); flex-shrink:0; margin-top:1px;">—</span><span><strong style="color:var(--fg);">"Tell me what you can do"</strong> is a low-friction entry point for users who aren't sure where to start</span></li>
+          <ul class="bullets">
+            <li><strong>"Beta"</strong> sets honest expectations about maturity</li>
+            <li><strong>"Reap AI is currently available for Reap Card support"</strong> communicates scope before the user hits an out-of-scope wall</li>
+            <li><strong>"Reap AI can make mistakes"</strong> maintains honesty without undermining confidence</li>
+            <li><strong>"Tell me what you can do"</strong> is a low-friction entry point for users who aren't sure where to start</li>
           </ul>
           <div style="display:flex; gap:12px; margin-top:24px;">
-            <img src="reap-ai-default-admin.png" alt="Default state for admins and group owners — full action set including create, freeze, unfreeze, terminate" class="im-img" style="flex:1; width:0;">
-            <img src="reap-ai-default-team-member.png" alt="Default state for team members — scoped-down view with permitted actions only" class="im-img" style="flex:1; width:0;">
+            <img src="reap-ai-default-admin.png" alt="Default state for admins and group owners: full action set including create, freeze, unfreeze, terminate" class="im-img" style="flex:1; width:0;">
+            <img src="reap-ai-default-team-member.png" alt="Default state for team members: scoped-down view with permitted actions only" class="im-img" style="flex:1; width:0;">
           </div>
         </div>
 
         <!-- Defined loading states -->
         <div style="margin-top:56px;">
           <h3>Defined loading states</h3>
-          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">Loading states aren't a technical detail. In an AI agent, they're a trust mechanism.</p>
+          <h4>Loading states aren't a technical detail. In an AI agent, they're a trust mechanism.</h4>
           <div class="decision">
             <div class="dec-col">
               <h3>Text output</h3>
-              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">I worked with engineering to confirm that response times would be short enough that a simple "Working on it…" message with a shimmer effect would be sufficient. Streaming wasn't necessary and would have added implementation overhead for minimal UX gain.</p>
+              <p style="font-size:13px; color:var(--mute); line-height:1.65; margin:0;">I worked with engineering to confirm that response times would be short enough that a simple "Working on it…" message with a shimmer effect would be sufficient. Streaming wasn't necessary and would have added implementation overhead for minimal UX gain.</p>
             </div>
             <div class="dec-col">
               <h3>Widget-based workflows</h3>
-              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">For card creation and spend summaries, we made a different call. These operations are multi-step and take longer. The agent streams its activity in real time: the "Agent activity" label appears first with a shimmer, then expands step by step, with each item showing its own loading state. Users can see exactly where the agent is — not just that something is happening, but what.</p>
+              <p style="font-size:13px; color:var(--mute); line-height:1.65; margin:0;">For card creation and spend summaries, we made a different call. These operations are multi-step and take longer. The agent streams its activity in real time: the "Agent activity" label appears first with a shimmer, then expands step by step, with each item showing its own loading state. Users can see exactly where the agent is, not just that something is happening but what.</p>
             </div>
           </div>
           <div class="note" style="margin-top:24px;"><p><strong>Design principle:</strong> This distinction between text and widget loading wasn't a UI decision. It was a product decision made with engineering, grounded in latency data and user trust.</p></div>
@@ -1200,15 +1206,15 @@
         <!-- Overflow and scroll behaviour -->
         <div style="margin-top:56px;">
           <h3>Overflow and scroll behaviour</h3>
-          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">Most chat interfaces scroll blindly. I designed the overflow behaviour around where the eye actually lands.</p>
+          <h4>Most chat interfaces scroll blindly. I designed the overflow behaviour around where the eye actually lands.</h4>
           <div class="decision">
             <div class="dec-col">
               <h3>Space to breathe</h3>
-              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">The chat window always leaves some breathing room below each message. This creates a consistent visual anchor point, so your eyes naturally rest in the upper-middle zone while reading each response — reducing the sense of content rushing to the bottom of the screen.</p>
+              <p style="font-size:13px; color:var(--mute); line-height:1.65; margin:0;">The chat window always leaves some breathing room below each message. This creates a consistent visual anchor point, so your eyes naturally rest in the upper-middle zone while reading each response, reducing the sense of content rushing to the bottom of the screen.</p>
             </div>
             <div class="dec-col">
               <h3>For longer responses</h3>
-              <p style="font-size:13px; color:var(--fg3); line-height:1.65; margin:0;">Responses that exceed the chat window height anchor to the top so users can start reading from the beginning immediately. An overflow button sits fixed at the bottom, giving users a deliberate, one-tap way to jump to the end when they're ready. Reading first, scrolling by choice.</p>
+              <p style="font-size:13px; color:var(--mute); line-height:1.65; margin:0;">Responses that exceed the chat window height anchor to the top so users can start reading from the beginning immediately. An overflow button sits fixed at the bottom, giving users a deliberate, one-tap way to jump to the end when they're ready. Reading first, scrolling by choice.</p>
             </div>
           </div>
         </div>
@@ -1216,35 +1222,35 @@
         <!-- Reusable agent output patterns -->
         <div style="margin-top:56px;">
           <h3>Reusable agent output patterns</h3>
-          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">I can't predict every user input. So instead of designing for individual messages, I designed a system of generic, reusable output patterns that engineering can apply consistently across any response type.</p>
+          <h4>I can't predict every user input. So instead of designing for individual messages, I designed a system of generic, reusable output patterns that engineering can apply consistently across any response type.</h4>
           <p>Defining these patterns meant that no matter what a user types, the agent's output stays consistent, scannable, and on-brand. It also gave engineering a clear contract with fewer edge cases and fewer one-off implementations.</p>
           <div class="ux-grid" style="grid-template-columns:repeat(2,1fr); margin-top:32px;">
             <div class="ux-card">
               <div class="ux-icon" style="font-size:14px; font-weight:800;">T</div>
               <h3>Simple text</h3>
               <p>Plain conversational responses with no UI chrome</p>
-              <img src="reap-ai-output-simple-text.png" alt="Simple text output — spending summary displayed as plain conversational text" class="im-img" style="margin-top:16px;">
+              <img src="reap-ai-output-simple-text.png" alt="Simple text output: spending summary displayed as plain conversational text" class="im-img" style="margin-top:16px;">
             </div>
             <div class="ux-card">
               <div class="ux-icon" style="font-size:14px;">◎</div>
               <h3>Single selection list</h3>
               <p>When the agent needs to confirm one specific choice, such as which cardholder</p>
-              <img src="reap-ai-output-single-selection.png" alt="Single selection list — agent surfaces 3 matching cardholders for the user to choose from" class="im-img" style="margin-top:16px;">
+              <img src="reap-ai-output-single-selection.png" alt="Single selection list: agent surfaces 3 matching cardholders for the user to choose from" class="im-img" style="margin-top:16px;">
             </div>
             <div class="ux-card">
               <div class="ux-icon" style="font-size:16px; font-weight:700;">≡</div>
               <h3>List</h3>
               <p>Multiple results or options presented with structure</p>
-              <img src="reap-ai-output-list.png" alt="List output — agent returns 10 cards under the design team in a structured table with load more and CSV export" class="im-img" style="margin-top:16px;">
+              <img src="reap-ai-output-list.png" alt="List output: agent returns 10 cards under the design team in a structured table with load more and CSV export" class="im-img" style="margin-top:16px;">
             </div>
             <div class="ux-card">
               <div class="ux-icon" style="font-size:14px;">▤</div>
               <h3>Widget</h3>
               <p>Structured card previews for confirmation, creation, and summary flows</p>
               <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
-                <img src="reap-ai-widget-password.png" alt="Widget — password confirmation step" class="im-img">
-                <img src="reap-ai-widget-review-summary.png" alt="Widget — review summary with card details" class="im-img">
-                <img src="reap-ai-widget-review-edit.png" alt="Widget — review and edit with editable fields" class="im-img">
+                <img src="reap-ai-widget-password.png" alt="Widget: password confirmation step" class="im-img">
+                <img src="reap-ai-widget-review-summary.png" alt="Widget: review summary with card details" class="im-img">
+                <img src="reap-ai-widget-review-edit.png" alt="Widget: review and edit with editable fields" class="im-img">
               </div>
             </div>
           </div>
@@ -1253,34 +1259,34 @@
         <!-- Fallback scenarios -->
         <div style="margin-top:56px;">
           <h3>Fallback scenarios with copy and UI pattern guidance</h3>
-          <p style="font-size:15px; font-weight:600; color:var(--fg); margin-bottom:20px; line-height:1.5; letter-spacing:-.01em;">An agent that only works on the happy path isn't production-ready.</p>
+          <h4>An agent that only works on the happy path isn't production-ready.</h4>
           <p>I defined four fallback scenarios, each with a design purpose, copy anatomy, and UI pattern:</p>
           <div class="prob-grid" style="margin-top:24px;">
             <div class="prob-card">
-              <span class="prob-n">a — Generic error</span>
+              <span class="prob-n">a Generic error</span>
               <h3>Execution failure</h3>
-              <p>When something goes wrong technically — API failure, network error, or server issue. Copy acknowledges the attempted action, confirms nothing was changed, and offers a clear next step: Retry or Contact Support. Users should never wonder if their financial data was affected.</p>
-              <img src="reap-ai-fallback-generic-error.png" alt="Generic error state — card creation failed, showing Retry and Contact Support options" class="im-img" style="margin-top:20px; max-width:240px;">
+              <p>When something goes wrong technically: an API failure, network error, or server issue. Copy acknowledges the attempted action, confirms nothing was changed, and offers a clear next step: Retry or Contact Support. Users should never wonder if their financial data was affected.</p>
+              <img src="reap-ai-fallback-generic-error.png" alt="Generic error state: card creation failed, showing Retry and Contact Support options" class="im-img" style="margin-top:20px; max-width:240px;">
             </div>
             <div class="prob-card">
-              <span class="prob-n">b — Intent ambiguity</span>
+              <span class="prob-n">b Intent ambiguity</span>
               <h3>Confidence below threshold</h3>
               <p>When the agent's confidence drops below 51%, it doesn't guess. It presents 2–4 closest-matching options as buttons, not text links, so users can select intent without retyping. This narrows the conversation without stopping it.</p>
-              <img src="reap-ai-fallback-intent-ambiguity.png" alt="Intent ambiguity state — agent presents closest-matching options as buttons for the user to select" class="im-img" style="margin-top:20px; max-width:240px;">
+              <img src="reap-ai-fallback-intent-ambiguity.png" alt="Intent ambiguity state: agent presents closest-matching options as buttons for the user to select" class="im-img" style="margin-top:20px; max-width:240px;">
             </div>
           </div>
           <div class="prob-grid" style="margin-top:16px;">
             <div class="prob-card">
-              <span class="prob-n">c — Unsupported capability</span>
+              <span class="prob-n">c Unsupported capability</span>
               <h3>Understood but out of scope</h3>
               <p>When a request is understood but outside scope. The agent doesn't apologize or explain technical limitations. It states the boundary neutrally, then immediately pivots to what it can do. Every out-of-scope response ends with an alternative, never a dead end.</p>
-              <img src="reap-ai-fallback-unsupported-capability.png" alt="Unsupported capability state — agent states boundary and offers alternatives within scope" class="im-img" style="margin-top:20px; max-width:240px;">
+              <img src="reap-ai-fallback-unsupported-capability.png" alt="Unsupported capability state: agent states boundary and offers alternatives within scope" class="im-img" style="margin-top:20px; max-width:240px;">
             </div>
             <div class="prob-card">
-              <span class="prob-n">d — Permission and role limitation</span>
+              <span class="prob-n">d Permission and role limitation</span>
               <h3>Restricted action</h3>
-              <p>When a user without sufficient permissions attempts a restricted action. The agent names the limitation clearly and offers escalation paths — asking an admin or viewing their own cards — without blame or friction.</p>
-              <img src="reap-ai-fallback-permission-restricted.png" alt="Permission restriction state — agent explains the limitation and offers escalation paths" class="im-img" style="margin-top:20px; max-width:240px;">
+              <p>When a user without sufficient permissions attempts a restricted action. The agent names the limitation clearly and offers escalation paths (asking an admin or viewing their own cards) without blame or friction.</p>
+              <img src="reap-ai-fallback-permission-restricted.png" alt="Permission restriction state: agent explains the limitation and offers escalation paths" class="im-img" style="margin-top:20px; max-width:240px;">
             </div>
           </div>
 
@@ -1298,16 +1304,16 @@
   <!-- 10 Reflection -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">10 — Reflection</div>
+      <div class="cs-label">10 Reflection</div>
       <h2>What I'd tell a designer starting an agentic product</h2>
       <div class="ref-grid">
         <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Start with trust, not features</h3><p>An AI agent that lies about its own state is more damaging than one that's simply slow.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Scope is a design deliverable</h3><p>In agentic products, what the system <em>won't</em> do is as important as what it will. Designing the out-of-scope state required drawing the line — and getting cross-functional alignment on it.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Scope is a design deliverable</h3><p>In agentic products, what the system <em>won't</em> do is as important as what it will. Designing the out-of-scope state required drawing the line, and getting cross-functional alignment on it.</p></div>
         <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Architecture and UX are the same problem</h3><p>I couldn't have designed honest progress indicators without understanding why the alpha's streaming was blocked. The most impactful decisions also changed engineering priorities.</p></div>
       </div>
       <div style="margin-top:48px;">
         <div class="cs-label">Constraints I worked within</div>
-        <p style="margin-top:12px; max-width:640px;">UI styling was de-prioritised for this feature — with limited resources, the priority was enabling the capability first. To keep the experience consistent with the rest of the product, I relied on the foundational layer of the existing design system and pulled in reusable components from the web design system wherever possible.</p>
+        <p style="margin-top:12px; max-width:640px;">UI styling was de-prioritised for this feature. With limited resources, the priority was enabling the capability first. To keep the experience consistent with the rest of the product, I relied on the foundational layer of the existing design system and pulled in reusable components from the web design system wherever possible.</p>
       </div>
     </div>
   </section>
@@ -1326,7 +1332,7 @@
   <div class="cs-hero">
     <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
       <button class="back-btn" onclick="go('work')">← Back to Work</button>
-      <div class="cs-eye">Case Study — Shipped Product</div>
+      <div class="cs-eye">Case study · Shipped product</div>
       <h1>Loan Financing<br>Workflow<br><em>Redesign</em></h1>
       <div class="cs-meta">
         <div class="cs-meta-item"><label>Industry</label><span>Institutional Banking</span></div>
@@ -1340,22 +1346,22 @@
   <!-- 01 Context -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">01 — Context</div>
+      <div class="cs-label">01 Context</div>
       <div class="col2-60">
         <div>
-          <h2>SME lending at a bank — slow by design, broken by default</h2>
+          <h2>SME lending at a bank: slow by design, broken by default</h2>
           <p><strong>As the institutional banking group accelerated its focus on SME financing</strong>, operational inefficiencies became increasingly visible. The existing workflow relied heavily on manual coordination and fragmented systems, slowing down both customer assessment and loan processing.</p>
-          <p>Relationship managers had to navigate 16+ disconnected systems, manually validate financial exposure across entities, and spend hours preparing applications — often with uncertain outcomes. Processing a single loan application took up to <strong>3 months</strong>.</p>
+          <p>Relationship managers had to navigate 16+ disconnected systems, manually validate financial exposure across entities, and spend hours preparing applications, often with uncertain outcomes. Processing a single loan application took up to <strong>3 months</strong>.</p>
         </div>
         <div>
           <p class="eyebrow disciplines">Discovery and research · Systems design · Interaction design · Stakeholder alignment</p>
-          <div class="note"><p><strong>My role:</strong> I led the end-to-end redesign of the pre-approval workflow — from discovery to delivery. I defined product direction, aligned stakeholders across business, product, and engineering, and translated complex credit and compliance requirements into structured UX flows.</p></div>
+          <div class="note"><p><strong>My role:</strong> I led the end-to-end redesign of the pre-approval workflow, from discovery to delivery. I defined product direction, aligned stakeholders across business, product, and engineering, and translated complex credit and compliance requirements into structured UX flows.</p></div>
         </div>
       </div>
       <div class="stats" style="margin-top:40px;">
         <div class="stat"><span class="stat-n">500+</span><span class="stat-l">Employees at the bank's Singapore office</span></div>
         <div class="stat"><span class="stat-n">1,200+</span><span class="stat-l">SME loan leads processed per month</span></div>
-        <div class="stat"><span class="stat-n">4–12 wk</span><span class="stat-l">Time to process a single case — the problem this project set out to fix</span></div>
+        <div class="stat"><span class="stat-n">4–12 wk</span><span class="stat-l">Time to process a single case, the problem this project set out to fix</span></div>
       </div>
     </div>
   </section>
@@ -1365,12 +1371,12 @@
   <!-- 02 Problem -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">02 — Problem Definition</div>
-      <h2>It wasn't a usability issue — it was a system failure in decision-making infrastructure</h2>
+      <div class="cs-label">02 Problem definition</div>
+      <h2>It wasn't a usability issue. It was a system failure in decision-making infrastructure</h2>
       <p>I conducted interviews with users and stakeholders to map the as-is SME financing flow. Four distinct friction categories emerged, each compounding the others.</p>
       <div class="prob-grid">
         <div class="prob-card crit"><span class="prob-n">01</span><h3>Fragmented data → slow decisions</h3><p>Critical information was scattered across systems, forcing users to manually aggregate and validate data before they could even begin an assessment. There was no single source of truth.</p></div>
-        <div class="prob-card crit"><span class="prob-n">02</span><h3>No early signal → wasted effort</h3><p>RMs spent <strong>1–3 hours</strong> preparing applications — visiting 16 different systems and documents — without knowing if a case would convert to an offer. Effort was front-loaded with no viability signal.</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><h3>No early signal → wasted effort</h3><p>RMs spent <strong>1–3 hours</strong> preparing applications (visiting 16 different systems and documents) without knowing if a case would convert to an offer. Effort was front-loaded with no viability signal.</p></div>
       </div>
       <div class="prob-grid" style="grid-template-columns:1fr; margin-top:16px;">
         <div class="prob-card"><span class="prob-n">03</span><h3>Manual calculations → high error rate</h3><p>Loan eligibility and exposure calculations happened outside the system. Determining group limit required checking each borrower's facility structure manually, validating against predefined criteria, and calculating thresholds in spreadsheets. This drove the <strong>40% rejection rate</strong> and an <strong>80% rework rate</strong>.</p>
@@ -1404,8 +1410,8 @@
             <div class="mf-feedback">↩ If it fails, adjust the amount in Step 3 and recalculate in Step 4 until it passes.</div>
           </div>
         </div>
-        <div class="prob-card"><span class="prob-n">04</span><h3>Workflow outside the system</h3><p>Key collaboration between RMs, credit managers, and approvers happened over email and chat — reducing visibility, accountability, and auditability across the pipeline.</p>
-          <img src="sfw-blueprint.png" alt="Case preparation and submission — user workflow across 11 systems" style="width:100%; border-radius:10px; margin-top:24px; display:block;">
+        <div class="prob-card"><span class="prob-n">04</span><h3>Workflow outside the system</h3><p>Key collaboration between RMs, credit managers, and approvers happened over email and chat, reducing visibility, accountability, and auditability across the pipeline.</p>
+          <img src="sfw-blueprint.png" alt="Case preparation and submission: user workflow across 11 systems" style="width:100%; border-radius:10px; margin-top:24px; display:block;">
         </div>
       </div>
     </div>
@@ -1416,30 +1422,30 @@
   <!-- 03 Research -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">03 — Research & Discovery</div>
+      <div class="cs-label">03 Research and discovery</div>
       <h2>Understanding the as-is before designing the to-be</h2>
-      <p>I ran a discovery process with users and stakeholders to surface friction points and pain points in the existing SME financing flow — spanning relationship managers, credit reviewers, and compliance leads.</p>
+      <p>I ran a discovery process with users and stakeholders to surface friction points and pain points in the existing SME financing flow, spanning relationship managers, credit reviewers, and compliance leads.</p>
       <div class="steps">
         <div class="step"><span class="step-n">Method 01</span><div class="step-t">Stakeholder Interviews</div><div class="step-d">Conducted interviews across business, product, compliance, and engineering to map decision-making logic and identify where breakdowns occurred.</div></div>
-        <div class="step"><span class="step-n">Method 02</span><div class="step-t">Workflow Observation</div><div class="step-d">Shadowed RMs preparing real applications. Documented the 16-system journey first-hand — including which systems they opened, in what order, and where they got stuck.</div></div>
-        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Pain Point Synthesis</div><div class="step-d">Synthesized raw findings into a service blueprint that mapped user actions, system touchpoints, and failure modes — giving the team a shared view of the problem space.</div></div>
-        <div class="step"><span class="step-n">Method 04</span><div class="step-t">Credit Logic Mapping</div><div class="step-d">Worked with credit and compliance to understand DOA group limits, eligibility criteria, and exposure calculation rules — translating complex financial logic into designable flows.</div></div>
+        <div class="step"><span class="step-n">Method 02</span><div class="step-t">Workflow Observation</div><div class="step-d">Shadowed RMs preparing real applications. Documented the 16-system journey first-hand, including which systems they opened, in what order, and where they got stuck.</div></div>
+        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Pain Point Synthesis</div><div class="step-d">Synthesized raw findings into a service blueprint that mapped user actions, system touchpoints, and failure modes, giving the team a shared view of the problem space.</div></div>
+        <div class="step"><span class="step-n">Method 04</span><div class="step-t">Credit Logic Mapping</div><div class="step-d">Worked with credit and compliance to understand DOA group limits, eligibility criteria, and exposure calculation rules, translating complex financial logic into designable flows.</div></div>
       </div>
-      <img src="sfw-research.png" alt="RM UI and CRM UI pain points — raw research footage" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
-      <div class="cs-label" style="margin-top:48px;">Key Research Findings</div>
+      <img src="sfw-research.png" alt="RM UI and CRM UI pain points: raw research footage" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
+      <div class="cs-label" style="margin-top:48px;">Key research findings</div>
       <div class="krf-list">
         <div class="krf-item">
           <span class="krf-n">01</span>
           <div class="krf-body">
-            <h3 class="krf-title">The biggest cost wasn't time — it was uncertainty</h3>
-            <p class="krf-desc">RMs couldn't tell early enough whether a case was worth pursuing. All the preparation effort happened before any eligibility signal. This meant high-effort cases that ended in rejection at the credit stage — burning hours that could have been avoided.</p>
+            <h3 class="krf-title">The biggest cost wasn't time. It was uncertainty</h3>
+            <p class="krf-desc">RMs couldn't tell early enough whether a case was worth pursuing. All the preparation effort happened before any eligibility signal. This meant high-effort cases that ended in rejection at the credit stage, burning hours that could have been avoided.</p>
           </div>
         </div>
         <div class="krf-item">
           <span class="krf-n">02</span>
           <div class="krf-body">
             <h3 class="krf-title">Calculations were the highest-risk step</h3>
-            <p class="krf-desc">Group-level exposure calculations required checking each related entity's existing facilities across multiple reports. Done manually and outside the system, errors were common — and caught late. A <strong>40% rejection rate</strong> was the downstream symptom of this upstream failure.</p>
+            <p class="krf-desc">Group-level exposure calculations required checking each related entity's existing facilities across multiple reports. Done manually and outside the system, errors were common, and caught late. A <strong>40% rejection rate</strong> was the downstream symptom of this upstream failure.</p>
           </div>
         </div>
         <div class="krf-item">
@@ -1458,14 +1464,14 @@
   <!-- 04 Solution 1 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">04 — Solution 1</div>
+      <div class="cs-label">04 Solution 1</div>
       <div class="col2-60">
         <div>
           <h2>From fragmented exploration to structured decision flow</h2>
           <p>I redesigned the 16-step eligibility assessment into a <strong>4-step decision framework</strong>, reducing cognitive load and eliminating unnecessary system-hopping.</p>
           <p>Instead of navigating multiple systems, users now input only key decision variables, receive automatically aggregated financial data, and view eligibility signals in a single structured flow.</p>
         </div>
-        <div class="note"><p><strong>Design principle:</strong> The goal wasn't to digitise the existing process — it was to redesign the process itself. Every step was only included if it was essential to making a financing decision.</p></div>
+        <div class="note"><p><strong>Design principle:</strong> The goal wasn't to digitise the existing process. It was to redesign the process itself. Every step was only included if it was essential to making a financing decision.</p></div>
       </div>
       <div class="ux-grid" style="margin-top:40px; grid-template-columns:1fr 1fr;">
         <div class="ux-card">
@@ -1487,7 +1493,7 @@
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-circle-02"></i></div>
           <h3>After: 4-step decision framework</h3>
-          <p>One structured flow. Key decision variables entered once. System aggregates financial data automatically and surfaces eligibility signals in context — no switching required.</p>
+          <p>One structured flow. Key decision variables entered once. System aggregates financial data automatically and surfaces eligibility signals in context, with no switching required.</p>
           <div class="after-grid">
             <div class="after-col">
               <div class="after-stat"><span class="after-n">4</span><span class="after-label">parties subject to review</span></div>
@@ -1526,23 +1532,23 @@
   <!-- 05 Solution 2 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">05 — Solution 2</div>
+      <div class="cs-label">05 Solution 2</div>
       <h2>Automating financial intelligence</h2>
       <p>One of the biggest bottlenecks was calculating <strong>group-level exposure across related entities (DOA group)</strong>. This required checking each borrower's existing facility structure, aggregating exposure data across guarantors and related parties, and manually computing against policy thresholds.</p>
       <div class="insights" style="margin-top:40px;">
-        <div class="insight"><div class="insight-q">Automatic aggregation of borrower facilities and collateral</div><div class="insight-b"><strong>Users now only identify key parties</strong> — borrowers, guarantors, related parties, and key promoters. The system automatically pulls their existing facilities, collaterals, and all required information for eligibility and risk assessment. What took hours now happens instantly.</div></div>
-        <div class="insight"><div class="insight-q">System-generated DOA grouping logic</div><div class="insight-b"><strong>The system automatically constructs the DOA group</strong> — pulling related entities, facilities, collaterals, and all applicable credit-related identifiers. Users no longer need to traverse 16 reports to build this picture manually.</div></div>
-        <div class="insight"><div class="insight-q">Real-time validation of exposure limits</div><div class="insight-b"><strong>Users can check facility limits at a group level and validate all applicable related entities in real time</strong> — without going through 16 reports and systems. The loan section now includes automated calculations and data breakdowns, enabling users to propose facility structures that align with bank policies.</div></div>
+        <div class="insight"><div class="insight-q">Automatic aggregation of borrower facilities and collateral</div><div class="insight-b"><strong>Users now only identify key parties</strong>: borrowers, guarantors, related parties, and key promoters. The system automatically pulls their existing facilities, collaterals, and all required information for eligibility and risk assessment. What took hours now happens instantly.</div></div>
+        <div class="insight"><div class="insight-q">System-generated DOA grouping logic</div><div class="insight-b"><strong>The system automatically constructs the DOA group</strong>, pulling related entities, facilities, collaterals, and all applicable credit-related identifiers. Users no longer need to traverse 16 reports to build this picture manually.</div></div>
+        <div class="insight"><div class="insight-q">Real-time validation of exposure limits</div><div class="insight-b"><strong>Users can check facility limits at a group level and validate all applicable related entities in real time</strong>, without going through 16 reports and systems. The loan section now includes automated calculations and data breakdowns, enabling users to propose facility structures that align with bank policies.</div></div>
       </div>
-      <img src="sfw-group-limits.png" alt="Group Limits and Facilities — real-time validation of TFL, TCL, CCL exposure across mainstream and other programmes" style="width:100%; border-radius:12px; margin-top:40px; display:block;">
+      <img src="sfw-group-limits.png" alt="Group Limits and Facilities: real-time validation of TFL, TCL, CCL exposure across mainstream and other programmes" style="width:100%; border-radius:12px; margin-top:40px; display:block;">
       <div style="margin-top:40px;">
-        <div class="cs-label">Design Iterations</div>
+        <div class="cs-label">Design iterations</div>
         <div class="col2" style="gap:24px; margin-top:0;">
           <div class="decision" style="margin-top:0; grid-template-columns:1fr; padding:32px;">
             <div class="dec-col">
               <h3>What didn't work</h3>
               <ul>
-                <li><div class="dec-stacked"><strong>Iterations #1 &amp; #2:</strong><span>Structure was insufficient for clearly presenting maximum limit and remaining balance — the two most critical data points for users.</span></div></li>
+                <li><div class="dec-stacked"><strong>Iterations #1 &amp; #2:</strong><span>Structure was insufficient for clearly presenting maximum limit and remaining balance, the two most critical data points for users.</span></div></li>
                 <li><div class="dec-stacked"><strong>Iteration #3:</strong><span>Hovering over charts to view data was inconvenient. Key figures should never require interaction to surface.</span></div></li>
               </ul>
             </div>
@@ -1551,15 +1557,15 @@
             <div class="dec-col">
               <h3>What we landed on</h3>
               <ul>
-                <li><div class="dec-stacked"><strong>Persistent data display:</strong><span>Maximum limit and remaining balance always visible — no hover, no drill-down required.</span></div></li>
+                <li><div class="dec-stacked"><strong>Persistent data display:</strong><span>Maximum limit and remaining balance always visible: no hover, no drill-down required.</span></div></li>
                 <li><div class="dec-stacked"><strong>Group-level exposure view:</strong><span>Aggregated picture of all related entities in a single scannable layout.</span></div></li>
                 <li><div class="dec-stacked"><strong>Policy alignment indicators:</strong><span>Real-time feedback on whether proposed structure is within bank thresholds.</span></div></li>
               </ul>
             </div>
           </div>
         </div>
-        <img src="sfw-iterations-1-2.png" alt="Limits and Facilities — Iterations #1 and #2 explored layouts" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
-        <img src="sfw-iterations-3-4.png" alt="Limits and Facilities — Iterations #3 and #4 explored layouts" style="width:100%; border-radius:12px; margin-top:16px; display:block;">
+        <img src="sfw-iterations-1-2.png" alt="Limits and Facilities: Iterations #1 and #2 explored layouts" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
+        <img src="sfw-iterations-3-4.png" alt="Limits and Facilities: Iterations #3 and #4 explored layouts" style="width:100%; border-radius:12px; margin-top:16px; display:block;">
       </div>
     </div>
   </section>
@@ -1569,11 +1575,11 @@
   <!-- 06 Solution 3 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">06 — Solution 3</div>
+      <div class="cs-label">06 Solution 3</div>
       <div class="col2-60">
         <div>
           <h2>Pre-validation: early eligibility signals before full processing</h2>
-          <p>Previously, RMs and CRMs had to manually review multiple documents — bank statements, ACRA reports of related parties — before knowing if a case was viable. This wasted hours on low-probability applications.</p>
+          <p>Previously, RMs and CRMs had to manually review multiple documents (bank statements, ACRA reports of related parties) before knowing if a case was viable. This wasted hours on low-probability applications.</p>
           <p>I introduced a <strong>pre-validation layer</strong> that surfaces early eligibility signals before full application processing begins.</p>
         </div>
         <div class="note"><p><strong>Design principle:</strong> Surface uncertainty early. The cost of discovering ineligibility at the credit stage is orders of magnitude higher than discovering it at the assessment stage. Front-loading the signal is a force multiplier on the entire pipeline.</p></div>
@@ -1581,17 +1587,17 @@
       <video autoplay loop muted playsinline style="width:100%; border-radius:12px; margin-top:40px; display:block;">
         <source src="sfw-preval-demo.mov" type="video/mp4">
       </video>
-      <img src="sfw-prevalidation.png" alt="Pre-validation results view — full eligibility breakdown surfaced upfront" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
+      <img src="sfw-prevalidation.png" alt="Pre-validation results view: full eligibility breakdown surfaced upfront" style="width:100%; border-radius:12px; margin-top:24px; display:block;">
       <div class="ux-grid" style="margin-top:40px;">
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-search-dollar"></i></div>
           <h3>Creditworthiness upfront</h3>
-          <p>Users can assess loan eligibility of a customer in one place — without manual data input. Early signal before any significant effort is invested.</p>
+          <p>Users can assess loan eligibility of a customer in one place, without manual data input. Early signal before any significant effort is invested.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-filter-horizontal"></i></div>
           <h3>Filter before committing</h3>
-          <p>Low-probability cases are surfaced early and filtered out. RMs focus only on viable opportunities — making the pipeline significantly more efficient.</p>
+          <p>Low-probability cases are surfaced early and filtered out. RMs focus only on viable opportunities, making the pipeline significantly more efficient.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-badge-01"></i></div>
@@ -1607,13 +1613,13 @@
   <!-- 07 Impact -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">07 — Impact & Outcomes</div>
+      <div class="cs-label">07 Impact and outcomes</div>
       <h2>From a 3-month process to an 11-minute decision</h2>
       <p>The redesigned workflow delivered significant operational improvements across the entire financing pipeline.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">11 min</span><span class="imp-l">Processing time per case after redesign</span><h3>120 minutes → 11 minutes</h3><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes — a 91% reduction in processing time per case.</p></div>
-        <div class="impact-card"><span class="imp-n">20%</span><span class="imp-l">Rework rate after redesign</span><h3>80% → 20% rework rate</h3><p>Automated calculations and early eligibility signals eliminated the primary drivers of rework — late-stage rejections and manual data errors.</p></div>
-        <div class="impact-card"><span class="imp-n">16+→1</span><span class="imp-l">Systems consolidated into a single flow</span><h3>System fragmentation eliminated</h3><p>All credit-related data, eligibility checks, and exposure calculations now happen inside a single structured workflow — no external tools, no spreadsheets.</p></div>
+        <div class="impact-card hi"><span class="imp-n">11 min</span><span class="imp-l">Processing time per case after redesign</span><h3>120 minutes → 11 minutes</h3><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes, a 91% reduction in processing time per case.</p></div>
+        <div class="impact-card"><span class="imp-n">20%</span><span class="imp-l">Rework rate after redesign</span><h3>80% → 20% rework rate</h3><p>Automated calculations and early eligibility signals eliminated the primary drivers of rework: late-stage rejections and manual data errors.</p></div>
+        <div class="impact-card"><span class="imp-n">16+→1</span><span class="imp-l">Systems consolidated into a single flow</span><h3>System fragmentation eliminated</h3><p>All credit-related data, eligibility checks, and exposure calculations now happen inside a single structured workflow: no external tools, no spreadsheets.</p></div>
         <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Early-stage decision confidence</span><h3>Better pipeline quality</h3><p>Pre-validation surfaces low-probability cases early. RMs and credit reviewers operate with higher confidence, investing effort only where it's likely to convert.</p></div>
       </div>
     </div>
@@ -1624,16 +1630,16 @@
   <!-- 08 Reflection -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">08 — Reflection</div>
+      <div class="cs-label">08 Reflection</div>
       <h2>What I learned designing for financial decision-making</h2>
       <div class="ref-grid" style="grid-template-columns:repeat(2,1fr);">
-        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Designing for financial systems is less about UI — and more about decision architecture</h3><p>The interface was almost secondary. The real design work was understanding the credit logic, eligibility criteria, and exposure calculation rules — then structuring them into a flow that made decisions faster and more reliable.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>The biggest gains came from eliminating uncertainty early</h3><p>Optimising later steps had diminishing returns. Front-loading the eligibility signal — before any significant effort was invested — was the single highest-leverage change in the entire redesign.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Automation is most powerful when it reduces cognitive load, not just effort</h3><p>Automating DOA group calculations wasn't just about saving time. It removed the mental overhead of holding financial relationships in working memory — letting users focus on judgement instead of arithmetic.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>Trust in financial tools comes from clarity, predictability, and transparency</h3><p>Users don't just need accurate data — they need to understand where it came from, how it was calculated, and what it means for their decision. Transparency is a UX requirement, not a nice-to-have.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Designing for financial systems is less about UI and more about decision architecture</h3><p>The interface was almost secondary. The real design work was understanding the credit logic, eligibility criteria, and exposure calculation rules, then structuring them into a flow that made decisions faster and more reliable.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>The biggest gains came from eliminating uncertainty early</h3><p>Optimising later steps had diminishing returns. Front-loading the eligibility signal, before any significant effort was invested, was the single highest-leverage change in the entire redesign.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Automation is most powerful when it reduces cognitive load, not just effort</h3><p>Automating DOA group calculations wasn't just about saving time. It removed the mental overhead of holding financial relationships in working memory, letting users focus on judgement instead of arithmetic.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>Trust in financial tools comes from clarity, predictability, and transparency</h3><p>Users don't just need accurate data. They need to understand where it came from, how it was calculated, and what it means for their decision. Transparency is a UX requirement, not a nice-to-have.</p></div>
       </div>
       <div class="pq" style="margin-top:48px;">
-        <blockquote>"Designing internal tools for a bank taught me that the most important design decisions aren't visual — they're structural."</blockquote>
+        <blockquote>"Designing internal tools for a bank taught me that the most important design decisions aren't visual. They're structural."</blockquote>
         <cite>— Jisoo Ahn, 5 Unexpected Lessons Learned While Designing Internal Tools for a Bank</cite>
       </div>
     </div>
@@ -1653,7 +1659,7 @@
   <div class="cs-hero">
     <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
       <button class="back-btn" onclick="go('work')">← Back to Work</button>
-      <div class="cs-eye">Case Study — Shipped Product</div>
+      <div class="cs-eye">Case study · Shipped product</div>
       <h1>FI Partner Page<br><em>Redesign</em></h1>
       <div class="cs-meta">
         <div class="cs-meta-item"><label>Industry</label><span>Loyalty &amp; Rewards</span></div>
@@ -1667,16 +1673,16 @@
   <!-- 01 Context -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">01 — Context</div>
+      <div class="cs-label">01 Context</div>
       <div class="col2-60">
         <div>
           <h2>A merchant portal where partnerships — and revenue — live or die</h2>
-          <p><strong>Ascenda's merchant portal is a one-stop platform for merchant partners</strong> — airlines and hotels — to explore potential Financial Institution (FI) partnerships, track existing ones, manage marketing campaigns with partnered FIs, and monitor campaign performance.</p>
-          <p>The Financial Institution pages sit at the centre of this workflow. They're how merchants discover new FI partners, qualify them, move them through the pipeline, and see the ones already live with them — directly tied to revenue generation across the platform.</p>
+          <p><strong>Ascenda's merchant portal is a one-stop platform for merchant partners</strong> (airlines and hotels) to explore potential Financial Institution (FI) partnerships, track existing ones, manage marketing campaigns with partnered FIs, and monitor campaign performance.</p>
+          <p>The Financial Institution pages sit at the centre of this workflow. They're how merchants discover new FI partners, qualify them, move them through the pipeline, and see the ones already live with them, directly tied to revenue generation across the platform.</p>
         </div>
         <div>
           <p class="eyebrow disciplines">Discovery and research · IA and systems design · Interaction design · Usability testing</p>
-          <div class="note"><p><strong>My role:</strong> I led the redesign end-to-end — from discovery and research with internal and external users, through information architecture and interaction design, to usability testing and post-release analytics review.</p></div>
+          <div class="note"><p><strong>My role:</strong> I led the redesign end-to-end, from discovery and research with internal and external users, through information architecture and interaction design, to usability testing and post-release analytics review.</p></div>
         </div>
       </div>
       <!-- IMAGE SLOT: 3-tier portal diagram (Rewards Central → Admin Portal → Merchant Portal) -->
@@ -1689,18 +1695,18 @@
   <!-- 02 Problem -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">02 — Problem Definition</div>
+      <div class="cs-label">02 Problem definition</div>
       <h2>"It's just so confusing…" — a usability problem that quietly cost the business</h2>
-      <p>Poor usability made it hard for merchant partners to browse FIs efficiently. Internal teams were absorbing the cost — fielding repeated support inquiries on how to read the page, what the labels meant, and where to find specific partners. For a page directly tied to revenue, that friction was expensive.</p>
+      <p>Poor usability made it hard for merchant partners to browse FIs efficiently. Internal teams were absorbing the cost, fielding repeated support inquiries on how to read the page, what the labels meant, and where to find specific partners. For a page directly tied to revenue, that friction was expensive.</p>
       <div class="prob-grid">
-        <div class="prob-card crit"><span class="prob-n">01</span><h3>Unconventional labels &amp; icons</h3><p>Terms like <strong>'Active'</strong> and <strong>'Approved'</strong> didn't match merchant users' mental models. A <strong>star icon</strong> was used to indicate a live FI — but to merchants it read as "favourite," not "live partnership."</p></div>
-        <div class="prob-card crit"><span class="prob-n">02</span><h3>Redundant IA split</h3><p>'Pipeline' and 'Active' were two top-level nav tabs — but given the moderate depth of the IA, splitting the same entity across two destinations was redundant, forced extra navigation, and obscured the partnership journey.</p></div>
+        <div class="prob-card crit"><span class="prob-n">01</span><h3>Unconventional labels &amp; icons</h3><p>Terms like <strong>'Active'</strong> and <strong>'Approved'</strong> didn't match merchant users' mental models. A <strong>star icon</strong> was used to indicate a live FI, but to merchants it read as "favourite," not "live partnership."</p></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><h3>Redundant IA split</h3><p>'Pipeline' and 'Active' were two top-level nav tabs, but given the moderate depth of the IA, splitting the same entity across two destinations was redundant, forced extra navigation, and obscured the partnership journey.</p></div>
       </div>
       <div class="prob-grid" style="grid-template-columns:1fr; margin-top:16px;">
-        <div class="prob-card"><span class="prob-n">03</span><h3>No structural support for scale</h3><p>The two-tab structure made it hard to add new stages, new actions, or new merchant prompts without further fragmenting the navigation. Every future feature would have meant another tab — or another workaround.</p></div>
+        <div class="prob-card"><span class="prob-n">03</span><h3>No structural support for scale</h3><p>The two-tab structure made it hard to add new stages, new actions, or new merchant prompts without further fragmenting the navigation. Every future feature would have meant another tab, or another workaround.</p></div>
       </div>
       <!-- IMAGE SLOT: Existing 'Active' page screenshot with merchant partner quote bubble ("Active..? Approved...? Why is it star icon..?") -->
-      <!-- <img src="fi-old-active-page.png" alt="Existing Active page — unconventional labels and star icon causing confusion" style="width:100%; border-radius:12px; margin-top:24px; display:block;"> -->
+      <!-- <img src="fi-old-active-page.png" alt="Existing Active page: unconventional labels and star icon causing confusion" style="width:100%; border-radius:12px; margin-top:24px; display:block;"> -->
     </div>
   </section>
 
@@ -1709,44 +1715,44 @@
   <!-- 03 Research -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">03 — Research &amp; Discovery</div>
-      <h2>Understanding the root causes — and the partnership journey behind them</h2>
+      <div class="cs-label">03 Research and discovery</div>
+      <h2>Understanding the root causes and the partnership journey behind them</h2>
       <p>I combined desk research with interviews of internal users (sales, BD, MP team) to surface why the existing page was hard to use, and mapped the full partnership launch process to find what the IA <em>should</em> support.</p>
       <div class="steps">
         <div class="step"><span class="step-n">Method 01</span><div class="step-t">Desk Research</div><div class="step-d">Audited the current page against B2B patterns and user mental models for pipeline / Kanban-style workflows.</div></div>
         <div class="step"><span class="step-n">Method 02</span><div class="step-t">Internal Interviews</div><div class="step-d">Spoke to sales, BD, and the merchant partner team to understand the support inquiries they were absorbing and where merchants got stuck.</div></div>
-        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Journey Mapping</div><div class="step-d">Mapped the end-to-end partnership launch process — from interest check and FI activation with Ascenda, through to live partnership between FI and merchant — to identify where the system should support each step.</div></div>
+        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Journey Mapping</div><div class="step-d">Mapped the end-to-end partnership launch process, from interest check and FI activation with Ascenda through to live partnership between FI and merchant, to identify where the system should support each step.</div></div>
       </div>
-      <img src="fi-journey-map.png" alt="End-to-end partnership launch process — sales team, MP team, and merchant partner swimlanes across interest check, FI activation, and partnership launch" style="width:100%; border-radius:12px; margin-top:32px; display:block;">
-      <div class="cs-label" style="margin-top:48px;">Key Research Findings</div>
+      <img src="fi-journey-map.png" alt="End-to-end partnership launch process: sales team, MP team, and merchant partner swimlanes across interest check, FI activation, and partnership launch" style="width:100%; border-radius:12px; margin-top:32px; display:block;">
+      <div class="cs-label" style="margin-top:48px;">Key research findings</div>
       <div class="krf-list">
         <div class="krf-item">
           <span class="krf-n">01</span>
           <div class="krf-body">
             <h3 class="krf-title">Labels and icons didn't match merchant mental models</h3>
-            <p class="krf-desc">'Active' and 'Approved' read as internal operational states, not as the partnership stages merchants think in. The 'star' icon was the most consistent source of confusion — universally read as "favourite," never as "live partnership."</p>
+            <p class="krf-desc">'Active' and 'Approved' read as internal operational states, not as the partnership stages merchants think in. The 'star' icon was the most consistent source of confusion, universally read as "favourite," never as "live partnership."</p>
           </div>
         </div>
-        <img src="fi-old-active.png" alt="Existing Active tab — top-level nav destination separated from Pipeline" style="width:100%; border-radius:12px; display:block;">
+        <img src="fi-old-active.png" alt="Existing Active tab: top-level nav destination separated from Pipeline" style="width:100%; border-radius:12px; display:block;">
         <div class="krf-item">
           <span class="krf-n">02</span>
           <div class="krf-body">
             <h3 class="krf-title">The Pipeline / Active split was solving an internal problem, not a user one</h3>
-            <p class="krf-desc">The two-tab IA reflected how the system stored FIs — not how merchants browsed them. Users wanted to see <strong>all FIs across stages in one place</strong>, with the stage as a property of the FI, not as a destination.</p>
+            <p class="krf-desc">The two-tab IA reflected how the system stored FIs, not how merchants browsed them. Users wanted to see <strong>all FIs across stages in one place</strong>, with the stage as a property of the FI, not as a destination.</p>
           </div>
         </div>
-        <img src="fi-old-pipeline.png" alt="Existing Pipeline tab — top-level nav destination separated from Active" style="width:100%; border-radius:12px; display:block;">
+        <img src="fi-old-pipeline.png" alt="Existing Pipeline tab: top-level nav destination separated from Active" style="width:100%; border-radius:12px; display:block;">
         <div class="krf-item">
           <span class="krf-n">03</span>
           <div class="krf-body">
-            <h3 class="krf-title">The partnership journey is naturally staged — and naturally Kanban</h3>
-            <p class="krf-desc">Mapping the full launch process surfaced three clean stages: <strong>Opportunities → Going live → Live</strong>. Each stage had a distinct definition and a distinct use case for both merchant and internal users — a structure the existing IA didn't expose.</p>
+            <h3 class="krf-title">The partnership journey is naturally staged, and naturally Kanban</h3>
+            <p class="krf-desc">Mapping the full launch process surfaced three clean stages: <strong>Opportunities → Going live → Live</strong>. Each stage had a distinct definition and a distinct use case for both merchant and internal users, a structure the existing IA didn't expose.</p>
           </div>
         </div>
-        <img src="fi-kanban-inspiration.png" alt="Kanban board inspiration — Opportunities, Going live, Live with definitions and use cases per persona" style="width:100%; border-radius:12px; display:block;">
+        <img src="fi-kanban-inspiration.png" alt="Kanban board inspiration: Opportunities, Going live, Live with definitions and use cases per persona" style="width:100%; border-radius:12px; display:block;">
       </div>
       <div class="note" style="margin-top:40px;">
-        <p><strong>Goal we aligned on:</strong> Improve clarity and comprehension of the pipeline content. We committed to two success metrics — a <strong>leading indicator</strong> (80% success rate on key tasks in usability testing) and a <strong>lagging indicator</strong> (increase in weekly page views and average views per partner).</p>
+        <p><strong>Goal we aligned on:</strong> Improve clarity and comprehension of the pipeline content. We committed to two success metrics: a <strong>leading indicator</strong> (80% success rate on key tasks in usability testing) and a <strong>lagging indicator</strong> (increase in weekly page views and average views per partner).</p>
       </div>
     </div>
   </section>
@@ -1756,15 +1762,15 @@
   <!-- 04 Solution 1 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">04 — Solution 1</div>
+      <div class="cs-label">04 Solution 1</div>
       <div class="col2-60">
         <div>
           <h2>One page, three stages, two audiences</h2>
-          <p>I consolidated the two existing tabs into <strong>a single 'FI Partners' page</strong> with three stages — <strong>Opportunities → Going live → Live</strong> — directly mirroring the partnership launch process surfaced in research.</p>
-          <p>The same page serves two distinct audiences: <strong>merchant partners</strong> (external) and <strong>the Ascenda MP team</strong> (internal). They share the same mental model of the partnership journey — but not the same actions. Audience-specific affordances layer on top of a shared structure.</p>
-          <p>I also restructured the main navigation — grouping FI Partners and Campaign Proposals (the two revenue-generating surfaces) at the top, with insights and marketing tools organised beneath.</p>
+          <p>I consolidated the two existing tabs into <strong>a single 'FI Partners' page</strong> with three stages (<strong>Opportunities → Going live → Live</strong>), directly mirroring the partnership launch process surfaced in research.</p>
+          <p>The same page serves two distinct audiences: <strong>merchant partners</strong> (external) and <strong>the Ascenda MP team</strong> (internal). They share the same mental model of the partnership journey, but not the same actions. Audience-specific affordances layer on top of a shared structure.</p>
+          <p>I also restructured the main navigation, grouping FI Partners and Campaign Proposals (the two revenue-generating surfaces) at the top, with insights and marketing tools organised beneath.</p>
         </div>
-        <div class="note"><p><strong>Design principle:</strong> The IA should mirror the user's mental model of the work — not the system's storage model. Stage is a property of a partnership, not a destination in the nav. And one structure can serve multiple audiences when stage is shared truth.</p></div>
+        <div class="note"><p><strong>Design principle:</strong> The IA should mirror the user's mental model of the work, not the system's storage model. Stage is a property of a partnership, not a destination in the nav. And one structure can serve multiple audiences when stage is shared truth.</p></div>
       </div>
       <div class="ux-grid" style="margin-top:40px;">
         <div class="ux-card">
@@ -1786,22 +1792,22 @@
       <div class="cs-label" style="margin-top:48px;">Same structure, audience-specific affordances</div>
       <div class="insights" style="margin-top:24px;">
         <div class="insight"><div class="insight-q">Shared three-stage structure</div><div class="insight-b"><strong>Both views use the same Opportunities → Going live → Live structure</strong>, so internal and external users speak the same language about where a partnership is in its journey.</div></div>
-        <div class="insight"><div class="insight-q">Action column for internal users</div><div class="insight-b"><strong>The internal view adds an action column</strong> — letting the MP team move FI items between stages, edit details, and archive — without leaving the page or breaking the shared mental model.</div></div>
-        <div class="insight"><div class="insight-q">Per-merchant tailoring on the internal side</div><div class="insight-b"><strong>Internal users can view the FI Partners page in the context of any individual merchant</strong>, with the same layout and stages — so the team can support each merchant against a consistent picture of where their partnerships stand.</div></div>
+        <div class="insight"><div class="insight-q">Action column for internal users</div><div class="insight-b"><strong>The internal view adds an action column</strong>, letting the MP team move FI items between stages, edit details, and archive without leaving the page or breaking the shared mental model.</div></div>
+        <div class="insight"><div class="insight-q">Per-merchant tailoring on the internal side</div><div class="insight-b"><strong>Internal users can view the FI Partners page in the context of any individual merchant</strong>, with the same layout and stages, so the team can support each merchant against a consistent picture of where their partnerships stand.</div></div>
       </div>
       <div class="col2" style="gap:24px; margin-top:40px;">
         <figure style="margin:0;">
-          <img src="fi-merchant-view.png" alt="Merchant view of the new FI Partners page — Opportunities tab with read-only stage labels" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Merchant view — browses partnerships by stage; stage is read-only.</figcaption>
+          <img src="fi-merchant-view.png" alt="Merchant view of the new FI Partners page: Opportunities tab with read-only stage labels" style="width:100%; border-radius:12px; display:block;">
+          <figcaption class="fig-cap">Merchant view: browses partnerships by stage; stage is read-only.</figcaption>
         </figure>
         <figure style="margin:0;">
-          <img src="fi-internal-view.png" alt="Internal view of the new FI Partners page — Opportunities tab with editable stage dropdowns and per-row action menu" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Internal view — same structure, plus editable stage dropdowns, per-row action menu, and Create FI.</figcaption>
+          <img src="fi-internal-view.png" alt="Internal view of the new FI Partners page: Opportunities tab with editable stage dropdowns and per-row action menu" style="width:100%; border-radius:12px; display:block;">
+          <figcaption class="fig-cap">Internal view: same structure, plus editable stage dropdowns, per-row action menu, and Create FI.</figcaption>
         </figure>
       </div>
       <div class="sol-impact-block">
         <h3 class="sol-impact-title">Impact</h3>
-        <p class="sol-impact">Replaced an internal-storage IA with a <em>journey-shaped</em> one — and made the same page serve both audiences. Stage is now a filter, not a fragmented destination; audience-specific affordances layer on a shared structure.</p>
+        <p class="sol-impact">Replaced an internal-storage IA with a <em>journey-shaped</em> one, and made the same page serve both audiences. Stage is now a filter, not a fragmented destination; audience-specific affordances layer on a shared structure.</p>
       </div>
     </div>
   </section>
@@ -1811,12 +1817,12 @@
   <!-- 05 Solution 2 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">05 — Solution 2</div>
+      <div class="cs-label">05 Solution 2</div>
       <div class="col2-60">
         <div>
-          <h2>A details page rebuilt for clarity — and for scale</h2>
+          <h2>A details page rebuilt for clarity and for scale</h2>
           <p>The previous details page mixed high-value content with low-value content, and used a rigid layout that didn't accommodate the different states an FI partnership goes through.</p>
-          <p>I redesigned it around a <strong>card-based layout</strong> — removing low-value content, grouping high-value content into cards that can vary by stage, and making the page easy to extend as new content types come in.</p>
+          <p>I redesigned it around a <strong>card-based layout</strong>, removing low-value content, grouping high-value content into cards that can vary by stage, and making the page easy to extend as new content types come in.</p>
         </div>
         <div class="note"><p><strong>Design principle:</strong> Design the container so the next feature is a card, not a redesign. Anticipating future surface area was as important as fixing today's problems.</p></div>
       </div>
@@ -1824,35 +1830,35 @@
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-layout-01"></i></div>
           <h3>Card-based composition</h3>
-          <p>Content is grouped into discrete cards. Each card has a clear purpose and can appear or hide per stage — so the page composition adapts to the partnership's current state.</p>
+          <p>Content is grouped into discrete cards. Each card has a clear purpose and can appear or hide per stage, so the page composition adapts to the partnership's current state.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-filter-horizontal"></i></div>
           <h3>Stage-aware content</h3>
-          <p>Different cards surface for Opportunities vs Going live vs Live. Users see exactly what matters at the stage they're in — and nothing they don't.</p>
+          <p>Different cards surface for Opportunities vs Going live vs Live. Users see exactly what matters at the stage they're in, and nothing they don't.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-arrow-up-right-01"></i></div>
           <h3>Built for future steps</h3>
-          <p>The tab structure was deliberately designed to accommodate new process steps, merchant prompts, and action types — anticipating a follow-on project that has since shipped using exactly this scaffolding.</p>
+          <p>The tab structure was deliberately designed to accommodate new process steps, merchant prompts, and action types, anticipating a follow-on project that has since shipped using exactly this scaffolding.</p>
         </div>
       </div>
       <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:40px;" class="fi-details-grid">
         <figure style="margin:0;">
-          <img src="fi-details-before.png" alt="FI details page before redesign — hero banner, sparse data layout" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Before — original details page with low-value hero banner</figcaption>
+          <img src="fi-details-before.png" alt="FI details page before redesign: hero banner, sparse data layout" style="width:100%; border-radius:12px; display:block;">
+          <figcaption class="fig-cap">Before: original details page with low-value hero banner</figcaption>
         </figure>
         <figure style="margin:0;">
-          <img src="fi-details-redesigned.png" alt="FI details page after redesign — Opportunities state with card-based Company details" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned — card-based layout with stage-aware content (Opportunities).</figcaption>
+          <img src="fi-details-redesigned.png" alt="FI details page after redesign: Opportunities state with card-based Company details" style="width:100%; border-radius:12px; display:block;">
+          <figcaption class="fig-cap">Redesigned: card-based layout with stage-aware content (Opportunities).</figcaption>
         </figure>
         <figure style="margin:0;">
-          <img src="fi-details-redesigned-live.png" alt="FI details page after redesign — Live state with Launch details card" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned, when live — extra Launch details card surfaces only at the Live stage.</figcaption>
+          <img src="fi-details-redesigned-live.png" alt="FI details page after redesign: Live state with Launch details card" style="width:100%; border-radius:12px; display:block;">
+          <figcaption class="fig-cap">Redesigned, when live: extra Launch details card surfaces only at the Live stage.</figcaption>
         </figure>
         <figure style="margin:0;">
-          <img src="fi-details-redesigned-feature.png" alt="FI details page after redesign — Going live state with new 'Your interest' card added later" style="width:100%; border-radius:12px; display:block;">
-          <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned, with another feature — a later "Your interest" card slotted in without re-architecting the page.</figcaption>
+          <img src="fi-details-redesigned-feature.png" alt="FI details page after redesign: Going live state with new 'Your interest' card added later" style="width:100%; border-radius:12px; display:block;">
+          <figcaption class="fig-cap">Redesigned, with another feature: a later "Your interest" card slotted in without re-architecting the page.</figcaption>
         </figure>
       </div>
     </div>
@@ -1863,14 +1869,14 @@
   <!-- 06 Impact -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">06 — Impact &amp; Outcomes</div>
-      <h2>From confusing to engaging — the most-viewed page in the app</h2>
-      <p>The redesigned FI Partners page hit both success metrics we committed to in research — and the lagging indicator outperformed expectations.</p>
+      <div class="cs-label">06 Impact and outcomes</div>
+      <h2>From confusing to engaging: the most-viewed page in the app</h2>
+      <p>The redesigned FI Partners page hit both success metrics we committed to in research, and the lagging indicator outperformed expectations.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">#1</span><span class="imp-l">Most-viewed page in the merchant portal</span><h3>From underused to most-viewed</h3><p>Post-release analytics showed the FI Partners tab — previously underused — became the most-viewed page in the app, exceeding the lagging indicator we set.</p></div>
-        <div class="impact-card"><span class="imp-n">80%</span><span class="imp-l">Success rate on key tasks (usability testing)</span><h3>Leading indicator achieved</h3><p>Usability testing on the key user tasks defined during research returned an 80% success rate — meeting the target we set with the team before delivery.</p></div>
+        <div class="impact-card hi"><span class="imp-n">#1</span><span class="imp-l">Most-viewed page in the merchant portal</span><h3>From underused to most-viewed</h3><p>Post-release analytics showed the FI Partners tab, previously underused, became the most-viewed page in the app, exceeding the lagging indicator we set.</p></div>
+        <div class="impact-card"><span class="imp-n">80%</span><span class="imp-l">Success rate on key tasks (usability testing)</span><h3>Leading indicator achieved</h3><p>Usability testing on the key user tasks defined during research returned an 80% success rate, meeting the target we set with the team before delivery.</p></div>
         <div class="impact-card"><span class="imp-n">2→1</span><span class="imp-l">Tabs consolidated into one journey-shaped page</span><h3>IA simplified, mental model restored</h3><p>The two-tab Pipeline / Active split was retired. The single FI Partners page mirrors how merchants actually think about the partnership journey.</p></div>
-        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Foundation for follow-on features</span><h3>Scalability paid off</h3><p>The tab structure designed for future steps has since been used to add new process stages and merchant prompts — without re-architecting the page.</p><img src="fi-scalability.png" alt="A new 'Opportunity matching' stage slotted between Opportunities and Going live — added without re-architecting the page" style="width:100%; border-radius:8px; margin-top:20px; display:block;"></div>
+        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Foundation for follow-on features</span><h3>Scalability paid off</h3><p>The tab structure designed for future steps has since been used to add new process stages and merchant prompts, without re-architecting the page.</p><img src="fi-scalability.png" alt="A new 'Opportunity matching' stage slotted between Opportunities and Going live, added without re-architecting the page" style="width:100%; border-radius:8px; margin-top:20px; display:block;"></div>
       </div>
     </div>
   </section>
@@ -1880,13 +1886,13 @@
   <!-- 07 Reflection -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">07 — Reflection</div>
+      <div class="cs-label">07 Reflection</div>
       <h2>What I learned redesigning a shared surface for two user groups</h2>
       <div class="ref-grid" style="grid-template-columns:repeat(2,1fr);">
-        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Design with impact and user value in mind</h3><p>The most defensible design decisions weren't the ones that looked best in Figma — they were the ones tied to a measurable change in user behaviour or business outcome. Committing to leading and lagging indicators upfront kept the team aligned on what "good" actually meant.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Always keep scalability in mind</h3><p>Anticipating that the tabs would later carry new process steps shaped how I designed the container. A follow-on project ended up extending exactly that scaffolding — which would have required a re-architecture if I'd optimised only for the immediate scope.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>One page can serve two audiences — if the structure is honest about the work</h3><p>Merchants and internal users don't share actions, but they share a mental model of the partnership journey. Designing one structure around that shared mental model — and layering audience-specific affordances on top — was cleaner than building two separate pages.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>IA problems hide as usability problems</h3><p>"It's just so confusing" wasn't a label problem or an icon problem — those were the symptoms. The root cause was an information architecture that mirrored how the system stored data instead of how users thought about it. Fixing the IA made the surface-level fixes obvious.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Design with impact and user value in mind</h3><p>The most defensible design decisions weren't the ones that looked best in Figma. They were the ones tied to a measurable change in user behaviour or business outcome. Committing to leading and lagging indicators upfront kept the team aligned on what "good" actually meant.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Always keep scalability in mind</h3><p>Anticipating that the tabs would later carry new process steps shaped how I designed the container. A follow-on project ended up extending exactly that scaffolding, which would have required a re-architecture if I'd optimised only for the immediate scope.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>One page can serve two audiences, if the structure is honest about the work</h3><p>Merchants and internal users don't share actions, but they share a mental model of the partnership journey. Designing one structure around that shared mental model, and layering audience-specific affordances on top, was cleaner than building two separate pages.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>IA problems hide as usability problems</h3><p>"It's just so confusing" wasn't a label problem or an icon problem. Those were the symptoms. The root cause was an information architecture that mirrored how the system stored data instead of how users thought about it. Fixing the IA made the surface-level fixes obvious.</p></div>
       </div>
     </div>
   </section>
@@ -1904,7 +1910,7 @@
   <div class="cs-hero">
     <div class="cs-wrap" style="padding:0 48px; position:relative; z-index:1;">
       <button class="back-btn" onclick="go('work')">← Back to Work</button>
-      <div class="cs-eye">Case Study — Shipped Product</div>
+      <div class="cs-eye">Case study · Shipped product</div>
       <h1>Large Corporate<br>Onboarding<br><em>Design</em></h1>
       <div class="cs-meta">
         <div class="cs-meta-item"><label>Industry</label><span>Institutional Banking</span></div>
@@ -1918,16 +1924,16 @@
   <!-- 01 Context -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">01 — Context</div>
+      <div class="cs-label">01 Context</div>
       <div class="col2-60">
         <div>
-          <h2>1,200 cases a year, 46 days each — all run on email</h2>
-          <p><strong>The bank processes over 1,200 large corporate account opening cases per year</strong>, each taking <strong>46 days on average</strong> to complete. The entire workflow — document requests, verification, signing, KYC, and account opening — was running <strong>100% manually through emails and phone calls</strong>.</p>
+          <h2>1,200 cases a year, 46 days each, all run on email</h2>
+          <p><strong>The bank processes over 1,200 large corporate account opening cases per year</strong>, each taking <strong>46 days on average</strong> to complete. The entire workflow (document requests, verification, signing, KYC, and account opening) was running <strong>100% manually through emails and phone calls</strong>.</p>
           <p>The team set out to digitalise the process end-to-end, with the goal of decreasing operational costs and increasing efficiency across two distinct user groups: an internal KYC team and an external customer administrator.</p>
         </div>
         <div>
           <p class="eyebrow disciplines">Discovery and research · Service design · Cross-platform UX · Design system</p>
-          <div class="note"><p><strong>My role:</strong> I led design end-to-end across two platforms — an internal KYC console and an external customer portal. I ran discovery with internal users, mapped service blueprints, drove product direction with the business team, and delivered GUI, flows, prototypes, and UI scenarios. I also contributed new patterns to the design system.</p></div>
+          <div class="note"><p><strong>My role:</strong> I led design end-to-end across two platforms: an internal KYC console and an external customer portal. I ran discovery with internal users, mapped service blueprints, drove product direction with the business team, and delivered GUI, flows, prototypes, and UI scenarios. I also contributed new patterns to the design system.</p></div>
         </div>
       </div>
       <div class="stats" style="margin-top:40px;">
@@ -1935,7 +1941,7 @@
         <div class="stat"><span class="stat-n">46 days</span><span class="stat-l">Average time to complete a single case before redesign</span></div>
         <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Of the existing workflow run on emails and phone calls</span></div>
       </div>
-      <!-- IMAGE SLOT: Hero product shot — internal Account Opening System + external customer portal side by side -->
+      <!-- IMAGE SLOT: Hero product shot, internal Account Opening System + external customer portal side by side -->
       <!-- <img src="onboard-hero.png" alt="Internal Account Opening System and external customer portal" style="width:100%; border-radius:12px; margin-top:40px; display:block;"> -->
     </div>
   </section>
@@ -1945,17 +1951,17 @@
   <!-- 02 Problem -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">02 — Problem Definition</div>
-      <h2>Five compounding bottlenecks — and no shared view of the work</h2>
-      <p>I interviewed users on both sides and walked the existing process end-to-end. Five distinct bottlenecks emerged — each one slowing the case down, and each one absorbing manual effort that should never have existed.</p>
+      <div class="cs-label">02 Problem definition</div>
+      <h2>Five compounding bottlenecks, and no shared view of the work</h2>
+      <p>I interviewed users on both sides and walked the existing process end-to-end. Five distinct bottlenecks emerged, each one slowing the case down and each one absorbing manual effort that should never have existed.</p>
       <div class="prob-grid">
-        <div class="prob-card crit"><span class="prob-n">01</span><h3>Manual preparation of document requirements</h3><p>Required documents vary by product type and business type. The KYC team had to <strong>check the document requirement guideline manually</strong> for every case — a fragile lookup with no system support.</p><img src="onboard-pain-doc-prep.png" alt="Documents required vary by product and related party — illustrated alongside a CORE team member interview quote" style="width:100%; border-radius:8px; margin-top:20px; display:block;"></div>
-        <div class="prob-card crit"><span class="prob-n">02</span><h3>Manual cross-check of docs &amp; emails into the KYC case</h3><p>Verified documents and information were used for KYC — but the KYC team had to <strong>extract and enter every field manually</strong>, cross-checking between attachments and the case form. Time-consuming and error-prone.</p></div>
+        <div class="prob-card crit"><span class="prob-n">01</span><h3>Manual preparation of document requirements</h3><p>Required documents vary by product type and business type. The KYC team had to <strong>check the document requirement guideline manually</strong> for every case, a fragile lookup with no system support.</p><img src="onboard-pain-doc-prep.png" alt="Documents required vary by product and related party, illustrated alongside a CORE team member interview quote" style="width:100%; border-radius:8px; margin-top:20px; display:block;"></div>
+        <div class="prob-card crit"><span class="prob-n">02</span><h3>Manual cross-check of docs &amp; emails into the KYC case</h3><p>Verified documents and information were used for KYC, but the KYC team had to <strong>extract and enter every field manually</strong>, cross-checking between attachments and the case form. Time-consuming and error-prone.</p></div>
       </div>
       <div class="prob-grid" style="grid-template-columns:1fr; margin-top:16px;">
-        <div class="prob-card"><span class="prob-n">03</span><h3>Back-and-forth emails for document verification</h3><p>Both parties spent significant time inspecting their inboxes to find the right email and review its content. The cost compounded with every additional document — and every case had many.</p></div>
-        <div class="prob-card"><span class="prob-n">04</span><h3>No way to check document processing status</h3><p>The KYC team kept documents on local devices and tracked readiness in a separate note or spreadsheet. Customers had no visibility at all — and frequently asked their RM or the KYC team for status, adding more inbound work.</p></div>
-        <div class="prob-card"><span class="prob-n">05</span><h3>Slow physical signing and shipping</h3><p>Signing was physical. The customer administrator collected signatures from all directors, then arranged courier delivery to the bank — a logistically cumbersome step that added days per case.</p></div>
+        <div class="prob-card"><span class="prob-n">03</span><h3>Back-and-forth emails for document verification</h3><p>Both parties spent significant time inspecting their inboxes to find the right email and review its content. The cost compounded with every additional document, and every case had many.</p></div>
+        <div class="prob-card"><span class="prob-n">04</span><h3>No way to check document processing status</h3><p>The KYC team kept documents on local devices and tracked readiness in a separate note or spreadsheet. Customers had no visibility at all, and frequently asked their RM or the KYC team for status, adding more inbound work.</p></div>
+        <div class="prob-card"><span class="prob-n">05</span><h3>Slow physical signing and shipping</h3><p>Signing was physical. The customer administrator collected signatures from all directors, then arranged courier delivery to the bank, a logistically cumbersome step that added days per case.</p></div>
       </div>
       <!-- IMAGE SLOT: Service blueprint / pain-point map showing the 5 bottlenecks across the journey -->
       <!-- <img src="onboard-painpoints.png" alt="Service blueprint mapping the five bottlenecks across the existing journey" style="width:100%; border-radius:12px; margin-top:24px; display:block;"> -->
@@ -1967,17 +1973,17 @@
   <!-- 03 Research -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">03 — Research &amp; Discovery</div>
-      <h2>Two key personas — and three focus areas the redesign had to deliver</h2>
+      <div class="cs-label">03 Research and discovery</div>
+      <h2>Two key personas, and three focus areas the redesign had to deliver</h2>
       <p>I mapped every party involved in the process and identified the two personas the design had to serve in parallel: the <strong>KYC team</strong> on the internal side, and the <strong>customer administrator</strong> on the external side. Each had distinct tasks, but both depended on the same documents flowing through the same case.</p>
       <div class="steps">
         <div class="step"><span class="step-n">Method 01</span><div class="step-t">User Interviews</div><div class="step-d">Interviewed the KYC team to understand their tasks, pain points, and the workarounds they'd built. Surfaced the manual cross-checking, the local note-taking, and the email-as-database pattern.</div></div>
         <div class="step"><span class="step-n">Method 02</span><div class="step-t">Process Analysis</div><div class="step-d">Walked the end-to-end case lifecycle to find where time was actually lost. Documented the five bottlenecks and the workflow gaps that drove them.</div></div>
-        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Service Blueprint</div><div class="step-d">Mapped the full service across internal and external actors — including documents, signatures, status states, and handoffs — to give the team a shared view of the system.</div></div>
+        <div class="step"><span class="step-n">Method 03</span><div class="step-t">Service Blueprint</div><div class="step-d">Mapped the full service across internal and external actors, including documents, signatures, status states, and handoffs, to give the team a shared view of the system.</div></div>
         <div class="step"><span class="step-n">Method 04</span><div class="step-t">Business Alignment</div><div class="step-d">Worked with the business team to translate the discovery findings into product goals and prioritise opportunities by organisational impact.</div></div>
       </div>
-      <img src="onboard-personas.png" alt="Personas mapped across internal parties (RM, Ops Team, KYC Team) and external parties (Administrator, Director, Certifier) — with what they do and what they care about" style="width:100%; border-radius:12px; margin-top:32px; display:block;">
-      <div class="cs-label" style="margin-top:48px;">Three Focus Areas</div>
+      <img src="onboard-personas.png" alt="Personas mapped across internal parties (RM, Ops Team, KYC Team) and external parties (Administrator, Director, Certifier), with what they do and what they care about" style="width:100%; border-radius:12px; margin-top:32px; display:block;">
+      <div class="cs-label" style="margin-top:48px;">Three focus areas</div>
       <div class="krf-list">
         <div class="krf-item">
           <span class="krf-n">01</span>
@@ -1990,24 +1996,24 @@
           <span class="krf-n">02</span>
           <div class="krf-body">
             <h3 class="krf-title">Reduce time required for document verification</h3>
-            <p class="krf-desc">Email-based document exchange was the largest single source of delay. Moving exchange into a shared, structured surface — with per-document status — was the highest-leverage change to compress case time.</p>
+            <p class="krf-desc">Email-based document exchange was the largest single source of delay. Moving exchange into a shared, structured surface with per-document status was the highest-leverage change to compress case time.</p>
           </div>
         </div>
         <div class="krf-item">
           <span class="krf-n">03</span>
           <div class="krf-body">
             <h3 class="krf-title">Provide clear visibility of progress</h3>
-            <p class="krf-desc">Customers asked about status because they couldn't see it. Internal users tracked status in spreadsheets because the system didn't surface it. Making progress visible — to both sides, in real time — would cut inbound inquiries at the root.</p>
+            <p class="krf-desc">Customers asked about status because they couldn't see it. Internal users tracked status in spreadsheets because the system didn't surface it. Making progress visible to both sides, in real time, would cut inbound inquiries at the root.</p>
           </div>
         </div>
       </div>
       <figure style="margin:48px 0 0;">
-        <img src="onboard-service-blueprint.png" alt="Service blueprint of the legacy onboarding workflow — stages, key actors, and manual steps surfaced during discovery" style="width:100%; border-radius:12px; display:block;">
-        <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Service blueprint of the existing workflow — every step, actor, and handoff mapped end-to-end.</figcaption>
+        <img src="onboard-service-blueprint.png" alt="Service blueprint of the legacy onboarding workflow: stages, key actors, and manual steps surfaced during discovery" style="width:100%; border-radius:12px; display:block;">
+        <figcaption class="fig-cap">Service blueprint of the existing workflow: every step, actor, and handoff mapped end-to-end.</figcaption>
       </figure>
       <figure style="margin:24px 0 0;">
-        <img src="onboard-painpoints.png" alt="Six key pain points across employee and customer sides — manual prep, manual cross-check, inquiry volume, email back-and-forth, status visibility, physical signing" style="width:100%; border-radius:12px; display:block;">
-        <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Six pain points distilled from the blueprint — three on the employee side, three on the customer side.</figcaption>
+        <img src="onboard-painpoints.png" alt="Six key pain points across employee and customer sides: manual prep, manual cross-check, inquiry volume, email back-and-forth, status visibility, physical signing" style="width:100%; border-radius:12px; display:block;">
+        <figcaption class="fig-cap">Six pain points distilled from the blueprint: three on the employee side, three on the customer side.</figcaption>
       </figure>
     </div>
   </section>
@@ -2017,39 +2023,39 @@
   <!-- 04 Solution 1 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">04 — Solution 1</div>
+      <div class="cs-label">04 Solution 1</div>
       <div class="col2-60">
         <div>
           <h2>An end-to-end journey, organised into four stages</h2>
-          <p>I designed a holistic end-to-end onboarding journey consisting of <strong>four distinct stages</strong> — Draft, Document Exchange, Signing &amp; Certifying, and KYC / Account Opening.</p>
+          <p>I designed a holistic end-to-end onboarding journey consisting of <strong>four distinct stages</strong>: Draft, Document Exchange, Signing and Certifying, and KYC / Account Opening.</p>
           <p>Each stage has a clear owner, a defined input, and a defined output. The same stage structure is visible to both internal and external users, so both sides know exactly where a case is and what's next.</p>
         </div>
-        <div class="note"><p><strong>Design principle:</strong> Give both audiences a shared mental model of the work. Stage is the unit of coordination — not the inbox, not the spreadsheet.</p></div>
+        <div class="note"><p><strong>Design principle:</strong> Give both audiences a shared mental model of the work. Stage is the unit of coordination, not the inbox and not the spreadsheet.</p></div>
       </div>
       <figure style="margin:40px 0 0;">
-        <img src="onboard-journey.png" alt="Service blueprint of the redesigned four-stage journey — Draft, Document Exchange, Signing & Certifying, KYC & AO — with actors, portals, inputs, outcomes, and pain points addressed at each stage" style="width:100%; border-radius:12px; display:block;">
-        <figcaption style="margin-top:10px; font-size:12px; color:var(--fg3); letter-spacing:.02em;">Redesigned service blueprint — four stages, both portals, with actors, digital evidence, outcomes, and the pain points addressed at each step.</figcaption>
+        <img src="onboard-journey.png" alt="Service blueprint of the redesigned four-stage journey (Draft, Document Exchange, Signing and Certifying, KYC and Account Opening), with actors, portals, inputs, outcomes, and pain points addressed at each stage" style="width:100%; border-radius:12px; display:block;">
+        <figcaption class="fig-cap">Redesigned service blueprint: four stages, both portals, with actors, digital evidence, outcomes, and the pain points addressed at each step.</figcaption>
       </figure>
       <div class="ux-grid" style="margin-top:40px; grid-template-columns:repeat(4, 1fr);">
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-edit-02"></i></div>
           <h3>Draft</h3>
-          <p>RM kicks off the case digitally — customer info captured in a structured form, replacing the initial email exchange.</p>
+          <p>RM kicks off the case digitally, with customer info captured in a structured form, replacing the initial email exchange.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-folder-shared-01"></i></div>
           <h3>Document Exchange</h3>
-          <p>Required documents are exchanged in a shared list across both portals — no email back-and-forth, with per-document status.</p>
+          <p>Required documents are exchanged in a shared list across both portals, with per-document status and no email back-and-forth.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-pen-tool-01"></i></div>
           <h3>Signing &amp; Certifying</h3>
-          <p>Documents are signed digitally via DocuSign — replacing the physical signing and courier step.</p>
+          <p>Documents are signed digitally via DocuSign, replacing the physical signing and courier step.</p>
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-checkmark-circle-02"></i></div>
           <h3>KYC / Account Opening</h3>
-          <p>KYC case is auto-populated from upstream stages — the team enriches rather than re-enters, and proceeds to account opening.</p>
+          <p>KYC case is auto-populated from upstream stages, so the team enriches rather than re-enters, then proceeds to account opening.</p>
         </div>
       </div>
       <div class="sol-impact-block">
@@ -2064,16 +2070,16 @@
   <!-- 05 Solution 2 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">05 — Solution 2</div>
-      <h2>Eliminating manual work — one source of truth across stages</h2>
-      <p>The largest source of internal effort was data re-entry. The same information moved across the RM, the KYC team, and the Ops team — and at every handoff, someone retyped it. I redesigned the workflow so that information captured upstream <strong>flows through every downstream stage</strong>.</p>
+      <div class="cs-label">05 Solution 2</div>
+      <h2>Eliminating manual work: one source of truth across stages</h2>
+      <p>The largest source of internal effort was data re-entry. The same information moved across the RM, the KYC team, and the Ops team, and at every handoff someone retyped it. I redesigned the workflow so that information captured upstream <strong>flows through every downstream stage</strong>.</p>
       <div class="insights" style="margin-top:40px;">
-        <div class="insight"><div class="insight-q">Digitised initial form replaces email kickoff</div><div class="insight-b"><strong>The RM captures customer information directly in a structured form</strong> — eliminating the initial email exchange and giving every downstream user a single source of truth from the start.<img src="onboard-rm-form.png" alt="Account Opening System — RM onboarding details form: basic details, communication preferences, account opening, remarks, source of referral" style="width:100%; border-radius:8px; margin-top:20px; display:block;"></div></div>
-        <div class="insight"><div class="insight-q">Auto-generated document list</div><div class="insight-b"><strong>The document list is auto-generated based on the RM's form</strong>, so the KYC team enriches rather than builds it from scratch — using sources like ACRA to minimise repetitive input on the customer side.<img src="onboard-doc-list.png" alt="KYC console — auto-generated document list with Application form, Board resolutions template, and per-document signing/certifying status" style="width:100%; border-radius:8px; margin-top:20px; display:block;"><video autoplay loop muted playsinline style="width:100%; border-radius:8px; margin-top:16px; display:block;"><source src="onboard-aos-import.mov" type="video/mp4"></video></div></div>
-        <div class="insight"><div class="insight-q">Information reused across the KYC case</div><div class="insight-b"><strong>Information captured during the Draft stage flows through the KYC case automatically</strong> — the KYC and Ops team no longer fill in case information from scratch. The result is a more streamlined process for every internal party involved.</div></div>
+        <div class="insight"><div class="insight-q">Digitised initial form replaces email kickoff</div><div class="insight-b"><strong>The RM captures customer information directly in a structured form</strong>, eliminating the initial email exchange and giving every downstream user a single source of truth from the start.<img src="onboard-rm-form.png" alt="Account Opening System: RM onboarding details form covering basic details, communication preferences, account opening, remarks, and source of referral" style="width:100%; border-radius:8px; margin-top:20px; display:block;"></div></div>
+        <div class="insight"><div class="insight-q">Auto-generated document list</div><div class="insight-b"><strong>The document list is auto-generated based on the RM's form</strong>, so the KYC team enriches rather than builds it from scratch, using sources like ACRA to minimise repetitive input on the customer side.<img src="onboard-doc-list.png" alt="KYC console: auto-generated document list with Application form, Board resolutions template, and per-document signing/certifying status" style="width:100%; border-radius:8px; margin-top:20px; display:block;"><video autoplay loop muted playsinline style="width:100%; border-radius:8px; margin-top:16px; display:block;"><source src="onboard-aos-import.mov" type="video/mp4"></video></div></div>
+        <div class="insight"><div class="insight-q">Information reused across the KYC case</div><div class="insight-b"><strong>Information captured during the Draft stage flows through the KYC case automatically</strong>, so the KYC and Ops team no longer fill in case information from scratch. The result is a more streamlined process for every internal party involved.</div></div>
       </div>
       <!-- IMAGE SLOT: Diagram showing data flow from RM Form → Document List → KYC Case (no re-entry) -->
-      <!-- <img src="onboard-data-flow.png" alt="Data flow from RM form through document list to KYC case — no manual re-entry" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
+      <!-- <img src="onboard-data-flow.png" alt="Data flow from RM form through document list to KYC case, no manual re-entry" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
     </div>
   </section>
 
@@ -2082,36 +2088,36 @@
   <!-- 06 Solution 3 -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">06 — Solution 3</div>
+      <div class="cs-label">06 Solution 3</div>
       <div class="col2-60">
         <div>
           <h2>One shared list, real-time visibility, and digital-first signing</h2>
-          <p>To compress case time and cut inbound inquiries, I designed three connected surfaces that work together across the internal console and the external customer portal — turning the document exchange, status visibility, and signing into a single seamless flow.</p>
+          <p>To compress case time and cut inbound inquiries, I designed three connected surfaces that work together across the internal console and the external customer portal, turning the document exchange, status visibility, and signing into a single seamless flow.</p>
         </div>
-        <div class="note"><p><strong>Design principle:</strong> Give both sides the same view of the same work. Status isn't a question to answer over email — it's a property of the document, visible to everyone with a stake in it.</p></div>
+        <div class="note"><p><strong>Design principle:</strong> Give both sides the same view of the same work. Status isn't a question to answer over email. It's a property of the document, visible to everyone with a stake in it.</p></div>
       </div>
       <div class="ux-grid" style="margin-top:40px; grid-template-columns:1fr;">
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-folder-shared-01"></i></div>
           <h3>One shared document list</h3>
-          <p>A single document list is shared across both portals — no back-and-forth emails. Customers can work on documents one by one with per-item status; internal users can send back only the items that need revision, with a reason attached.</p>
-          <img src="onboard-shared-doc-list.png" alt="Supporting documents — shared list across both portals with per-document status, return reasons, and exclusion reasons annotated" style="width:100%; border-radius:8px; margin-top:16px; display:block;">
+          <p>A single document list is shared across both portals, with no back-and-forth emails. Customers can work on documents one by one with per-item status; internal users can send back only the items that need revision, with a reason attached.</p>
+          <img src="onboard-shared-doc-list.png" alt="Supporting documents: shared list across both portals with per-document status, return reasons, and exclusion reasons annotated" style="width:100%; border-radius:8px; margin-top:16px; display:block;">
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-task-01"></i></div>
           <h3>Progress widget &amp; step-by-step guidance</h3>
           <p>Customers unlock the case via an OTP sent to their mobile, then follow a progress widget that shows exactly where they stand. A to-do list surfaces non-sequential tasks per stage, so customers can act without waiting on instructions.</p>
-          <img src="onboard-otp-journey.gif" alt="Customer onboarding flow — email kickoff to OTP unlock to progress widget and to-do list" style="width:100%; border-radius:8px; margin-top:16px; display:block;">
-          <img src="onboard-pweb-landing.png" alt="Customer portal landing — progress widget, step-by-step status, and per-stage to-do list" style="width:100%; border-radius:8px; margin-top:12px; display:block;">
+          <img src="onboard-otp-journey.gif" alt="Customer onboarding flow: email kickoff to OTP unlock to progress widget and to-do list" style="width:100%; border-radius:8px; margin-top:16px; display:block;">
+          <img src="onboard-pweb-landing.png" alt="Customer portal landing: progress widget, step-by-step status, and per-stage to-do list" style="width:100%; border-radius:8px; margin-top:12px; display:block;">
         </div>
         <div class="ux-card">
           <div class="ux-icon"><i class="hgi-stroke hgi-pen-tool-01"></i></div>
           <h3>Seamless digital signing</h3>
-          <p>Digital signing is the default — integrated with DocuSign for one-click sending. Both KYC team and customers see real-time progress in their portal, and a user-friendly error-handling system surfaces clear, task-specific messages when an unhappy flow needs resolving.</p>
-          <img src="onboard-signing.gif" alt="Digital signing flow — selecting signatories and sending documents via DocuSign in one click" style="width:100%; border-radius:8px; margin-top:16px; display:block;">
+          <p>Digital signing is the default, integrated with DocuSign for one-click sending. Both KYC team and customers see real-time progress in their portal, and a user-friendly error-handling system surfaces clear, task-specific messages when an unhappy flow needs resolving.</p>
+          <img src="onboard-signing.gif" alt="Digital signing flow: selecting signatories and sending documents via DocuSign in one click" style="width:100%; border-radius:8px; margin-top:16px; display:block;">
         </div>
       </div>
-      <!-- IMAGE SLOT: Customer portal screen — progress widget + to-do list + OTP unlock pattern -->
+      <!-- IMAGE SLOT: Customer portal screen, progress widget + to-do list + OTP unlock pattern -->
       <!-- <img src="onboard-customer-portal.png" alt="Customer portal with progress widget, to-do list, and OTP unlock" style="width:100%; border-radius:12px; margin-top:32px; display:block;"> -->
     </div>
   </section>
@@ -2121,14 +2127,14 @@
   <!-- 07 Impact -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">07 — Impact &amp; Outcomes</div>
+      <div class="cs-label">07 Impact and outcomes</div>
       <h2>From a 46-day email chain to a digital, two-sided service</h2>
       <p>The redesigned onboarding workflow replaced a fully manual, email-driven process with a structured, two-platform service. The structural impact spans all three focus areas the team committed to in discovery.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">4</span><span class="imp-l">Stages in the new end-to-end journey</span><h3>Email workflow → structured service</h3><p>Replaced an undefined email-based process with a four-stage journey — Draft, Document Exchange, Signing &amp; Certifying, KYC/AO — visible to both internal and external users in real time.</p></div>
-        <div class="impact-card"><span class="imp-n">2</span><span class="imp-l">Platforms designed in parallel — internal &amp; external</span><h3>Two audiences, one shared model</h3><p>Internal KYC console and external customer portal both express the same stages, the same document list, and the same status — so both sides operate from a shared mental model of the work.</p></div>
-        <div class="impact-card"><span class="imp-n">0</span><span class="imp-l">Manual re-entry between RM form, document list, and KYC case</span><h3>Manual re-entry eliminated</h3><p>Information captured at the Draft stage flows through document generation and KYC. The team enriches data rather than rebuilding it — removing the largest source of internal effort and error.</p></div>
-        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Visibility of progress for both internal &amp; external users</span><h3>Inquiries replaced by transparency</h3><p>Per-document status and a customer-facing progress widget surface where every case stands at any moment — cutting the inbound "what's the status?" load on RMs and the KYC team.</p></div>
+        <div class="impact-card hi"><span class="imp-n">4</span><span class="imp-l">Stages in the new end-to-end journey</span><h3>Email workflow → structured service</h3><p>Replaced an undefined email-based process with a four-stage journey (Draft, Document Exchange, Signing and Certifying, KYC and Account Opening) visible to both internal and external users in real time.</p></div>
+        <div class="impact-card"><span class="imp-n">2</span><span class="imp-l">Platforms designed in parallel, internal and external</span><h3>Two audiences, one shared model</h3><p>Internal KYC console and external customer portal both express the same stages, the same document list, and the same status, so both sides operate from a shared mental model of the work.</p></div>
+        <div class="impact-card"><span class="imp-n">0</span><span class="imp-l">Manual re-entry between RM form, document list, and KYC case</span><h3>Manual re-entry eliminated</h3><p>Information captured at the Draft stage flows through document generation and KYC. The team enriches data rather than rebuilding it, removing the largest source of internal effort and error.</p></div>
+        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Visibility of progress for both internal &amp; external users</span><h3>Inquiries replaced by transparency</h3><p>Per-document status and a customer-facing progress widget surface where every case stands at any moment, cutting the inbound "what's the status?" load on RMs and the KYC team.</p></div>
       </div>
     </div>
   </section>
@@ -2138,13 +2144,13 @@
   <!-- 08 Reflection -->
   <section class="cs-sec">
     <div class="cs-wrap">
-      <div class="cs-label">08 — Reflection</div>
+      <div class="cs-label">08 Reflection</div>
       <h2>What I learned designing a two-platform service from scratch</h2>
       <div class="ref-grid" style="grid-template-columns:repeat(2,1fr);">
-        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Two audiences are best served by one shared model — not two separate products</h3><p>Internal and external users have different tasks but the same case. Designing one stage model, one document list, and one progress concept — then layering audience-specific affordances on top — produced a more coherent service than two parallel products would have.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Automation pays off most when it eliminates duplicate entry across stages</h3><p>The biggest internal gains didn't come from new features — they came from removing the re-typing that happened at every handoff. Information that flows through the system is information no human has to copy.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Visibility reduces support volume more than feature richness does</h3><p>Customers asked for status because they couldn't see it. The progress widget didn't add capability — it just exposed truth the system already knew. That single piece of transparency removed a meaningful share of inbound questions.</p></div>
-        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>Defaulting to the new behaviour accelerates adoption</h3><p>Making digital signing the default — and explaining the benefits — moved customers off physical signing faster than offering it as one option among several would have. The default is a design decision, not a neutral starting point.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 01</span><h3>Two audiences are best served by one shared model, not two separate products</h3><p>Internal and external users have different tasks but the same case. Designing one stage model, one document list, and one progress concept, then layering audience-specific affordances on top, produced a more coherent service than two parallel products would have.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 02</span><h3>Automation pays off most when it eliminates duplicate entry across stages</h3><p>The biggest internal gains didn't come from new features. They came from removing the re-typing that happened at every handoff. Information that flows through the system is information no human has to copy.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 03</span><h3>Visibility reduces support volume more than feature richness does</h3><p>Customers asked for status because they couldn't see it. The progress widget didn't add capability. It just exposed truth the system already knew. That single piece of transparency removed a meaningful share of inbound questions.</p></div>
+        <div class="ref-card"><span class="ref-tag">Lesson 04</span><h3>Defaulting to the new behaviour accelerates adoption</h3><p>Making digital signing the default, and explaining the benefits, moved customers off physical signing faster than offering it as one option among several would have. The default is a design decision, not a neutral starting point.</p></div>
       </div>
     </div>
   </section>
@@ -2177,13 +2183,13 @@
 /* ════════════════════════════════════════════════════════
    CONTENT CONFIG
    All editable site content lives here.
-   Change text, links, and project details in this object —
+   Change text, links, and project details in this object.
    the page renders automatically from it on load.
 ════════════════════════════════════════════════════════ */
 const CONTENT = {
 
   /* ─── SITE ─────────────────────────────────────────── */
-  siteTitle: "Jisoo Ahn — Product Designer",
+  siteTitle: "Jisoo Ahn · Product Designer",
   logo:      "Jisoo Ahn",
 
   /* ─── ABOUT HERO ────────────────────────────────────── */
@@ -2191,15 +2197,15 @@ const CONTENT = {
   heroDim1:   "I design products that make",
   heroDim2:   "complex workflows feel simple.",
   heroName:   "Jisoo",
-  heroDesc:   "Product designer specializing in enterprise and fintech — helping banks, financial institutions, and B2B platforms turn manual, opaque processes into clear, efficient digital experiences.",
+  heroDesc:   "Product designer specializing in enterprise and fintech, helping banks, financial institutions, and B2B platforms turn manual, opaque processes into clear, efficient digital experiences.",
   heroEmail:  "hello@jisooahn.com",  /* used for all mailto links */
 
   /* ─── BIO PARAGRAPHS ────────────────────────────────── */
   /* Each string becomes a <p>. HTML tags are supported.  */
   bio: [
     "I'm a digital product designer with experience across the IT, media, and finance industries. I've worked on products ranging from self-serve merchant platforms and large-scale corporate onboarding systems to loan financing, entertainment, and editorial products.",
-    "Across multiple product teams, I've built strong <strong>end-to-end design expertise</strong> — from early discovery and strategy through to launch and iteration. I'm comfortable leading ambiguous 0→1 initiatives, navigating complex stakeholder environments, and partnering closely with engineering to bring ideas to life.",
-    "More recently, I've been focused on <strong>AI-native product design</strong> — exploring how agentic systems should behave in high-stakes financial environments, where trust, clarity, and human control are essential.",
+    "Across multiple product teams, I've built strong <strong>end-to-end design expertise</strong>, from early discovery and strategy through to launch and iteration. I'm comfortable leading ambiguous 0→1 initiatives, navigating complex stakeholder environments, and partnering closely with engineering to bring ideas to life.",
+    "More recently, I've been focused on <strong>AI-native product design</strong>, exploring how agentic systems should behave in high-stakes financial environments, where trust, clarity, and human control are essential.",
     "At the core, I care about designing products that not only <strong>solve complex problems</strong>, but feel intuitive, thoughtful, and genuinely useful to the people using them.",
   ],
 
@@ -2208,7 +2214,7 @@ const CONTENT = {
   metaCurrent:    "Lead Product Designer, Reap (B2B Fintech)",
   metaIndustries: "Fintech · Media · IT · Enterprise SaaS",
   metaWriting: {
-    label: "Medium — Design & reflections ↗",
+    label: "Medium · Design and reflections ↗",
     url:   "https://jisooahn.medium.com/",
   },
 
@@ -2223,12 +2229,12 @@ const CONTENT = {
     {
       icon:  "workout-stretching",
       title: "Movement",
-      desc:  "Catching waves, yoga mat, tennis court. Movement is how I reset — physically and creatively.",
+      desc:  "Catching waves, yoga mat, tennis court. Movement is how I reset, physically and creatively.",
     },
     {
       icon:  "airplane-01",
       title: "Travel",
-      desc:  "Wanderlust at heart — always exploring. If not at my desk, somewhere warm with a cocktail nearby.",
+      desc:  "Wanderlust at heart, always exploring. If not at my desk, somewhere warm with a cocktail nearby.",
     },
   ],
 
@@ -2252,7 +2258,7 @@ const CONTENT = {
 
   /* ─── WORK PAGE HEADER ──────────────────────────────── */
   workTitle: ["Projects &", "Case Studies"],
-  workDesc:  "End-to-end product design across fintech and enterprise — from insight to launch.",
+  workDesc:  "End-to-end product design across fintech and enterprise, from insight to launch.",
 
   /* ─── PROJECT CARDS ─────────────────────────────────── */
   /* id:   matches page id (e.g. "cs-ai" → page-cs-ai)    */
@@ -2266,7 +2272,7 @@ const CONTENT = {
       idx:   "01 / 04",
       tags:  [{ label: "AI Agent" }, { label: "Fintech" }, { label: "Shipped", muted: true }],
       title: "Card Spend Management AI Agent",
-      desc:  "Led the design of an AI agent for corporate card management — diagnosing a broken alpha, defining the UX framework, interaction model, and full state system for v2. Shipped internally at Reap.",
+      desc:  "Led the design of an AI agent for corporate card management: diagnosing a broken alpha, defining the UX framework, interaction model, and full state system for v2. Shipped internally at Reap.",
       flip:  false,
       icon:  "bot",
       cover: "reap-ai-cover.png",
@@ -2277,7 +2283,7 @@ const CONTENT = {
       idx:   "02 / 04",
       tags:  [{ label: "Enterprise Fintech" }, { label: "Institutional Banking" }, { label: "Shipped", muted: true }],
       title: "Loan Financing Workflow Redesign",
-      desc:  "Led end-to-end redesign of a fragmented SME pre-approval workflow — turning 16 disconnected systems and 3-month processing times into a 4-step, 11-minute decision flow for institutional banking.",
+      desc:  "Led end-to-end redesign of a fragmented SME pre-approval workflow, turning 16 disconnected systems and 3-month processing times into a 4-step, 11-minute decision flow for institutional banking.",
       flip:  true,
       icon:  "bank",
       cover: "sfw-cover.png",
@@ -2288,7 +2294,7 @@ const CONTENT = {
       idx:   "03 / 04",
       tags:  [{ label: "B2B Platform" }, { label: "Loyalty & Rewards" }, { label: "Shipped", muted: true }],
       title: "FI Partner Page Redesign",
-      desc:  "Restructured the Financial Institution pages in a B2B merchant portal — turning a confusing, fragmented two-tab IA into a single Kanban-inspired flow that became the most-viewed page in the app.",
+      desc:  "Restructured the Financial Institution pages in a B2B merchant portal, turning a confusing, fragmented two-tab IA into a single Kanban-inspired flow that became the most-viewed page in the app.",
       flip:  false,
       icon:  "store-02",
       cover: "fi-cover.png",
@@ -2299,7 +2305,7 @@ const CONTENT = {
       idx:   "04 / 04",
       tags:  [{ label: "Enterprise Banking" }, { label: "Service Design" }, { label: "Shipped", muted: true }],
       title: "Large Corporate Onboarding",
-      desc:  "Designed a 4-stage end-to-end onboarding journey for large corporate customers — digitalising a 46-day, fully manual process across two platforms: an internal KYC console and an external customer portal.",
+      desc:  "Designed a 4-stage end-to-end onboarding journey for large corporate customers, digitalising a 46-day, fully manual process across two platforms: an internal KYC console and an external customer portal.",
       flip:  true,
       icon:  "briefcase-01",
       cover: "onboard-cover.png",
