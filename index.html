@@ -504,17 +504,12 @@
   .state-table tr:last-child td { border-bottom:none; }
   .sn { white-space:nowrap; color:var(--ink); }
 
-  /* Impact: the highlighted card is a polarity flip to ink, not a lime fill. */
+  /* Impact: every card reads the same; no highlighted variant. */
   .impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4); margin-top:var(--sp-7); }
   .impact-card { padding:var(--sp-6); }
   .impact-card p { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
-  .impact-card.hi { background:var(--ink); box-shadow:none; }
-  .impact-card.hi h3, .impact-card.hi p { color:var(--on-ink); }
-  .impact-card.hi p { opacity:.75; }
   .imp-n { font-family:var(--font); font-size:var(--fs-dlg); font-weight:600; line-height:var(--lh-tight); letter-spacing:var(--tr-dlg); color:var(--ink); display:block; margin-bottom:var(--sp-1); text-transform:none; }
-  .impact-card.hi .imp-n { color:var(--on-ink); }
   .imp-l { margin-bottom:var(--sp-3); }
-  .impact-card.hi .imp-l { color:var(--on-ink); opacity:.6; }
 
   .ref-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-4); margin-top:var(--sp-7); }
   .ref-card { padding:var(--sp-5); }
@@ -653,6 +648,12 @@
   /* context metrics: the same --danger as the critical-card left bar,
      because these numbers are the cost of the old system */
   [data-theme="dark"] .stat-n { color:var(--danger); }
+
+  /* impact card titles (all four projects, 16 cards) */
+  [data-theme="dark"] .impact-card h3 { color:var(--brand); }
+
+  /* inline key figures inside a card (the 4 / 7 in Solution 1) */
+  [data-theme="dark"] .after-n { color:var(--brand); }
 
   /* paired comparison headings, wherever they occur */
   [data-theme="dark"] .dec-col h3,
@@ -1214,7 +1215,7 @@
       <h2>From abandoned alpha to production-ready v2</h2>
       <p>The v2 design transformed an abandoned prototype into a production-ready agent that the team is confident shipping to clients.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">7</span><span class="imp-l">Agent operations designed & specced</span><h3>Core operation coverage</h3><p>V2 scope was prioritized around card management first, the core operations users simply cannot do without. Create virtual card, freeze, unfreeze, terminate, update spend limit, view cards, summarise spending, each with full state coverage and edge cases.</p></div>
+        <div class="impact-card"><span class="imp-n">7</span><span class="imp-l">Agent operations designed & specced</span><h3>Core operation coverage</h3><p>V2 scope was prioritized around card management first, the core operations users simply cannot do without. Create virtual card, freeze, unfreeze, terminate, update spend limit, view cards, summarise spending, each with full state coverage and edge cases.</p></div>
         <div class="impact-card"><span class="imp-n">8</span><span class="imp-l">Distinct UI states designed</span><h3>No state left undefined</h3><p>Idle, processing, disambiguation, confirmation, success, error, out-of-scope, session timeout. Every moment is designed, not defaulted.</p></div>
         <div class="impact-card"><span class="imp-n">11</span><span class="imp-l">User stories written with edge cases</span><h3>Design as product spec</h3><p>Including: multiple cardholders with same name, wrong category inference, mid-flow cardholder switch, permission boundary handling: all scenarios that break generic AI chat.</p></div>
         <div class="impact-card"><span class="imp-n">0→1</span><span class="imp-l">Alpha to designed v2</span><h3>Framework for AI design at Reap</h3><p>The AI capability framework and interaction model principles I established became the team's reference for evaluating all future AI features, not just this agent.</p></div>
@@ -1672,7 +1673,7 @@
       <h2>From a 3-month process to an 11-minute decision</h2>
       <p>The redesigned workflow delivered significant operational improvements across the entire financing pipeline.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">11 min</span><span class="imp-l">Processing time per case after redesign</span><h3>120 minutes → 11 minutes</h3><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes, a 91% reduction in processing time per case.</p></div>
+        <div class="impact-card"><span class="imp-n">11 min</span><span class="imp-l">Processing time per case after redesign</span><h3>120 minutes → 11 minutes</h3><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes, a 91% reduction in processing time per case.</p></div>
         <div class="impact-card"><span class="imp-n">20%</span><span class="imp-l">Rework rate after redesign</span><h3>80% → 20% rework rate</h3><p>Automated calculations and early eligibility signals eliminated the primary drivers of rework: late-stage rejections and manual data errors.</p></div>
         <div class="impact-card"><span class="imp-n">16+→1</span><span class="imp-l">Systems consolidated into a single flow</span><h3>System fragmentation eliminated</h3><p>All credit-related data, eligibility checks, and exposure calculations now happen inside a single structured workflow: no external tools, no spreadsheets.</p></div>
         <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Early-stage decision confidence</span><h3>Better pipeline quality</h3><p>Pre-validation surfaces low-probability cases early. RMs and credit reviewers operate with higher confidence, investing effort only where it's likely to convert.</p></div>
@@ -1928,7 +1929,7 @@
       <h2>From confusing to engaging: the most-viewed page in the app</h2>
       <p>The redesigned FI Partners page hit both success metrics we committed to in research, and the lagging indicator outperformed expectations.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">#1</span><span class="imp-l">Most-viewed page in the merchant portal</span><h3>From underused to most-viewed</h3><p>Post-release analytics showed the FI Partners tab, previously underused, became the most-viewed page in the app, exceeding the lagging indicator we set.</p></div>
+        <div class="impact-card"><span class="imp-n">#1</span><span class="imp-l">Most-viewed page in the merchant portal</span><h3>From underused to most-viewed</h3><p>Post-release analytics showed the FI Partners tab, previously underused, became the most-viewed page in the app, exceeding the lagging indicator we set.</p></div>
         <div class="impact-card"><span class="imp-n">80%</span><span class="imp-l">Success rate on key tasks (usability testing)</span><h3>Leading indicator achieved</h3><p>Usability testing on the key user tasks defined during research returned an 80% success rate, meeting the target we set with the team before delivery.</p></div>
         <div class="impact-card"><span class="imp-n">2→1</span><span class="imp-l">Tabs consolidated into one journey-shaped page</span><h3>IA simplified, mental model restored</h3><p>The two-tab Pipeline / Active split was retired. The single FI Partners page mirrors how merchants actually think about the partnership journey.</p></div>
         <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Foundation for follow-on features</span><h3>Scalability paid off</h3><p>The tab structure designed for future steps has since been used to add new process stages and merchant prompts, without re-architecting the page.</p><img src="fi-scalability.png" alt="A new 'Opportunity matching' stage slotted between Opportunities and Going live, added without re-architecting the page" class="frame"></div>
@@ -2186,7 +2187,7 @@
       <h2>From a 46-day email chain to a digital, two-sided service</h2>
       <p>The redesigned onboarding workflow replaced a fully manual, email-driven process with a structured, two-platform service. The structural impact spans all three focus areas the team committed to in discovery.</p>
       <div class="impact-grid">
-        <div class="impact-card hi"><span class="imp-n">4</span><span class="imp-l">Stages in the new end-to-end journey</span><h3>Email workflow → structured service</h3><p>Replaced an undefined email-based process with a four-stage journey (Draft, Document Exchange, Signing and Certifying, KYC and Account Opening) visible to both internal and external users in real time.</p></div>
+        <div class="impact-card"><span class="imp-n">4</span><span class="imp-l">Stages in the new end-to-end journey</span><h3>Email workflow → structured service</h3><p>Replaced an undefined email-based process with a four-stage journey (Draft, Document Exchange, Signing and Certifying, KYC and Account Opening) visible to both internal and external users in real time.</p></div>
         <div class="impact-card"><span class="imp-n">2</span><span class="imp-l">Platforms designed in parallel, internal and external</span><h3>Two audiences, one shared model</h3><p>Internal KYC console and external customer portal both express the same stages, the same document list, and the same status, so both sides operate from a shared mental model of the work.</p></div>
         <div class="impact-card"><span class="imp-n">0</span><span class="imp-l">Manual re-entry between RM form, document list, and KYC case</span><h3>Manual re-entry eliminated</h3><p>Information captured at the Draft stage flows through document generation and KYC. The team enriches data rather than rebuilding it, removing the largest source of internal effort and error.</p></div>
         <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Visibility of progress for both internal &amp; external users</span><h3>Inquiries replaced by transparency</h3><p>Per-document status and a customer-facing progress widget surface where every case stands at any moment, cutting the inbound "what's the status?" load on RMs and the KYC team.</p></div>

@@ -64,6 +64,8 @@ as a one-off:
 | Accent word in a case-study title | `.cs-hero h1 em` | `--brand` | `--body` |
 | Context metrics (the cost of the old system) | `.stat-n` | `--danger`, matching the critical-card left bar | `--ink` |
 | Paired comparison headings | `.dec-col h3`, `h3.accent` | `--brand` | `--ink` |
+| Impact card titles (16, all four projects) | `.impact-card h3` | `--brand` | `--ink` |
+| Inline key figures in a card | `.after-n` | `--brand` | `--ink` |
 
 Light mode stays neutral on all three: the olive equivalent sits too close
 to body copy and muddies the hierarchy. Add new accents to the
@@ -162,7 +164,6 @@ for text. A 12px mono caption in `--mute` disappears.
 | Layout modifiers | `.g1/.g2/.g4/.flush-top/.gap-5` are declared **last** in the sheet. They are single-class selectors, so placed before `.ux-grid` / `.ref-grid` / `.decision` they are silently dead |
 | `.frame` | Image frame: full width, `--r-lg`, `--e1`, `--sp-5` top margin. `.flush` removes the margin |
 | `.prob-card.crit` | 2px `--danger` left border. **This is the severity signal** — do not add a "Critical" tag beside it |
-| `.impact-card.hi` | Polarity flip to `--ink`, not a coloured fill |
 | `.im-badge` | The only chip in the system. 4px radius, mono, `--canvas-soft-2`. It survives because it carries information available nowhere else |
 | `.bullets`, `.dec-col ul`, `.im-list`, `.ims-list`, `.after-list` | All use a `·` marker. No em-dash glyphs |
 | `.pcard` | A `<button>`, not a clickable `<div>`, so it is keyboard-reachable |
