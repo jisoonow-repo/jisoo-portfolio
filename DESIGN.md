@@ -53,10 +53,21 @@ type system's ramp, with `--mute` raised in both themes for legibility.
 Every pair above clears WCAG AA (4.5:1) on both the page and a lifted card.
 Re-check with the ratio script if you change any of them.
 
-**Ink is the CTA colour.** `--brand` appears in exactly two places: the hero
-wordmark (`.hi`) and the `:focus-visible` ring. It is never a background, a
-border, a label tint, or a second accent. It is per-theme because lime is
-illegible on the light canvas.
+**Ink is the CTA colour.** `--brand` is per-theme, because lime is illegible
+on the light canvas. It appears on the hero wordmark (`.hi`), the
+`:focus-visible` ring, and — **in dark mode only** — three accent
+treatments, each applied to the same trait in every case study rather than
+as a one-off:
+
+| Trait | Element | Dark | Light |
+|---|---|---|---|
+| Accent word in a case-study title | `.cs-hero h1 em` | `--brand` | `--body` |
+| Context metrics (the cost of the old system) | `.stat-n` | `--danger`, matching the critical-card left bar | `--ink` |
+| Paired comparison headings | `.dec-col h3`, `h3.accent` | `--brand` | `--ink` |
+
+Light mode stays neutral on all three: the olive equivalent sits too close
+to body copy and muddies the hierarchy. Add new accents to the
+`DARK-MODE ACCENTS` block, never inline.
 
 `--danger` is the only semantic colour, and it earns its place in three
 spots: the left border on a critical problem card, the `Cons` label and
