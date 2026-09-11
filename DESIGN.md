@@ -161,6 +161,7 @@ for text. A 12px mono caption in `--mute` disappears.
 |---|---|
 | `.label` | Sans 14px/500 `--body`, for label text read as content (`Pros`/`Cons`, table row names) |
 | `.manual-flow` | Runs top to bottom at every width. Sequences read as sequences vertically; side by side they read as a table and force two-word line breaks |
+| Nav (glass capsule) | The only place `backdrop-filter` is allowed. Four layers: `--glass-filter` (blur + saturate + a **brightness** stage), a low-alpha `--glass-fill`, a specular top edge, and an outer lift. No rim border. The brightness stage is load-bearing, not decoration: without it the labels fall to 1.43:1 over a bright image. Labels are `--ink`, and the selected state is carried by its own pane of glass rather than a colour change, so every label stays readable over any backdrop |
 | Layout modifiers | `.g1/.g2/.g4/.flush-top/.gap-5` are declared **last** in the sheet. They are single-class selectors, so placed before `.ux-grid` / `.ref-grid` / `.decision` they are silently dead |
 | `.frame` | Image frame: full width, `--r-lg`, `--e1`, `--sp-5` top margin. `.flush` removes the margin |
 | `.prob-card.crit` | 2px `--danger` left border. **This is the severity signal** — do not add a "Critical" tag beside it |
