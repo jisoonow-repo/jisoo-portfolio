@@ -440,7 +440,10 @@
   .prob-card p { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
   .prob-n { margin-bottom:var(--sp-3); }
 
-  .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--sp-4); margin-top:var(--sp-7); }
+  /* auto-fit so the row always fills the container: the FI Partner study
+     has 3 method cards, the other three have 4. A hardcoded repeat(4,1fr)
+     left an empty fourth track. */
+  .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:var(--sp-4); margin-top:var(--sp-7); }
   .step  { padding:var(--sp-5); }
   .step-n { margin-bottom:var(--sp-3); }
   .step-t { font-size:var(--fs-sm); font-weight:500; color:var(--ink); margin-bottom:var(--sp-2); letter-spacing:var(--tr-sm); }
