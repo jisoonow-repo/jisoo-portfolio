@@ -69,7 +69,13 @@
     --on-ink:#0A0A0A;
     --link:#C8FF00;
     --brand:#C8FF00;
-    --nav-bg:rgba(6,6,10,0.72);
+    /* Apple-style glass: the material must sit lighter than the page so
+       the blur reads as frosted glass rather than a dark plate */
+    --glass-fill:rgba(38,38,44,0.55);
+    --glass-rim:rgba(255,255,255,0.14);
+    --glass-specular:rgba(255,255,255,0.22);
+    --glass-sheen:rgba(255,255,255,0.10);
+    --glass-lift:0 8px 32px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.35);
     --danger:#FF7A56; --danger-soft:rgba(255,77,28,0.10);
     --scrim:rgba(0,0,0,.62);
     --overlay:rgba(6,6,10,.74);
@@ -88,7 +94,11 @@
     --on-ink:#FFFFFF;
     --link:#4F7000;
     --brand:#4F7000;
-    --nav-bg:rgba(255,255,255,0.72);
+    --glass-fill:rgba(255,255,255,0.60);
+    --glass-rim:rgba(0,0,0,0.07);
+    --glass-specular:rgba(255,255,255,0.95);
+    --glass-sheen:rgba(255,255,255,0.45);
+    --glass-lift:0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05);
     --danger:#CC3000; --danger-soft:rgba(204,48,0,0.08);
     --scrim:rgba(0,0,0,.45);
     --overlay:rgba(242,240,255,.80);
@@ -238,24 +248,52 @@
   .note p { font-size:var(--fs-sm); color:var(--body); margin:0; line-height:var(--lh-relaxed); }
   .note strong { color:var(--ink); font-weight:500; }
 
-  /* ── NAV ── */
+  /* ── NAV: glass capsule ──
+     Four layers make the material read as glass rather than as a tinted
+     box: a vibrancy blur that saturates what shows through, a translucent
+     fill, a bright specular edge along the top rim, and an outer lift.
+     The sheen gradient on ::before is the highlight rolling off the
+     curved surface. This is the one place backdrop-filter is allowed. */
   nav {
     position:fixed; top:20px; left:50%; transform:translateX(-50%);
-    z-index:200; display:flex; align-items:center; gap:var(--sp-2);
-    padding:var(--sp-2) var(--sp-3); border-radius:var(--r-lg);
-    background:var(--nav-bg);
-    backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
-    box-shadow:var(--e2);
-    transition:background var(--dur-2);
+    z-index:200; display:flex; align-items:center; gap:var(--sp-1);
+    padding:6px; border-radius:var(--r-pill);
+    background:var(--glass-fill);
+    backdrop-filter:blur(32px) saturate(180%);
+    -webkit-backdrop-filter:blur(32px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 var(--glass-specular),
+      inset 0 0 0 1px var(--glass-rim),
+      var(--glass-lift);
+    transition:background var(--dur-2), box-shadow var(--dur-2);
     white-space:nowrap;
+    isolation:isolate;
   }
+  nav::before {
+    content:''; position:absolute; inset:0; border-radius:inherit;
+    pointer-events:none; z-index:0;
+    background:linear-gradient(to bottom, var(--glass-sheen), rgba(255,255,255,0) 60%);
+  }
+  /* no backdrop-filter on Safari < 18 etc: fall back to an opaque plate */
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+    nav { background:var(--canvas); }
+    nav::before { display:none; }
+  }
+
   .nav-btn {
+    position:relative; z-index:1;
     font-size:var(--fs-sm); font-weight:500; color:var(--body);
-    padding:6px 12px; border-radius:var(--r-sm);
-    transition:color var(--dur-1), background var(--dur-1); letter-spacing:var(--tr-sm);
+    padding:7px 14px; border-radius:var(--r-pill);
+    transition:color var(--dur-1), background var(--dur-1), box-shadow var(--dur-1);
+    letter-spacing:var(--tr-sm);
   }
-  .nav-btn:hover  { color:var(--ink); background:var(--canvas-soft-2); }
-  .nav-btn.active { color:var(--ink); background:var(--canvas-soft-2); }
+  .nav-btn:hover  { color:var(--ink); background:var(--glass-sheen); }
+  /* the active item is its own smaller pane of glass inside the capsule */
+  .nav-btn.active {
+    color:var(--ink);
+    background:var(--glass-sheen);
+    box-shadow: inset 0 1px 0 var(--glass-specular), inset 0 0 0 1px var(--glass-rim);
+  }
 
   /* Theme switch: a control, so the pill shape is functional. */
   .toggle {
@@ -266,7 +304,7 @@
     position:relative; cursor:pointer; line-height:0;
     transition:background var(--dur-2);
     display:flex; align-items:center; padding:0 7px; justify-content:space-between;
-    outline-offset:3px;
+    outline-offset:3px; position:relative; z-index:1;
   }
   .toggle-knob {
     position:absolute; top:50%; left:5px; transform:translateY(-50%);
@@ -511,7 +549,7 @@
   .impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-4); margin-top:var(--sp-7); }
   .impact-card { padding:var(--sp-6); }
   .impact-card p { font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed); }
-  .imp-n { font-family:var(--font); font-size:var(--fs-dlg); font-weight:600; line-height:var(--lh-tight); letter-spacing:var(--tr-dlg); color:var(--ink); display:block; margin-bottom:var(--sp-1); text-transform:none; }
+  .imp-n { font-family:var(--font); font-size:var(--fs-dmd); font-weight:600; line-height:var(--lh-tight); letter-spacing:var(--tr-dmd); color:var(--ink); display:block; margin-bottom:var(--sp-1); text-transform:none; text-wrap:balance; }
   .imp-l { margin-bottom:var(--sp-3); }
 
   .ref-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--sp-4); margin-top:var(--sp-7); }
@@ -567,9 +605,11 @@
     color:var(--mute); font-size:var(--fs-md); align-self:flex-start;
     margin-left:var(--sp-5); padding:var(--sp-1) 0; transform:rotate(90deg);
   }
+  /* sits inside step 5, in the text column of the step's 32px/1fr grid */
   .mf-feedback {
+    grid-column:2;
     margin-top:var(--sp-3); font-size:var(--fs-sm); color:var(--body); line-height:var(--lh-relaxed);
-    padding:var(--sp-3) var(--sp-4); border-left:2px solid var(--danger); background:var(--danger-soft);
+    padding:var(--sp-3); border-left:2px solid var(--danger); background:var(--danger-soft);
     border-radius:0 var(--r-sm) var(--r-sm) 0;
   }
 
@@ -652,8 +692,9 @@
      because these numbers are the cost of the old system */
   [data-theme="dark"] .stat-n { color:var(--danger); }
 
-  /* impact card titles (all four projects, 16 cards) */
-  [data-theme="dark"] .impact-card h3 { color:var(--brand); }
+  /* impact card titles and numerals (all four projects) */
+  [data-theme="dark"] .impact-card h3,
+  [data-theme="dark"] .imp-n { color:var(--brand); }
 
   /* inline key figures inside a card (the 4 / 7 in Solution 1) */
   [data-theme="dark"] .after-n { color:var(--brand); }
@@ -1464,9 +1505,9 @@
               <div class="mf-step">
                 <span class="mf-n">05</span>
                 <p>Fill in the existing template to check if <strong>proposed limits</strong> exceed group or borrower <strong>thresholds</strong>. (Pass or Fail)</p>
+                <div class="mf-feedback">↩ If it fails, adjust the amount in Step 3 and recalculate in Step 4 until it passes.</div>
               </div>
             </div>
-            <div class="mf-feedback">↩ If it fails, adjust the amount in Step 3 and recalculate in Step 4 until it passes.</div>
           </div>
         </div>
         <div class="prob-card"><span class="prob-n">04</span><h3>Workflow outside the system</h3><p>Key collaboration between RMs, credit managers, and approvers happened over email and chat, reducing visibility, accountability, and auditability across the pipeline.</p>
@@ -1676,10 +1717,10 @@
       <h2>From a 3-month process to an 11-minute decision</h2>
       <p>The redesigned workflow delivered significant operational improvements across the entire financing pipeline.</p>
       <div class="impact-grid">
-        <div class="impact-card"><span class="imp-n">11 min</span><span class="imp-l">Processing time per case after redesign</span><h3>120 minutes → 11 minutes</h3><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes, a 91% reduction in processing time per case.</p></div>
-        <div class="impact-card"><span class="imp-n">20%</span><span class="imp-l">Rework rate after redesign</span><h3>80% → 20% rework rate</h3><p>Automated calculations and early eligibility signals eliminated the primary drivers of rework: late-stage rejections and manual data errors.</p></div>
-        <div class="impact-card"><span class="imp-n">16+→1</span><span class="imp-l">Systems consolidated into a single flow</span><h3>System fragmentation eliminated</h3><p>All credit-related data, eligibility checks, and exposure calculations now happen inside a single structured workflow: no external tools, no spreadsheets.</p></div>
-        <div class="impact-card"><span class="imp-n">↑</span><span class="imp-l">Early-stage decision confidence</span><h3>Better pipeline quality</h3><p>Pre-validation surfaces low-probability cases early. RMs and credit reviewers operate with higher confidence, investing effort only where it's likely to convert.</p></div>
+        <div class="impact-card"><span class="imp-n">120min → 11 min</span><span class="imp-l">Processing time per case after redesign</span><p>End-to-end pre-approval assessment reduced from over two hours to eleven minutes, a 91% reduction in processing time per case.</p></div>
+        <div class="impact-card"><span class="imp-n">80% → 20%</span><span class="imp-l">Rework rate after redesign</span><p>Automated calculations and early eligibility signals eliminated the primary drivers of rework: late-stage rejections and manual data errors.</p></div>
+        <div class="impact-card"><span class="imp-n">16+ → 1</span><span class="imp-l">Systems consolidated into a single flow</span><p>All credit-related data, eligibility checks, and exposure calculations now happen inside a single structured workflow: no external tools, no spreadsheets.</p></div>
+        <div class="impact-card"><h3>Better pipeline quality</h3><p>Pre-validation surfaces low-probability cases early. RMs and credit reviewers operate with higher confidence, investing effort only where it's likely to convert.</p></div>
       </div>
     </div>
   </section>
